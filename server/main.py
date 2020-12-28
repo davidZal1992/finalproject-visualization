@@ -20,6 +20,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+print('test test')
 
 @app.get('/')
 def hello_world():
