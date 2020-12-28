@@ -21,6 +21,7 @@ app.add_middleware(
 )
 
 print('test test')
+print('test test')
 
 @app.get('/')
 def hello_world():
