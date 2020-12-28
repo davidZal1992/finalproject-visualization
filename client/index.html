@@ -1,0 +1,36 @@
+<html>
+    <head>
+        <script src="./jquery-2.0.3.min.js"></script>
+        <script src="./kinetic-v5.1.0.min.js"></script>
+        <script src="./inchlib-1.2.0.js"></script>
+        <script language="JavaScript" type="text/javascript" src="http://openscreen.cz/software/inchlib/static/js/kinetic-v5.1.0.min.js"></script>
+        <script>
+        $(document).ready(function() { //run when the whole page is loaded
+            var inchlib = new InCHlib({"target": "inchlib",
+							"width": 800,
+							"height": 1200,
+							"column_metadata_colors": "RdLrBu",
+							"heatmap_colors": "RdBkGr",
+							"max_percentile": 90,
+							"middle_percentile": 60,
+							"min_percentile": 10,
+							"heatmap_font_color": "white",
+							 text: 'biojs'});
+        inchlib.read_data_from_file("/microarrays.json");
+        inchlib.draw();
+
+    inchlib.onAll(function(name){
+	    console.log(name + " event triggered");
+    });
+
+});
+        </script>
+    </head>
+
+    <body>
+        <div class="heatmaps" style="margin:auto; align-items: center; margin-left:25%;">
+            <div id="inchlib"></div>
+        </div>
+        <div ></div>
+    </body>
+ </html>    
