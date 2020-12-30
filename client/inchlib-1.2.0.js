@@ -155,7 +155,6 @@
 */
 
 var InCHlib;
-export default window.InCHlib;
 (function($){
   
   InCHlib = function(settings){
@@ -179,7 +178,7 @@ export default window.InCHlib;
           "column_metadata": false,
           "column_metadata_row_height": 8,
           "column_metadata_colors": "RdLrBu",
-          "max_height" : 800,
+          "max_height" : 1200,
           "width" : target_width,
           "heatmap_colors" : "Greens",
           "heatmap_font_color" : "black",
@@ -196,7 +195,7 @@ export default window.InCHlib;
           "max_row_height": 25,
           "max_column_width": 150,
           "font": "Helvetica",
-          "draw_row_ids": false,
+          "draw_row_ids":false,
           "fixed_row_id_size": false,
           "max_percentile": 100,
           "min_percentile": 0,
@@ -1467,7 +1466,6 @@ export default window.InCHlib;
 
           if(self.metadata.feature_names){
               self.metadata_header = self.metadata.feature_names;
-
               for(i=0; i<self.dimensions["metadata"]; i++){
                   self.header[self.dimensions["data"]+i] = self.metadata_header[i];
               }
@@ -1811,7 +1809,7 @@ export default window.InCHlib;
           }
           object_y.push([objects[0], self.leaves_y_coordinates[leaf_id]]);
       }
-
+      
       var x = self.distance + self._get_visible_count()*self.pixels_for_dimension + 15;
       
       for(i = 0; i < object_y.length; i++){
