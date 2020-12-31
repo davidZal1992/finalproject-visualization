@@ -155,6 +155,7 @@
 */
 
 var InCHlib;
+
 (function($){
   
   InCHlib = function(settings){
