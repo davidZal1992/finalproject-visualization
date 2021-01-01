@@ -1,19 +1,9 @@
 
 document.getElementById('buttonid').addEventListener('click', generate);
 
-function generate() {
-
-    axios.get('http://127.0.0.1:8000/actions/upload2') .then((response) => {
-        console.log(response);
-      }, (error) => {
-        console.log(error);
-      });
-
-
-
   let formData = new FormData();
 
-
+  axios.get('http://127.0.0.1:8000/actions/upload2')
 
 
   formData.append("files", document.getElementById('mirNA').files[0]);
@@ -24,10 +14,9 @@ function generate() {
     headers: {
       'content-Type': 'multipart/form-data'
     }
-    
+
     }).then((response) => {
     console.log(response);
   }, (error) => {
     console.log(error);
   });
-}
