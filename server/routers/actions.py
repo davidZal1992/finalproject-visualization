@@ -14,3 +14,10 @@ def upload_file(files: List[UploadFile] = File(...)):
     print('get data')
     return {"hello": "world"}
 
+
+@router.get('/upload2')
+def upload_file2():
+    print('success')
+    return {"hello": "world"}
+  
+
