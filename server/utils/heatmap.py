@@ -1,5 +1,5 @@
 from utils import inchlib_clust_dev as inchlib_clust
-def create_heatmap_json(data,d2,d3):
+def create_heatmap_json(data):
     print(data)
     #instantiate the Cluster object
     c = inchlib_clust.Cluster()
