@@ -21,7 +21,7 @@ function uploadOneHeatMap(){
   let linkage = document.getElementById('linkage-select').value
 
   formData.append("files", document.getElementById('mirNA').files[0]);
-  formData.append("files", document.getElementById('connection').files[0]);
+  // formData.append("files", document.getElementById('connection').files[0]);
   formData.append("files",cluster);
   formData.append("files",linkage);
 
