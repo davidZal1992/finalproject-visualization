@@ -2,6 +2,8 @@
     <head>
         <script src="https://code.jquery.com/jquery-2.0.3.js" integrity="sha256-lCf+LfUffUxr81+W0ZFpcU0LQyuZ3Bj0F2DQNCxTgSI=" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/konva/7.2.2/konva.min.js" integrity="sha512-zbpQ5DaXc34MZEg81DJZSHALTkKr1+eOspsa01J4FSVqhUHjCa/V1xvur7imE4UZcj40uYDIR21MEpxzG2OHvw==" crossorigin="anonymous"></script>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css" rel="stylesheet">
         <link rel="stylesheet" href="./resources/style/style.css">
     </head>
 
@@ -19,9 +21,39 @@
                 </table>
             </div>
         </div>
-            <input id="mirNA" name="files" value="Upload miRNA data" type="file">
-            <input id="target" name="files" value="Upload target data" type="file">
-            <input id="connection" name="files" value="Upload connections data" type="file">
+    <div class="form-container">
+        <p>asdsadd</p>
+        <div class="column">
+            <label>Load miRNA Data</label>
+            <input type="file" class="form-control" id="miRNA" style="width:60%" />
+            <label>Load target Data</label>
+            <input type="file" class="form-control" id="miRNA" style="width:60%" />
+            <label >Load connections Data</label>
+            <input type="file" class="form-control" id="miRNA" style="width:60%" />
+        </div>
+        <div class="column">
+            <label>Choose cluster</label>
+            <label for="exampleFormControlSelect1">Example select</label>
+            <select class="form-control" id="exampleFormControlSelect1" style="width:30%">
+                <option>Single</option>
+                <option>Complete</option>
+                <option>Average</option>
+                <option>Centroid</option>
+                <option>Ward</option>
+                <option>Median</option>
+                <option>Euclidean</option>
+                <option>Correlation</option>
+            </select>
+            <label>Row\Column\Both cluster</label>
+            <select class="form-control" id="exampleFormControlSelect1" style="width:30%">
+                <option>Both</option>
+                <option>Row</option>
+                <option>Column</option>
+            </select>
+            <label >Choose color</label>
+            <input type="file" class="form-control" id="miRNA" style="width:30%" />
+        </div>
+    </div>
             <button id="buttonid">Generate</button>
     </body>
     <script type="text/javascript" src="./components/insertable.js"></script>

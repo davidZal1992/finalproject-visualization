@@ -12,6 +12,7 @@ var inchlib = new InCHlib({"target": "inchlib",
                     "min_percentile": 10,
                     "heatmap_font_color": "white",
                      text: 'biojs'});
+                     
 console.log(tet)
 console.log(JSON.parse(json))
 inchlib.send_json(JSON.parse(json));

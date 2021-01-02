@@ -1,6 +1,5 @@
 body{
-    margin:0;
-    padding:0;
+
     justify-content: center;
     height:100vh;
     font-family: sans-serif;
@@ -64,4 +63,13 @@ tr td:nth-child(1){
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
+}
+
+
+.column{
+   float: left;
+   width: 33.33%;
+   position: relative;
+   left:5%;
+   width:33%;
 }
