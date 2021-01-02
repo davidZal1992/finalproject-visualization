@@ -20,13 +20,12 @@ async def upload_file(files: List[UploadFile] = File(...)):
             shutil.copyfileobj(files[0].file, file_object)
     a = [x.filename for x in files]
     try:
+        print(a)
         respone_heatmap = heatmap.create_heatmap_json(a[0],a[1],a[2])
         print(respone_heatmap)
-    except expression as e:
+        return respone_heatma
+    except Exception as e:
         print(e)
-    
-    data = respone_heatmap
-    return  data
 
 
 

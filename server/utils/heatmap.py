@@ -1,5 +1,6 @@
 from utils import inchlib_clust_dev as inchlib_clust
 def create_heatmap_json(data,d2,d3):
+    print(data)
     #instantiate the Cluster object
     c = inchlib_clust.Cluster()
     # read csv data file with specified delimiter, also specify whether there is a header row, the type of the data (numeric/binary) and the string representation of missing/unknown values
