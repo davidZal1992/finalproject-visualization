@@ -35,16 +35,22 @@
         <div class="settings"> 
             <div class="column">
                 <label>Load miRNA Data</label>
-                <input type="file" class="form-control" id="miRNA" style="width:60%" />
-                <label>Load target Data</label>
-                <input type="file" class="form-control" id="miRNA" style="width:60%" />
-                <label >Load connections Data</label>
-                <input type="file" class="form-control" id="miRNA" style="width:60%" />
+                <input type="file" class="form-control" id="mirNA" style="width:60%" />
+                <div id="checkbox-option">
+                    <label>Load target Data</label>
+                    <input type="file" class="form-control" id="target" style="width:60%" />
+                    <label >Load connections Data</label>
+                    <input type="file" class="form-control" id="connection" style="width:60%" />
+                </div>
+                <div style="margin: 1rem;">
+                    <input id="checkbox" type="checkbox" class="form-check-input" id="checkBox">
+                    <label id="use">Use 1 heatmap</label>
+                    </div>
             </div>
             <div class="column">
-                <label>Choose cluster</label>
+                <label>Choose Cluster</label>
                 <label for="exampleFormControlSelect1">Choose Distance Type</label>
-                <select class="form-control" id="exampleFormControlSelect1" style="width:30%">
+                <select class="form-control" id="cluster-select" style="width:30%">
                     <option>Canberra</option>
                     <option>Complete</option>
                     <option>Cosine</option>
@@ -57,7 +63,7 @@
                     <option>Sqeuclidean</option>
                 </select>
                 <label>Choose Linkage Type</label>
-                <select class="form-control" id="exampleFormControlSelect1" style="width:30%">
+                <select class="form-control" id="linkage-select" style="width:30%">
                     <option>Single</option>
                     <option>Complete</option>
                     <option>Average</option>
@@ -76,6 +82,7 @@
     <script type="text/javascript" src="./lib/inchlib-1.2.0.js"></script>
     <script type="text/javascript" src="./components/drawmap.js"></script>
     <script type="text/javascript" src="./components/index.js"></script>
+    <script type="text/javascript" src="./components/forms.js"></script>
  </html>    
 
 
