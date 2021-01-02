@@ -1,53 +1,34 @@
 <html>
     <head>
         <script src="https://code.jquery.com/jquery-2.0.3.js" integrity="sha256-lCf+LfUffUxr81+W0ZFpcU0LQyuZ3Bj0F2DQNCxTgSI=" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-        <script src="http://openscreen.cz/software/inchlib/static/js/kinetic-v5.1.0.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/konva/7.2.2/konva.min.js" integrity="sha512-zbpQ5DaXc34MZEg81DJZSHALTkKr1+eOspsa01J4FSVqhUHjCa/V1xvur7imE4UZcj40uYDIR21MEpxzG2OHvw==" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="./resources/style/style.css">
     </head>
 
     <body>
     
-    <div class="container">
-        <div id='inchlib'></div>
-        <div class="table-box">
-            <table id="table" cellpadding="10">
-                <tr class="header_row">
-                    <th>Source miRNA</th>
-                    <th>Target Genes</th>
-                    <th>Action</th>
-                </tr>
-            </table>
+        <div class="container">
+            <div id='inchlib'></div>
+            <div class="table-box">
+                <table id="table" cellpadding="10">
+                    <tr class="header_row">
+                        <th>Source miRNA</th>
+                        <th>Target Genes</th>
+                        <th>Action</th>
+                    </tr>
+                </table>
+            </div>
         </div>
-    </div>
-        <form>
             <input id="mirNA" name="files" value="Upload miRNA data" type="file">
             <input id="target" name="files" value="Upload target data" type="file">
             <input id="connection" name="files" value="Upload connections data" type="file">
-            <input type="submit" id="buttonid" value ="Generate">
-        </form>
+            <button id="buttonid" value ="Generate">
+            <button id="drawmap"  value="Draw map"></button>
     </body>
-    <script type="text/javascript" src="./itemsids.js"></script>
-    <script type="text/javascript" src="./uplaodfiles.js"></script>
-    <script type="text/javascript" src="./inchlib-1.2.0.js"></script>
-    <script>
-        $(document).ready(function() { //run when the whole page is loaded
-            var inchlib = new InCHlib({"target": "inchlib",
-                            "width": 800,
-                            "height": 1200,
-                            "column_metadata_colors": "RdLrBu",
-                            "heatmap_colors": "RdBkGr",
-                            "max_percentile": 90,
-                            "middle_percentile": 60,
-                            "min_percentile": 10,
-                            "heatmap_font_color": "white",
-                             text: 'biojs'});
-        inchlib.read_data_from_file("./resources/microarrays.json");
-        inchlib.draw();
-
-});
-        </script>
+    <script type="text/javascript" src="./components/insertable.js"></script>
+    <script type="text/javascript" src="./components/uplaodfiles.js"></script>
+    <script type="text/javascript" src="./lib/inchlib-1.2.0.js"></script>
+    <script type="text/javascript" src="./components/drawmap.js"></script>
  </html>    
 
 

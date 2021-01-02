@@ -23,7 +23,7 @@ app.add_middleware(
 
 @app.get('/')
 def hello_world():
-    return {"Hello":"world"}
+    return {"Hello" : "world"}
 
 
 
