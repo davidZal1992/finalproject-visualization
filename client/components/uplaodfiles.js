@@ -16,8 +16,8 @@ function generate() {
       "Access-Control-Allow-Origin": "*"
     }
     }).then((response) => {
-      console.log(response)
-    drawmap(response)
+      console.log(response.data)
+      drawmap(response.data)
   }, (error) => {
     console.log(error);
   });

@@ -1,8 +1,7 @@
 
 var InCHlib = require("../lib/inchlib-1.2.0");
-
+var tet = require("../resources/microarrays.json")
 export function drawmap(json){
-console.log("second lvl" + json)
 var inchlib = new InCHlib({"target": "inchlib",
                     "width": 800,
                     "height": 1200,
@@ -13,8 +12,8 @@ var inchlib = new InCHlib({"target": "inchlib",
                     "min_percentile": 10,
                     "heatmap_font_color": "white",
                      text: 'biojs'});
-
-
-inchlib.send_json(json);
+console.log(tet)
+console.log(JSON.parse(json))
+inchlib.send_json(JSON.parse(json));
 inchlib.draw();
 }
