@@ -1,8 +1,8 @@
 
 var InCHlib = require("../lib/inchlib-1.2.0");
 // var tet = require("../resources/microarrays.json")
-export function drawmap(json){
-var inchlib = new InCHlib({"target": "inchlib",
+export function drawmap(json,target){
+var inchlib = new InCHlib({"target": target,
                     "width": 800,
                     "height": 1200,
                     "column_metadata_colors": "RdLrBu",
@@ -15,22 +15,22 @@ var inchlib = new InCHlib({"target": "inchlib",
 
 inchlib.send_json(JSON.parse(json));
 const res = document.getElementById("checkbox").checked;
-if(res){
-    var table = document.getElementById("table-box-connect-1to2");
-    table.style.display="none";
-}
-else{
-    var table = document.getElementById("table-box-connect-1to2");
-    table.style.display="block";
-    var union = document.getElementById("union-button-connect-1to2");
-    union.style.display="block";
+var table = document.getElementById("table-box-connect-1to2");
+var h1 = document.getElementById("headline1");
+table.style.display="block";
+h1.style.display="block";
+if(!res){
+    var table21 = document.getElementById("table-box-connect-2to1");
+    var h2 = document.getElementById("headline2");
+    h2.style.display="block";
+    table21.style.display="block";
 }
 inchlib.draw();
 };
 
 
-export function drawmap2(json){
-    var inchlib2 = new InCHlib({"target": "inchlib2",
+export function drawmap2(json,target){
+    var inchlib2 = new InCHlib({"target": target,
                         "width": 800,
                         "height": 1200,
                         "column_metadata_colors": "RdLrBu",

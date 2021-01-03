@@ -1,62 +1,36 @@
 body{
     padding:50px;
     justify-content: center;
-    height:100vh;
+    height:120vh;
     font-family: sans-serif;
+    
 }
 
+.header{
+    background: url('../assets/dna-3539309_960_720.jpg') no-repeat center center/cover;
+}
 .container{
     align-items: left;
     position: relative;
     right: 15%
+    
+}
+
+.headline{
+    font-size: 35px;
 }
 
 form{
     margin-top: 5rem;
 }
+
 .table-box-connect-1to2{
     width:500px;
-    max-height: 200px;
-    overflow-y:scroll;
-    box-shadow: 0 10px 100px rgba(0,0,0,0.5);
-    margin-left:10rem;
-}
-
-#union-button-connect-1to2{
-    justify-content: center;
-    font-size: 14px;
-    position: relative;
-    left: 13%;
-}
-
-
-#table-connect-1to2{
-    width:100%;
-}
-
-#table-connect-1to2,th,td,tr{
-    border:1px solid black;
-    border-collapse: collapse;
-    text-align: left;
-}
-
-th{
-    position:sticky;
-    top:0;
-    background:  rgb(58, 51, 51);
-    color: white;
-}
-
-.header_row{
-    border:1px solid black;
-}
-
-
-tr td:nth-child(1){
-    width:60px;
-    text-align: center;
-    background-color: gray;
-    color:#fff;
+    overflow-y:auto;
+    height: 200px;
+    border:0.5px solid black;
+    border-radius: 5px;
+    margin-left: 10%;
 }
 
 .del{
@@ -72,11 +46,17 @@ tr td:nth-child(1){
 
 .column{
    padding:10px;
-   float: left;
    position: relative;
-   left:5%;
-   width:50%;
+   float: left;
+   width:33.3%;
 }
+
+.column2{
+    padding:10px;
+    position: relative;
+    float: left;
+    justify-content: space-between;
+ }
 .code {
     margin-top: 10px;
     background-color: #E6E6E6;
@@ -94,6 +74,7 @@ tr td:nth-child(1){
     height: 270px;
     width:70%;
     border-radius: 15px;
+    margin-bottom: 500px;
 }
 
 #buttonid{
@@ -102,6 +83,7 @@ tr td:nth-child(1){
 
 .two_maps_container{
   display: flex;
+  align-items: center;
 }
 
 .inchlib{
@@ -110,4 +92,51 @@ tr td:nth-child(1){
 
 .inchlib2{
     float: left;
+}
+
+.vl {
+    border-left: 1px solid black;
+    height: 500px;
+    width: 33%;
+  }
+
+  hr.style12 {
+    height: 6px;
+    color:black;
+	background: url(http://ibrahimjabbari.com/english/images/hr-12.png) repeat-x 0 0;
+    border: 0;
+}
+
+.landing {
+    position:relative;
+    height: 65vh;
+    display: block;
+}
+
+.dark-overlay {
+    background-color: rgba(0, 0, 0, 0.4);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 45vh;
+  }
+
+  .lead {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+.x-large {
+    font-size: 3rem;
+  }
+
+.landing-inner {
+    color: #fff;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    margin: auto;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
 }

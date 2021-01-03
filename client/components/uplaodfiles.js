@@ -1,7 +1,7 @@
 const axios = require('axios')
 const {drawmap} = require('./drawmap')
 const {drawmap2} = require('./drawmap')
-const Papa = require('papaparse');
+
 
 document.getElementById('buttonid').addEventListener('click', generate);
 
@@ -34,7 +34,7 @@ function uploadOneHeatMap(){
     }
     }).then((response) => {
       console.log(response.data)
-      drawmap(response.data)
+      drawmap(response.data,"inchlib")
   }, (error) => {
     console.log(error);
   });
@@ -69,31 +69,9 @@ function upload2HeatMaps(){
 function upload2(){
   axios.get('http://127.0.0.1:8000/actions/upload2').then((response) => {
       console.log(response)
-      drawmap(response.data.first)
-      drawmap2(response.data.second)
-      var connection_file= document.getElementById('connection').files[0];
-      var newArray=[];
-      parseMe(connection_file, newArray = doStuff);
-      console.log('(Log no.2) After parse call but before complete fired, newArray:', newArray, new Date());
-      console.log('(Log no.3) ',newArray);
-  }, (error) => {
-    console.log(error);
-  });
+      drawmap(response.data.first,"inchlib1")
+      drawmap2(response.data.second,"inchlib2")
+  })
 }
-
-function parseMe(url, callBack){
-  Papa.parse(url, {
-      complete: function(results) {
-      callBack(results.data[0]);
-      }
-  });
-}
-
-function doStuff(data){
-  var newArray=data;
-  console.log('(Log no.1) In OnComplete callback, Array is:', new Date(), newArray); //log no. 1
-  return newArray;
-}
-
 
 
