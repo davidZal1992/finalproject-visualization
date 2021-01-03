@@ -10,19 +10,23 @@
     <body>
     
         <div class="container">
-            <div id='inchlib'></div>
-            <div id='inchlib2'></div>
-            <div id="table-box" class="table-box">
-                <table id="table" cellpadding="10">
-                    <tr class="header_row">
-                        <th>Source miRNA</th>
-                        <th>Target Genes</th>
-                        <th>Action</th>
-                    </tr>
-                </table>
+            <div class="two_maps_container">
+                <div  id='inchlib'></div>
+                <div  id='inchlib2'></div>
             </div>
-        </div>
+  </div>
     <div class="form-container">
+        <div id="table-box-connect-1to2" class="table-box-connect-1to2">
+            <table id="table-connect-1to2" cellpadding="10">
+                <tr class="header_row">
+                    <th>Source miRNA</th>
+                    <th>Target Genes</th>
+                    <th>Action</th>
+                </tr>
+            </table>
+        </div>
+        <button id="union-button-connect-1to2" type="button" class="btn btn-primary">Union</button>
+  
             <p>Your tab-separated matrix file should be in one of the supported matrix formats (see examples below) and have .csv file extension.</p>
             <div class="code">compoundid,1x10-5 mol.dm-3,1x10-4 mol.dm-3, 1x10-3 mol.dm-3
 13736,6.675,5.932,4.799
@@ -35,12 +39,12 @@
         <div class="settings"> 
             <div class="column">
                 <label>Load miRNA Data</label>
-                <input type="file" class="form-control" id="mirNA" style="width:60%" />
+                <input type="file" class="form-control" id="mirNA" style="width:60%"  accept=".csv"/>
                 <div id="checkbox-option">
                     <label>Load target Data</label>
-                    <input type="file" class="form-control" id="target" style="width:60%" />
+                    <input type="file" class="form-control" id="target" style="width:60%"  accept=".csv"/>
                     <label >Load connections Data</label>
-                    <input type="file" class="form-control" id="connection" style="width:60%" />
+                    <input type="file" class="form-control" id="connection" style="width:60%"  accept=".csv"/>
                 </div>
                 <div style="margin: 1rem;">
                     <input id="checkbox" type="checkbox" class="form-check-input" id="checkBox">
@@ -80,6 +84,7 @@
     <script type="text/javascript" src="./components/insertable.js"></script>
     <script type="text/javascript" src="./components/uplaodfiles.js"></script>
     <script type="text/javascript" src="./lib/inchlib-1.2.0.js"></script>
+    <script type="text/javascript" src="./lib/papaparse.min.js"></script>
     <script type="text/javascript" src="./components/drawmap.js"></script>
     <script type="text/javascript" src="./components/index.js"></script>
     <script type="text/javascript" src="./components/forms.js"></script>

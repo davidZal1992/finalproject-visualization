@@ -6,16 +6,15 @@ body{
 }
 
 .container{
-    align-items: center;
+    align-items: left;
     position: relative;
-    left: 10%;
+    right: 15%
 }
-
 
 form{
     margin-top: 5rem;
 }
-.table-box{
+.table-box-connect-1to2{
     width:500px;
     max-height: 200px;
     overflow-y:scroll;
@@ -23,11 +22,19 @@ form{
     margin-left:10rem;
 }
 
-table{
+#union-button-connect-1to2{
+    justify-content: center;
+    font-size: 14px;
+    position: relative;
+    left: 13%;
+}
+
+
+#table-connect-1to2{
     width:100%;
 }
 
-table,th,td,tr{
+#table-connect-1to2,th,td,tr{
     border:1px solid black;
     border-collapse: collapse;
     text-align: left;
@@ -41,9 +48,7 @@ th{
 }
 
 .header_row{
-
     border:1px solid black;
-
 }
 
 
@@ -55,7 +60,7 @@ tr td:nth-child(1){
 }
 
 .del{
-    background:red;
+    background:rgba(153, 42, 42, 0.719);
     color:white;
     border: none;
     padding: 15px 32px;
@@ -93,4 +98,16 @@ tr td:nth-child(1){
 
 #buttonid{
     margin-top:1rem;
+}
+
+.two_maps_container{
+  display: flex;
+}
+
+.inchlib{
+    float: right;
+}
+
+.inchlib2{
+    float: left;
 }

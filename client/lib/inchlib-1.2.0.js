@@ -292,7 +292,8 @@ var InCHlib, _this;
           },
 
           "row_onclick": function(object_ids, evt){
-              addMir(object_ids)
+              console.log('hererrere')
+              addMir(object_ids, settings.target)
               _this.events.row_click(object_ids, evt);
               return object_ids;
           },
