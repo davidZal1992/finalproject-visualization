@@ -1,8 +1,8 @@
 
 var InCHlib = require("../lib/inchlib-1.2.0");
-var tet = require("../resources/microarrays.json")
-export function drawmap(json){
-var inchlib = new InCHlib({"target": "inchlib",
+// var tet = require("../resources/microarrays.json")
+export function drawmap(json,target){
+var inchlib = new InCHlib({"target": target,
                     "width": 800,
                     "height": 1200,
                     "column_metadata_colors": "RdLrBu",
@@ -14,14 +14,96 @@ var inchlib = new InCHlib({"target": "inchlib",
                      text: 'biojs'});
 
 inchlib.send_json(JSON.parse(json));
+//Show hidden
 const res = document.getElementById("checkbox").checked;
-if(res){
-    var table = document.getElementById("table-box");
-    table.style.display="none";
+if(!res){
+    showMaps()
+    let map= document.getElementById("inchlib");
+    map.style.display="none";
+
 }
 else{
-    var table = document.getElementById("table-box");
-    table.style.display="block";
+    hideMaps()
+    let map= document.getElementById("inchlib");
+    map.style.display="block";
 }
 inchlib.draw();
-}
+};
+
+
+export function drawmap2(json,target){
+    var inchlib2 = new InCHlib({"target": target,
+                        "width": 800,
+                        "height": 1200,
+                        "column_metadata_colors": "RdLrBu",
+                        "heatmap_colors": "RdBkGr",
+                        "max_percentile": 90,
+                        "middle_percentile": 60,
+                        "min_percentile": 10,
+                        "heatmap_font_color": "white",
+                         text: 'biojs'});                
+
+
+    inchlib2.send_json(JSON.parse(json));
+    inchlib2.draw();
+    }
+
+    function showMaps(){
+
+
+        let map1= document.getElementById("inchlib1");
+        map1.style.display="block";
+    
+        let map2 = document.getElementById("inchlib2");
+        map2.style.display="block";
+
+        let table = document.getElementById("table-box-connect-1to2");
+        table.style.display="block";
+    
+        let ml1 = document.getElementById("ml1");
+        ml1.style.display="block";
+    
+        let h1 = document.getElementById("headline1");
+        h1.style.display="block";
+
+        let table21 = document.getElementById("table-box-connect-2to1");
+        table21.style.display="block";
+    
+        let h2 = document.getElementById("headline2");
+        h2.style.display="block";
+    
+        let ml2 = document.getElementById("ml2");
+        ml2.style.display="block";
+    
+    
+
+    }
+
+    function hideMaps(){
+
+        let map1= document.getElementById("inchlib1");
+        map1.style.display="none";
+    
+        let map2 = document.getElementById("inchlib2");
+        map2.style.display="none";
+
+
+        let table = document.getElementById("table-box-connect-1to2");
+        table.style.display="none";
+    
+        let ml1 = document.getElementById("ml1");
+        ml1.style.display="none";
+    
+        let h1 = document.getElementById("headline1");
+        h1.style.display="none";
+
+        let table21 = document.getElementById("table-box-connect-2to1");
+        table21.style.display="none";
+    
+        let h2 = document.getElementById("headline2");
+        h2.style.display="none";
+    
+        let ml2 = document.getElementById("ml2");
+        ml2.style.display="none";
+    
+    }
