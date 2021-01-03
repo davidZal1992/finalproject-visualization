@@ -7,8 +7,6 @@ from utils import heatmap
 router = APIRouter()
 
 
-
-
 @router.post('/uploadone')
 async def upload_file(files:List = File(...)):
     # miRNA_data = pd.read_csv(files[0].file)
@@ -28,15 +26,18 @@ async def upload_file(files:List = File(...)):
         print("error:",e)
 
 
-
-
-
-
-
-
-@router.get('/upload2')
-def upload_file2():
-    print('success')
-    return {"hello": "world"}
   
-
+@router.get('/upload2')
+async def upload_file():
+    row_distance= 'canberra'
+    row_linkage= 'single'
+    try:
+        # respone_first_heatmap = heatmap.create_heatmap_json('input_file.csv',row_distance=row_distance,row_linkage=row_linkage)
+        # respone_second_heatmap = heatmap.create_heatmap_json('example_data.csv',row_distance=row_distance,row_linkage=row_linkage)
+        respone_first_heatmap = heatmap.create_heatmap_json('Mirim.csv',row_distance=row_distance,row_linkage=row_linkage)
+        respone_second_heatmap = heatmap.create_heatmap_json('Geneim.csv',row_distance=row_distance,row_linkage=row_linkage)
+        twomaps={ "first": respone_first_heatmap, "second": respone_second_heatmap };
+        return twomaps;
+    except Exception as e:
+        print("error:",e)
+  
