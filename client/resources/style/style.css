@@ -140,3 +140,15 @@ form{
     justify-content: center;
     text-align: center;
 }
+
+.ml{
+    margin-left: 10%;
+}
+
+.uniquiehm{
+    margin-left: auto;
+    margin-right: auto;
+    align-items: center;
+    text-align: center;
+    left:25%;
+}
