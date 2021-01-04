@@ -4,9 +4,16 @@ const {drawmap2} = require('./drawmap')
 const {validate} =require('./forms')
 
   document.getElementById('myform').addEventListener('submit', function(e) {
+  var errorM = document.getElementById("error-message")
   e.preventDefault();
   const res = document.getElementById("checkbox").checked;
   if(!validate(res)){
+    setTimeout(function(){ 
+    errorM.classList.remove("error-m")
+    errorM.innerHTML="&nbsp;"
+    },3000)
+    errorM.classList.add("error-m")
+    errorM.innerText="* Some files are required"
     return false;
   }
   if(res){
@@ -22,17 +29,14 @@ const {validate} =require('./forms')
 function uploadOneHeatMap(){
 
   let formData = new FormData();
-  let cluster = document.getElementById('cluster-select')
-  let linkage = document.getElementById('linkage-select')
+  let cluster = document.getElementById('cluster-select').value
+  let linkage = document.getElementById('linkage-select').value
 
   formData.append("files", document.getElementById('mirNA').files[0]);
   formData.append("files",cluster);
   formData.append("files",linkage);
 
 
-  console.log(cluster)
-  console.log(linkage)
-  
   axios.post('http://127.0.0.1:8000/actions/uploadone', formData, {
     headers: {
       'content-Type': 'multipart/form-data',

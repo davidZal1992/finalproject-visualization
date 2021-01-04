@@ -156,3 +156,7 @@ form{
 .input-error{
     border-color: #c92432;
 }
+
+.error-m{
+    color:red;
+}
