@@ -13,8 +13,8 @@ const {validate} =require('./forms')
     uploadOneHeatMap();
   }
   else{
-    // upload2HeatMaps()
-    upload2();
+    upload2HeatMaps()
+    // upload2();
   }
 },false);
 
@@ -65,7 +65,8 @@ function upload2HeatMaps(){
     }
     }).then((response) => {
       console.log(response.data)
-      drawmap(response.data)
+      drawmap(response.data.first,"inchlib1")
+      drawmap2(response.data.second,"inchlib2")
   }, (error) => {
     console.log(error);
   });
