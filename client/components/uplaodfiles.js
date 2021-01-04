@@ -1,13 +1,14 @@
 const axios = require('axios')
 const {drawmap} = require('./drawmap')
 const {drawmap2} = require('./drawmap')
+const {validate} =require('./forms')
 
-
-document.getElementById('buttonid').addEventListener('click', generate);
-
-function generate() {
-  
+  document.getElementById('myform').addEventListener('submit', function(e) {
+  e.preventDefault();
   const res = document.getElementById("checkbox").checked;
+  if(!validate(res)){
+    return false;
+  }
   if(res){
     uploadOneHeatMap();
   }
@@ -15,18 +16,23 @@ function generate() {
     // upload2HeatMaps()
     upload2();
   }
-}
+},false);
+
 
 function uploadOneHeatMap(){
 
   let formData = new FormData();
-  let cluster = document.getElementById('cluster-select').value
-  let linkage = document.getElementById('linkage-select').value
+  let cluster = document.getElementById('cluster-select')
+  let linkage = document.getElementById('linkage-select')
 
   formData.append("files", document.getElementById('mirNA').files[0]);
   formData.append("files",cluster);
   formData.append("files",linkage);
 
+
+  console.log(cluster)
+  console.log(linkage)
+  
   axios.post('http://127.0.0.1:8000/actions/uploadone', formData, {
     headers: {
       'content-Type': 'multipart/form-data',

@@ -81,15 +81,16 @@
 10701,-0.23,-2.189,13.679
             </div>
             <p>Example file for you data you can find here:<a href="https://www.openscreen.cz/software/inchlib/static/source_data/example_data.csv" target="blank">Whole data file</a></p>
+    <form id="myform" action="">     
         <div class="settings"> 
             <div class="column">
                 <label>Load miRNA Data</label>
-                <input type="file" class="form-control" id="mirNA" style="width:60%"  accept=".csv" required/>
-                <div id="checkbox-option">
+                <input type="file" class="form-control" id="mirNA" style="width:60%" />
+                <div id="checkbox-option" data-error="This field is require">
                     <label>Load target Data</label>
-                    <input type="file" class="form-control" id="target" style="width:60%"  accept=".csv" required/>
+                    <input type="file" class="form-control" id="target" style="width:60%"  />
                     <label >Load connections Data</label>
-                    <input type="file" class="form-control" id="connection" style="width:60%"  accept=".csv" required/>
+                    <input type="file" class="form-control" id="connection" style="width:60%" />
                 </div>
                 <div style="margin: 1rem;">
                     <input id="checkbox" type="checkbox" class="form-check-input" id="checkBox">
@@ -121,10 +122,11 @@
                     <option>Median</option>
                     <option>Weighted</option>
                 </select>
-                <button id="buttonid" type="button" class="btn btn-primary">Generate</button>
+                <input id="buttonid" type="submit" class="btn btn-primary"></input>
                 
-        </div>
-    </div>
+             </div>
+            </div>
+    </form>
 </div>
     </body>
     <script type="text/javascript" src="./components/insertable.js"></script>

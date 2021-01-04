@@ -152,3 +152,7 @@ form{
     text-align: center;
     left:35%;
 }
+
+.input-error{
+    border-color: #c92432;
+}
