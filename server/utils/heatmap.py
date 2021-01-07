@@ -6,7 +6,9 @@ def create_heatmap_json(data,**kwargs):
     #instantiate the Cluster object
     c = inchlib_clust.Cluster()
     # read csv data file with specified delimiter, also specify whether there is a header row, the type of the data (numeric/binary) and the string representation of missing/unknown values
+    
     c.read_csv(filename=data, delimiter=",", header=True, datatype="numeric")
+    
     # c.read_data(data, header=bool, missing_value=str/False, datatype="numeric/binary") use read_data() for list of lists instead of a data file
 
     # normalize data to (0,1) scale, but after clustering write the original data to the heatmap
@@ -27,4 +29,25 @@ def create_heatmap_json(data,**kwargs):
     # read column metadata file with specified delimiter, also specify whether there is a 'header' column
     # d.add_column_metadata_from_file(column_metadata_file="metadata_c.csv", delimiter=",", header=True)
     # export the cluster heatmap on the standard output or to the file if filename specified
+    return d.export_cluster_heatmap_as_json()
+
+
+def create_heatmap_json_without_cluster(data,**kwargs):
+    csv = kwargs.pop('csv')
+    #instantiate the Cluster object
+    c = inchlib_clust.Cluster()
+    # read csv data file with specified delimiter, also specify whether there is a header row, the type of the data (numeric/binary) and the string representation of missing/unknown values
+    c.read_data(data,header=True, datatype="numeric")
+
+    # normalize data to (0,1) scale, but after clustering write the original data to the heatmap
+    c.normalize_data(feature_range=(0,1), write_original=True)
+
+    c.cluster_data(row_distance="euclidean", row_linkage="average", axis="row")
+
+    d = inchlib_clust.Dendrogram(c)
+
+
+    d.create_cluster_heatmap(compress=False, compressed_value="median", write_data=True)
+
+ 
     return d.export_cluster_heatmap_as_json()

@@ -1,5 +1,6 @@
 from typing import List
-from fastapi import APIRouter,Header,HTTPException,FastAPI, File, UploadFile,Response
+from pydantic import BaseModel
+from fastapi import APIRouter,Header,HTTPException,FastAPI, File, UploadFile,Response,Request
 import pandas as pd
 import shutil
 import json
@@ -9,6 +10,12 @@ import os
 
 
 router = APIRouter()
+
+class Item(BaseModel):
+    name: str
+
+class ItemList(BaseModel):
+    items: List[Item]
 
 
 @router.post('/uploadone')
@@ -43,11 +50,9 @@ async def upload_two_files(files:List = File(...)):
         temp_file = uuid.uuid4()
         file_location = f"upload_data/{temp_file}"
         temp_files_array.append(file_location)
-        print(type(file))
         with open(file_location, "wb+") as file_object:
             shutil.copyfileobj(file.file, file_object)
         index=index+1    
-    print(only_files)        
     row_distance= 'canberra'
     row_linkage= 'single'
     try:
@@ -60,3 +65,27 @@ async def upload_two_files(files:List = File(...)):
     except Exception as e:
         print(e)
   
+@router.post('/union')
+async def union(request: Request):
+    row_distance= 'canberra'
+    row_linkage= 'single'
+    data_json =   await request.body()
+    print(data_json)
+    df_con =  pd.read_csv('conections.csv')
+    df_gene=  pd.read_csv('Geneim.csv')
+    obj = json.loads(data_json)
+    print(obj)
+    mir_name = 'mir_2'
+    result = df_con[df_con['mir_num'].str.contains(mir_name)] 
+    result = result.iloc[:,1:]
+    searchfor = result.stack().tolist()
+    print(searchfor)
+    
+    # s[s.str.contains('|'.join(searchfor))]
+    heatmap_values = df_gene[df_gene['id'].str.contains('|'.join(searchfor))]
+    heatmap_values =  [df_gene.columns.values.tolist()]+df_gene.values.tolist()
+    print(heatmap_values)
+    return heatmap.create_heatmap_json_without_cluster(heatmap_values,csv=False)
+    
+
+    

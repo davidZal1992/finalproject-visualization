@@ -82,6 +82,7 @@ form{
 }
 
 .two_maps_container{
+    padding: 10px;
   display: flex;
   align-items: center;
 }

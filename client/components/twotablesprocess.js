@@ -83,13 +83,12 @@ function extractData(table,cluster){
         console.log(cluster)
         console.log(endpoint)
 
-        axios.get('http://127.0.0.1:8000/actions/'+endpoint,{
-            params: {
-                data: values,
-                type: command.toLowerCase(),
-                cluster: cluster.toLowerCase()
-            }
-            }).then((response) => {
+        axios.post('http://127.0.0.1:8000/actions/'+endpoint, {
+            data: values,
+            type: command.toLowerCase(),
+            cluster: cluster.toLowerCase()
+        } 
+            ).then((response) => {
                 values=[]
           }, (error) => {
             values=[]
