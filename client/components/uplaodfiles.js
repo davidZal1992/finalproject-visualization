@@ -3,7 +3,7 @@ const {drawmap} = require('./drawmap')
 const {drawmap2} = require('./drawmap')
 const {validate} =require('./forms')
 
-  document.getElementById('myform').addEventListener('submit', function(e) {
+  document.getElementById('myDefForm').addEventListener('submit', function(e) {
   var errorM = document.getElementById("error-message")
   e.preventDefault();
   const res = document.getElementById("checkbox").checked;
@@ -54,12 +54,18 @@ function upload2HeatMaps(){
   let formData = new FormData();
   let cluster = document.getElementById('cluster-select').value
   let linkage = document.getElementById('linkage-select').value
+  let cluster_detailes_1 = document.getElementById('miRNA-clust-select').value
+  let cluster_detailes_2 = document.getElementById('target-clust-select').value
 
   formData.append("files", document.getElementById('mirNA').files[0]);
   formData.append("files", document.getElementById('target').files[0]);
   formData.append("files", document.getElementById('connection').files[0]);
+  formData.append("files", document.getElementById('mirNA-metadata').files[0]);
   formData.append("files",cluster);
   formData.append("files",linkage);
+  formData.append("files",cluster_detailes_1);
+  formData.append("files", document.getElementById('target-metadata').files[0]);
+  formData.append("files",cluster_detailes_2);
 
 
   axios.post('http://127.0.0.1:8000/actions/upload', formData, {
@@ -77,12 +83,6 @@ function upload2HeatMaps(){
 }
 
 
-function upload2(){
-  axios.get('http://127.0.0.1:8000/actions/upload2').then((response) => {
-      console.log(response)
-      drawmap(response.data.first,"inchlib1")
-      drawmap2(response.data.second,"inchlib2")
-  })
-}
+
 
 

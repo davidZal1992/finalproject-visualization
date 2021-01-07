@@ -6,6 +6,11 @@ body{
     
 }
 
+#myFilesForm{
+    margin-bottom: -40px;
+    margin-top: -5px;
+}
+
 .header{
     background: url('../assets/dna-3539309_960_720.jpg') no-repeat center center/cover;
 }
@@ -45,10 +50,10 @@ form{
 }
 
 .column{
-   padding:10px;
+   padding:15px;
    position: relative;
    float: left;
-   width:33.3%;
+   width:30%;
 }
 
 .column2{
@@ -71,14 +76,28 @@ form{
 
 .settings{
     border: 1px solid #D4D4D4;
-    height: 270px;
-    width:70%;
-    border-radius: 15px;
-    margin-bottom: 500px;
+    width:80%;
+    height: 20%;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.away{
+    width:10%;
+    height: 20%;
+    border-radius: 5px;
+    margin-bottom: 10px;
+
+}
+#checkbox-target-metadata-option{
+    position: absolute;
+    top: 115px;
 }
 
 #buttonid{
+    position: absolute;
     margin-top:1rem;
+    top: 170px;
 }
 
 .two_maps_container{
@@ -159,4 +178,11 @@ form{
 
 .error-m{
     color:red;
+}
+
+#target-clust{
+    position: absolute;
+    margin-top:1rem;
+    top: 42px;
+    width: 100%;
 }
