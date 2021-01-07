@@ -3,6 +3,8 @@
         <script src="https://use.fontawesome.com/a0e556e899.js"></script>
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
         <script src="https://code.jquery.com/jquery-2.0.3.js" integrity="sha256-lCf+LfUffUxr81+W0ZFpcU0LQyuZ3Bj0F2DQNCxTgSI=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/konva/7.2.2/konva.min.js" integrity="sha512-zbpQ5DaXc34MZEg81DJZSHALTkKr1+eOspsa01J4FSVqhUHjCa/V1xvur7imE4UZcj40uYDIR21MEpxzG2OHvw==" crossorigin="anonymous"></script>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
         <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css" rel="stylesheet">
@@ -14,7 +16,7 @@
         <div className="landing">
             <div class="dark-overlay">
                 <div class="landing-inner">
-                    <h1 class="x-large"></span>Welcome to BguIntr - Visualization Interactive Tool</h1>
+                    <h1 class="x-large"></span>Welcome to "Choohse Name" - Visualization Interactive Tool</h1>
                     <p class="lead">Interactive Heatmaps for biological research</p>
                 </div>
             </div>
@@ -38,8 +40,9 @@
                           </table>
                     </div>
                     <div id="ml1" class="ml">
-                        <button type="button" class="btn btn-info btn-rounded">Union</button>
-                        <button type="button" class="btn btn-primary btn-rounded">Intersect</button>
+                        <button id="preprocess1" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                            Generate
+                        </button>
                     </div>
                 </div>
                 <div class="column2">
@@ -57,8 +60,9 @@
                           </table>
                     </div>
                     <div id="ml2" class="ml">
-                        <button type="button" class="btn btn-info btn-rounded">Union</button>
-                        <button type="button" class="btn btn-primary btn-rounded">Intersect</button>
+                        <button id="preprocess2" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                            Generate
+                        </button>
                     </div>
                 </div>
             </div>
@@ -80,7 +84,16 @@
 7889,-1.0,2.244,60.017
 10701,-0.23,-2.189,13.679
             </div>
+            <p>For connectioms file use this format:</p>
+            <div class="code">src,target
+mir1 ,gen1
+mir1,gen2
+mir2,gen1
+mir2,gen3
+            </div>
             <p>Example file for you data you can find here:<a href="https://www.openscreen.cz/software/inchlib/static/source_data/example_data.csv" target="blank">Whole data file</a></p>
+
+
     <form id="myform" action="">     
         <div class="settings"> 
             <div class="column">
@@ -99,7 +112,6 @@
                 </div>
             </div>
             <div class="column">
-                <label>Choose Cluster</label>
                 <label for="exampleFormControlSelect1">Choose Distance Type</label>
                 <select class="form-control" id="cluster-select" style="width:30%">
                     <option>Canberra</option>
@@ -128,6 +140,40 @@
             </div>
          
     </form>
+  
+  <!-- Modal -->
+  
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="width: 400px;">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Preprocess</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div style="margin:auto;" class="modal-body">
+                <label>Choose Cluster:</label>
+                <select style="width:100px" class="form-control" id="cluster-for-pre" style="width:30%">
+                    <option>Rows</option>
+                    <option>Both</option>
+                    <option>None</option>
+                </select>
+                <label>Choose Action:</label>
+                <select style="width:100px"class="form-control" id="action-for-pre" style="width:30%">
+                    <option>Intersection</option>
+                    <option>Union</option>
+                </select>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button id='generate_preprocess' type="button" class="btn btn-primary">Generate</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
 </div>
     </body>
     <script type="text/javascript" src="./components/insertable.js"></script>
@@ -136,6 +182,7 @@
     <script type="text/javascript" src="./components/drawmap.js"></script>
     <script type="text/javascript" src="./components/index.js"></script>
     <script type="text/javascript" src="./components/forms.js"></script>
+    <script type="text/javascript" src="./components/twotablesprocess.js"></script>
  </html>    
 
 
