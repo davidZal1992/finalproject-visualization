@@ -27,13 +27,11 @@ document.getElementById('generate_preprocess').addEventListener('click',function
     command = action + command;
 
     command = command.toLowerCase();
-
-    console.log(command)    
-    console.log(tableName)
-    console.log(cluster)      
+    
+    
     extractData(tableName,cluster)
     $('#exampleModal').modal('hide');
-    
+
     command = ""
     values=[]
 },false);
@@ -54,7 +52,6 @@ function extractData(table,cluster){
         var obj = { 
             name: tableElemt.rows[j].cells[0].innerText
         };
-        console.log(values)
         values.push(obj);
     }
     
@@ -62,16 +59,16 @@ function extractData(table,cluster){
 
     switch(command) {
         case 'union1':
-          callServer('union',command)
+          callServer('union',cluster)
           break;
         case 'union2':
-          callServer('union',command)
+          callServer('union',cluster)
           break;
         case 'intersection1':
-          callServer('intersection',command)
+          callServer('intersection',cluster)
             break;
         case 'intersection2':
-          callServer('intersection',command)
+          callServer('intersection',cluster)
         default:
       }
 
@@ -79,13 +76,18 @@ function extractData(table,cluster){
 }    
 
 
-    function callServer(endpoint,command){
-        console.log(endpoint)
+    function callServer(endpoint,cluster){
+
+        console.log(values)
         console.log(command)
+        console.log(cluster)
+        console.log(endpoint)
+
         axios.get('http://127.0.0.1:8000/actions/'+endpoint,{
             params: {
                 data: values,
-                type: command
+                type: command.toLowerCase(),
+                cluster: cluster.toLowerCase()
             }
             }).then((response) => {
                 values=[]
