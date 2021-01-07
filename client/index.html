@@ -16,54 +16,65 @@
         <div className="landing">
             <div class="dark-overlay">
                 <div class="landing-inner">
-                    <h1 class="x-large"></span>Welcome to "Choohse Name" - Visualization Interactive Tool</h1>
+                    <h1 class="x-large"></span>Welcome to "Choose Name" - Visualization Interactive Tool</h1>
                     <p class="lead">Interactive Heatmaps for biological research</p>
                 </div>
             </div>
         </div>
         
     </div>
+    <div class="table-container">
+        <div class="column2">
+            <p id ="headline1" style="margin-left:2rem;" class="headline">mirNA Heatmap</p>
+            <div id="table-box-connect-1to2" class="table-box-connect-1to2">
+                <table class="table table-sm" id="table-connect-1to2">
+                    <thead>
+                      <tr class="table-info">
+                        <th>miRNA</th>
+                        <th>Gene Target</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                  </table>
+            </div>
+            <div id="ml1" class="ml">
+                <button id="preprocess1" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                    Generate
+                </button>
+            </div>
+        </div>
+        <div class="column2">
+            <p id ="headline2" class="headline" style="margin-left:5rem;">Target Heatmap</p>
+            <div id="table-box-connect-2to1" class="table-box-connect-1to2">
+                <table class="table table-sm" id="table-connect-2to1">
+                    <thead>
+                      <tr class="table-info">
+                        <th>Gene Target</th>
+                        <th>miRNA</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                  </table>
+            </div>
+            <div id="ml2" class="ml">
+                <button id="preprocess2" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                    Generate
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+
+
     <div class="container">
             <div id="two_maps" class="two_maps_container">
                 <div class="column2">
-                   <p id ="headline1" class="headline">mirNA Heatmap</p>
                     <div  id='inchlib1' style="margin-right:5rem;"></div>
-                    <div id="table-box-connect-1to2" class="table-box-connect-1to2">
-                        <table class="table table-sm" id="table-connect-1to2">
-                            <thead>
-                              <tr class="table-info">
-                                <th>miRNA</th>
-                                <th>Gene Target</th>
-                                <th>Action</th>
-                              </tr>
-                            </thead>
-                          </table>
-                    </div>
-                    <div id="ml1" class="ml">
-                        <button id="preprocess1" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                            Generate
-                        </button>
-                    </div>
                 </div>
                 <div class="column2">
-                    <p id ="headline2" class="headline" style="margin-left:5rem;">Target Heatmap</p>
+                    
                     <div  id='inchlib2' style="margin-left:5rem;"></div>
-                    <div id="table-box-connect-2to1" class="table-box-connect-1to2">
-                        <table class="table table-sm" id="table-connect-2to1">
-                            <thead>
-                              <tr class="table-info">
-                                <th>Gene Target</th>
-                                <th>miRNA</th>
-                                <th>Action</th>
-                              </tr>
-                            </thead>
-                          </table>
-                    </div>
-                    <div id="ml2" class="ml">
-                        <button id="preprocess2" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                            Generate
-                        </button>
-                    </div>
                 </div>
             </div>
             <div class="one_map_container">
@@ -94,26 +105,131 @@ mir2,gen3
             <p>Example file for you data you can find here:<a href="https://www.openscreen.cz/software/inchlib/static/source_data/example_data.csv" target="blank">Whole data file</a></p>
 
 
-    <form id="myform" action="">     
-        <div class="settings"> 
-            <div class="column">
-                <label>Load miRNA Data</label>
-                <input type="file" class="form-control" id="mirNA" style="width:60%" />
-                <div id="checkbox-option" data-error="This field is require">
-                    <label>Load target Data</label>
-                    <input type="file" class="form-control" id="target" style="width:60%"  />
-                    <label >Load connections Data</label>
-                    <input type="file" class="form-control" id="connection" style="width:60%" />
-                </div>
-                <div style="margin: 1rem;">
-                    <input id="checkbox" type="checkbox" class="form-check-input" id="checkBox">
+            <form id="myFilesForm" >   
+                <div style="margin-left: 1rem;">
+                    <input id="checkbox" type="checkbox" class="form-check-input">
                     <label id="use">Use 1 heatmap</label>
                     <p id="error-message">&nbsp;</p>
+                </div>  
+                <div class="settings"> 
+                    <div class="column">
+                        <label>Load miRNA Data</label>
+                        <input type="file" class="form-control" id="mirNA" style="width:60%" />
+                        <div style="margin-left: 1rem;">
+                            <input id="checkbox-meta-data1" type="checkbox" class="form-check-input">
+                            <label id="use">add meta-data</label>
+                        </div>
+                        <div id="checkbox-option" style="margin-top: 10px;" data-error="This field is require">
+                            <label>Load target Data</label>
+                            <input type="file" class="form-control" id="target" style="width:60%"  />
+                            <div style="margin-left: 1rem;">
+                                <input id="checkbox-meta-data2" type="checkbox" class="form-check-input">
+                                <label id="use">add meta-data</label>
+                            </div>
+                            <div  style="margin-top: 10px;">
+                            <label >Load connections Data</label>
+                            <input type="file" class="form-control" id="connection" style="width:60%" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div id="checkbox-mirNA-metadata-option" style="display:none">
+                        <label>Load miRNA meta data </label>
+                        <input type="file" class="form-control" id="mirNA-metadata" style= "width:60%" />
+                        </div>
+                        <div id="checkbox-target-metadata-op">
+                        <div id="checkbox-target-metadata-option" style="display:none">
+                            <label>Load target meta data </label>
+                            <input type="file" class="form-control" id="target-metadata" style= "width:77%" />
+                        </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="column">
-                <label for="exampleFormControlSelect1">Choose Distance Type</label>
-                <select class="form-control" id="cluster-select" style="width:30%">
+                 
+            </form>
+            <form id="myDefForm" >     
+                <div class="settings"> 
+                    <div class="column">
+                        <label style="font-weight:bold">Choose Cluster</label>
+                        <br></br>
+                        <label for="exampleFormControlSelect1"> Distance Type</label>
+                        <select class="form-control" id="cluster-select" style="width:30%">
+                            <option>Canberra</option>
+                            <option>Complete</option>
+                            <option>Cosine</option>
+                            <option>Correlation</option>
+                            <option>Mahalanobis</option>
+                            <option>Seuclidean</option>
+                            <option>Cityblock</option>
+                            <option>Chebyshev</option>
+                            <option>Euclidean</option>
+                            <option>Sqeuclidean</option>
+                        </select>
+                        <label>Choose Linkage Type</label>
+                        <select class="form-control" id="linkage-select" style="width:30%">
+                            <option>Single</option>
+                            <option>Complete</option>
+                            <option>Average</option>
+                            <option>Centroid</option>
+                            <option>Ward</option>
+                            <option>Median</option>
+                            <option>Weighted</option>
+                        </select>
+                        <label>Choose miRNA cluster</label>
+                        <select class="form-control" id="miRNA-clust-select" style="width:30%">
+                            <option>no cluster</option>
+                            <option>columns</option>
+                            <option>both</option>
+                        </select>
+        
+                    </div>
+                    <div class="column">
+                        <div id="target-clust">
+                        <label>Choose target cluster</label>
+                        <select class="form-control" id="target-clust-select" style="width:30%">
+                            <option>no cluster</option>
+                            <option>columns</option>
+                            <option>both</option>
+                        </select>
+                        </div>
+                        <input id="buttonid" type="submit" class="btn btn-primary"></input>
+                     </div>
+        
+                    </div>
+            </form>
+            <div class="away"> </div>
+  
+  <!-- Modal -->
+  
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="width: 600px;">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Preprocess</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div style="margin:auto;" class="modal-body">
+            <div class="column3">
+                <label>Cluster:</label>
+                <select style="width:100px" class="form-control" id="action-for-pre" style="width:30%">
+                    <option>Rows</option>
+                    <option>Both</option>
+                    <option>None</option>
+                </select>
+                <label>Linkage Type</label>
+                <select class="form-control" id="linkage-select" style="width:100%">
+                    <option>Single</option>
+                    <option>Complete</option>
+                    <option>Average</option>
+                    <option>Centroid</option>
+                    <option>Ward</option>
+                    <option>Median</option>
+                    <option>Weighted</option>
+                </select>
+                <label for="exampleFormControlSelect1"> Distance Type</label>
+                <select class="form-control" id="cluster-select" style="width:100%">
                     <option>Canberra</option>
                     <option>Complete</option>
                     <option>Cosine</option>
@@ -125,45 +241,15 @@ mir2,gen3
                     <option>Euclidean</option>
                     <option>Sqeuclidean</option>
                 </select>
-                <label>Choose Linkage Type</label>
-                <select class="form-control" id="linkage-select" style="width:30%">
-                    <option>Single</option>
-                    <option>Complete</option>
-                    <option>Average</option>
-                    <option>Centroid</option>
-                    <option>Ward</option>
-                    <option>Median</option>
-                    <option>Weighted</option>
-                </select>
-                <input id="buttonid" type="submit" class="btn btn-primary"></input>
-             </div>
+                
             </div>
-         
-    </form>
-  
-  <!-- Modal -->
-  
-  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document" style="width: 400px;">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Preprocess</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div style="margin:auto;" class="modal-body">
-                <label>Choose Cluster:</label>
-                <select style="width:100px" class="form-control" id="cluster-for-pre" style="width:30%">
-                    <option>Rows</option>
-                    <option>Both</option>
-                    <option>None</option>
-                </select>
+            <div class="column3">
                 <label>Choose Action:</label>
-                <select style="width:100px"class="form-control" id="action-for-pre" style="width:30%">
+                <select style="width:100px"class="form-control" id="cluster-for-pre" style="width:30%">
                     <option>Intersection</option>
                     <option>Union</option>
                 </select>
+            </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
