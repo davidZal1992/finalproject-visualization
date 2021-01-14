@@ -246,7 +246,7 @@ var InCHlib, _this;
             "draw": false,
             "colors": "Reds"
           },
-          "max_height" : 800,
+          "max_height" : 1200,
           "width" : 1600,
           "highlight_colors" : "Oranges",
           "highlighted_rows" : [],

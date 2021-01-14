@@ -67,23 +67,30 @@ async def upload_two_files(files:List = File(...)):
   
 @router.post('/union')
 async def union(request: Request):
-    row_distance= 'canberra'
-    row_linkage= 'single'
+    # row_distance= 'canberra'
+    # row_linkage= 'single'
     data_json =   await request.body()
-    print(data_json)
     df_con =  pd.read_csv('conections.csv')
     df_gene=  pd.read_csv('Geneim.csv')
     obj = json.loads(data_json)
-    print(obj)
-    mir_name = 'mir_2'
-    result = df_con[df_con['mir_num'].str.contains(mir_name)] 
-    result = result.iloc[:,1:]
-    searchfor = result.stack().tolist()
-    print(searchfor)
-    
+    type_action = obj['type']
+    search_for_src = [x['name'] for x in  obj['data']]
+    if type_action == "union1":
+        result = df_con[df_con['mir_num'].str.contains('|'.join(search_for))] 
+        result = result.iloc[:,1:]
+        search_for_trg = result.stack().tolist()
+        print(search_for_trg)
+        heatmap_values = df_gene[df_gene['id'].str.contains('|'.join(search_for_trg))]
+        heatmap_values =  [df_gene.columns.values.tolist()]+df_gene.values.tolist()
+    else:
+        result = df_con[df_con[].contains('|'.join(search_for))] 
+        print(result)
+        heatmap_values =  [df_gene.columns.values.tolist()]+df_gene.values.tolist()
+
+
+
     # s[s.str.contains('|'.join(searchfor))]
-    heatmap_values = df_gene[df_gene['id'].str.contains('|'.join(searchfor))]
-    heatmap_values =  [df_gene.columns.values.tolist()]+df_gene.values.tolist()
+  
     print(heatmap_values)
     return heatmap.create_heatmap_json_without_cluster(heatmap_values,csv=False)
     

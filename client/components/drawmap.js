@@ -1,5 +1,7 @@
 
 var InCHlib = require("../lib/inchlib-1.2.0");
+var json1 = require("../resources/microarrays.json")
+var json2 = require("../resources/target.json")
 // var tet = require("../resources/microarrays.json")
 export function drawmap(json,target){
 var inchlib = new InCHlib({"target": target,
@@ -13,7 +15,7 @@ var inchlib = new InCHlib({"target": target,
                     "heatmap_font_color": "white",
                      text: 'biojs'});
 
-inchlib.send_json(JSON.parse(json));
+inchlib.send_json(json1);
 //Show hidden
 const res = document.getElementById("checkbox").checked;
 if(!res){
@@ -44,7 +46,7 @@ export function drawmap2(json,target){
                          text: 'biojs'});                
 
 
-    inchlib2.send_json(JSON.parse(json));
+    inchlib2.send_json(json2);
     inchlib2.draw();
     }
 
