@@ -55,7 +55,7 @@ async def upload_two_files(files:List = File(...)):
         # respone_second_heatmap = heatmap.create_heatmap_json('Geneim.csv',row_distance=row_distance,row_linkage=row_linkage)
         respone_first_heatmap = heatmap.create_heatmap_json(temp_files_array[0],row_distance=row_distance,row_linkage=row_linkage)
         respone_second_heatmap = heatmap.create_heatmap_json(temp_files_array[1],row_distance=row_distance,row_linkage=row_linkage)
-        twomaps={ "first": respone_first_heatmap, "second": respone_second_heatmap };
+        twomaps={ "first": respone_first_heatmap, "second": respone_second_heatmap}; #need to get also 2 connection dict 
         return twomaps;
     except Exception as e:
         print(e)
