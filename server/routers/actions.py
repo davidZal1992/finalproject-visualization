@@ -11,20 +11,15 @@ import os
 
 router = APIRouter()
 
-class Item(BaseModel):
-    name: str
-
-class ItemList(BaseModel):
-    items: List[Item]
-
 
 @router.post('/uploadone')
 async def upload_file(files:List = File(...)):
     if not os.path.exists('upload_data'):
         os.makedirs('upload_data')
     temp_files_array = []    
-    temp_file = uuid.uuid4()
-    file_location = f"upload_data/{temp_file}"
+    rand_folder_name = uuid.uuid4()
+    os.makedirs(f"upload_data/{rand_folder_name}")
+    file_location = f"upload_data/{rand_folder_name}/heatmap.csv"
     print(file_location)
     temp_files_array.append(file_location)    
     with open(file_location, "wb+") as file_object:
@@ -44,15 +39,15 @@ async def upload_two_files(files:List = File(...)):
     if not os.path.exists('upload_data'):
         os.makedirs('upload_data')
     temp_files_array = []  
-    index = 0   
+    index_file = ['1','2','connections']
     only_files=list(filter(lambda x: (type(x) is not str) ,files))
+    rand_folder_name = uuid.uuid4()
+    os.makedirs(f"upload_data/{rand_folder_name}")
     for file in only_files:
-        temp_file = uuid.uuid4()
-        file_location = f"upload_data/{temp_file}"
+        file_location =  f"upload_data/{rand_folder_name}/heatmap_{index_file.pop()}.csv"
         temp_files_array.append(file_location)
         with open(file_location, "wb+") as file_object:
-            shutil.copyfileobj(file.file, file_object)
-        index=index+1    
+            shutil.copyfileobj(file.file, file_object) 
     row_distance= 'canberra'
     row_linkage= 'single'
     try:
@@ -71,28 +66,60 @@ async def union(request: Request):
     # row_linkage= 'single'
     data_json =   await request.body()
     df_con =  pd.read_csv('conections.csv')
-    df_gene=  pd.read_csv('Geneim.csv')
+    df_gene =  pd.read_csv('Geneim.csv')
+    df_mirim =  pd.read_csv('Mirim.csv')
     obj = json.loads(data_json)
     type_action = obj['type']
     search_for_src = [x['name'] for x in  obj['data']]
     if type_action == "union1":
-        result = df_con[df_con['mir_num'].str.contains('|'.join(search_for))] 
+        result = df_con[df_con['mir_num'].str.contains('|'.join(search_for_src))] 
         result = result.iloc[:,1:]
         search_for_trg = result.stack().tolist()
         print(search_for_trg)
         heatmap_values = df_gene[df_gene['id'].str.contains('|'.join(search_for_trg))]
-        heatmap_values =  [df_gene.columns.values.tolist()]+df_gene.values.tolist()
+        heatmap_values =  [heatmap_values.columns.values.tolist()]+heatmap_values.values.tolist()
     else:
-        result = df_con[df_con[].contains('|'.join(search_for))] 
+        result = df_con[df_con.isin(search_for_src).any(1)].mir_num.tolist()
         print(result)
-        heatmap_values =  [df_gene.columns.values.tolist()]+df_gene.values.tolist()
-
-
-
-    # s[s.str.contains('|'.join(searchfor))]
-  
+        heatmap_values = df_mirim[df_mirim['id'].isin(list_mir)]
+        heatmap_values =  [heatmap_values.columns.values.tolist()]+heatmap_values.values.tolist()
     print(heatmap_values)
-    return heatmap.create_heatmap_json_without_cluster(heatmap_values,csv=False)
+    # return heatmap.create_heatmap_json_without_cluster(heatmap_values,csv=False)
+    return heatmap_values
     
+
+
+@router.post('/intersection')
+async def intersection(request: Request):
+    data_json =   await request.body()
+    df_con =  pd.read_csv('conections.csv')
+    df_gene =  pd.read_csv('Geneim.csv')
+    df_mirim =  pd.read_csv('Mirim.csv')
+    obj = json.loads(data_json)
+    type_action = obj['type']
+    search_for_src = [x['name'] for x in  obj['data']]
+    df_con = df_con.set_index('mir_num')
+    if type_action == "intersection1":
+        gen_find = df_con.loc[search_for_src].values
+        gen_find_inter = list(set.intersection(*[set(x) for x in result]))
+        gen_find_inter = [s for s in gen_find_inter if str(s) != 'nan']
+        heatmap_values = df_gene[df_gene['id'].str.contains('|'.join(gen_find_inter))]
+        heatmap_values =  [heatmap_values.columns.values.tolist()]+heatmap_values.values.tolist()
+    else:
+        mir_find = []
+        for g in gen:
+            mir_find.append(df_con[df_con.eq(g).any(1)].mir_num.tolist())
+        result = set(mir_find[0]).intersection(*mir_find[:1])
+        heatmap_values = df_mirim[df_mirim['id'].isin(list_mir)]
+        heatmap_values =  [heatmap_values.columns.values.tolist()]+heatmap_values.values.tolist()
+    print(heatmap_values)
+    return heatmap_values
+
+
+@router.get('/vis_matrix/{id}')
+async def generate_heatmap(id: str,request :Request):
+    data_json =   await request.body()
+    print(data_json)
+
 
     
