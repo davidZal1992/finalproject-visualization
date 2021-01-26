@@ -52,8 +52,10 @@ form{
 .column{
    padding:15px;
    position: relative;
-   float: left;
-   width:30%;
+   float:left;
+   widows: 100%;
+   justify-content:space-between;
+
 }
 
 .column2{
@@ -61,7 +63,8 @@ form{
     position: relative;
     float: left;
     justify-content: space-between;
- }
+}
+
 .code {
     margin-top: 10px;
     background-color: #E6E6E6;
@@ -75,11 +78,14 @@ form{
 }
 
 .settings{
-    border: 1px solid #D4D4D4;
-    width:80%;
-    height: 20%;
+    /* border: 1px solid #D4D4D4; */
+    widows: 100%;
+    /* min-height: 34%; */
+    height:fit-content;
     border-radius: 5px;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
+    justify-content: space-between;
+
 }
 
 .away{
@@ -91,13 +97,15 @@ form{
 }
 #checkbox-target-metadata-option{
     position: absolute;
-    top: 115px;
+    top: 110px;
+    width: 330px;
 }
 
 #buttonid{
     position: absolute;
     margin-top:1rem;
     top: 170px;
+    left: 200px;
 }
 
 .two_maps_container{
@@ -184,5 +192,6 @@ form{
     position: absolute;
     margin-top:1rem;
     top: 42px;
-    width: 100%;
+    left: 200px;
+    width: 200px;
 }
