@@ -77,7 +77,6 @@ function extractData(table,cluster){
 
 
     function callServer(endpoint,cluster){
-
         console.log(values)
         console.log(command)
         console.log(cluster)
