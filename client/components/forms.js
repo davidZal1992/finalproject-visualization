@@ -3,6 +3,28 @@ document.getElementById('checkbox').addEventListener('click', showHideMapsNum);
 document.getElementById('checkbox-meta-data1').addEventListener('click', showHideMetaData1);
 document.getElementById('checkbox-meta-data2').addEventListener('click', showHideMetaData2);
 
+function showHideMetaData1(){
+    const res = document.getElementById("checkbox-meta-data1").checked;
+    var settings = document.getElementById("checkbox-mirNA-metadata-option");
+    if(res){
+        settings.style.display="block"; 
+    }
+    else{
+        settings.style.display="none";  
+    }
+}
+
+
+function showHideMetaData2(){
+    const res = document.getElementById("checkbox-meta-data2").checked;
+    var settings = document.getElementById("checkbox-target-metadata-option");
+    if(res){
+        settings.style.display="block"; 
+    }
+    else{
+        settings.style.display="none";  
+    }
+}
 
 function showHideMetaData1(){
     const res = document.getElementById("checkbox-meta-data1").checked;
