@@ -6,11 +6,6 @@ body{
     
 }
 
-#myFilesForm{
-    margin-bottom: -40px;
-    margin-top: -5px;
-}
-
 .header{
     background: url('../assets/dna-3539309_960_720.jpg') no-repeat center center/cover;
 }
@@ -50,21 +45,27 @@ form{
 }
 
 .column{
-   padding:15px;
-   position: relative;
-   float:left;
-   widows: 100%;
-   justify-content:space-between;
+    padding:15px;
+    position: relative;
+    float: left;
+    width:30%;
+ }
 
-}
+
+ .column3{
+    padding:15px;
+    position: relative;
+    float: left;
+    width:50%;
+ }
+
 
 .column2{
     padding:10px;
     position: relative;
     float: left;
     justify-content: space-between;
-}
-
+ }
 .code {
     margin-top: 10px;
     background-color: #E6E6E6;
@@ -78,34 +79,15 @@ form{
 }
 
 .settings{
-    /* border: 1px solid #D4D4D4; */
-    widows: 100%;
-    /* min-height: 34%; */
-    height:fit-content;
-    border-radius: 5px;
-    margin-bottom: 20px;
-    justify-content: space-between;
-
-}
-
-.away{
-    width:10%;
-    height: 20%;
+    border: 1px solid #D4D4D4;
+    width:80%;
+    height: 30%;
     border-radius: 5px;
     margin-bottom: 10px;
-
-}
-#checkbox-target-metadata-option{
-    position: absolute;
-    top: 110px;
-    width: 330px;
 }
 
 #buttonid{
-    position: absolute;
     margin-top:1rem;
-    top: 170px;
-    left: 200px;
 }
 
 .two_maps_container{
@@ -189,10 +171,38 @@ form{
     color:red;
 }
 
+.table-container{
+    display:flex;
+    justify-content: space-around;
+}
+
 #target-clust{
     position: absolute;
     margin-top:1rem;
     top: 42px;
-    left: 200px;
-    width: 200px;
+    width: 100%;
 }
+
+#buttonid{
+    position: absolute;
+    margin-top:1rem;
+    top: 170px;
+}
+
+#checkbox-target-metadata-option{
+    position: absolute;
+    top: 115px;
+}
+
+.away{
+    width:10%;
+    height: 20%;
+    border-radius: 5px;
+    margin-bottom: 10px;
+
+}
+ 
+#myFilesForm{
+    margin-bottom: -40px;
+    margin-top: -5px;
+} 

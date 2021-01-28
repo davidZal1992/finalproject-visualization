@@ -32,6 +32,8 @@ async def upload_file(files:List = File(...)):
     return respone_heatmap
     
 
+
+  
 @router.post('/upload')
 async def upload_two_files(files:List = File(...)):
     if not os.path.exists('upload_data'):

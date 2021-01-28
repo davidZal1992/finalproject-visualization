@@ -13,6 +13,7 @@ $(document).ready(() =>{
     var h2 = document.getElementById("headline2");
     h2.style.display="none";
 
+
     var ml1 = document.getElementById("ml1");
     ml1.style.display="none";
     var ml2 = document.getElementById("ml2");

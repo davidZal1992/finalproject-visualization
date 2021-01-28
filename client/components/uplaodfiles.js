@@ -77,13 +77,6 @@ function upload2HeatMaps(){
       console.log(response.data)
       drawmap(response.data.first,"inchlib1");
       drawmap2(response.data.second,"inchlib2")
-  }, (error) => {
-    console.log(error);
-  });
-}
-
-
-
 
       // var dict_1to2= response.data.dict_1to2;
       // var dict_1to2_content = JSON.stringify(dict_1to2);
@@ -92,4 +85,7 @@ function upload2HeatMaps(){
       // fs.writeFile("/resources/dict_1to2.json", dict_1to2_content, function(err, result) {
       //     if(err) console.log('error', err);
       // });
-
+      }, (error) => {
+        console.log(error);
+      });
+}
