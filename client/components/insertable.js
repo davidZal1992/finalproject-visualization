@@ -43,9 +43,7 @@ function targetConnection(event){
     var Left_element_deatils=Left_element_array[0];
     var connection_kind=Left_element_array[2];
 
-    console.log(Left_element_deatils);
-    console.log(connection_kind);
-    console.log("here");
+
 
     var connection_list = document.getElementById("connection_list");
     //get just once the connection from the server as two dictionary

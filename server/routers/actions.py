@@ -1,6 +1,7 @@
 from typing import List
 from pydantic import BaseModel
 from fastapi import APIRouter,Header,HTTPException,FastAPI, File, UploadFile,Response,Request
+import json
 import pandas as pd
 import shutil
 import json
@@ -13,21 +14,29 @@ router = APIRouter()
 
 
 @router.post('/uploadone')
-async def upload_file(files:List = File(...)):
-    if not os.path.exists('upload_data'):
-        os.makedirs('upload_data')
-    temp_files_array = []    
-    rand_folder_name = uuid.uuid4()
-    os.makedirs(f"upload_data/{rand_folder_name}")
-    file_location = f"upload_data/{rand_folder_name}/heatmap.csv"
-    print(file_location)
-    temp_files_array.append(file_location)    
-    with open(file_location, "wb+") as file_object:
-        shutil.copyfileobj(files[0].file, file_object)
-    row_distance= str(files[1]).lower()
-    row_linkage= str(files[2]).lower()
+async def upload_file(response: Response,files:List = File(...)):
+    properties = json.loads(files[len(files)-1])
+
+    rand_user_id = uuid.uuid4()
+    # JUST FOR TEST TO AVOID A LOT OF FILES
+    #
+    rand_user_id='aae10d89-5fed-4fb4-b2d7-1ac709fb9534'
+    #
+    files_tuple = []
+    filenames = []
+    locations_of_files = [] 
+
+    #PREPARE ALL THE DATA
+    prepare_file(rand_user_id) 
+
+    one_heatmap_properties(files_tuple,rand_user_id,files,filenames,locations_of_files,properties) 
+    copy_files(files_tuple)
+
+    #USE INCHLIB LIBRARY
+    respone_heatmap = create_heat_map(properties,properties,locations_of_files)
     
-    respone_heatmap = heatmap.create_heatmap_json(file_location,row_distance=row_distance,row_linkage=row_linkage)
+    #RESPONSE TO CLIENT UUID
+    response.headers["uuid"] = str(rand_user_id)
         
     return respone_heatmap
     
@@ -35,30 +44,42 @@ async def upload_file(files:List = File(...)):
 
   
 @router.post('/upload')
-async def upload_two_files(files:List = File(...)):
-    if not os.path.exists('upload_data'):
-        os.makedirs('upload_data')
-    temp_files_array = []  
-    index_file = ['1','2','connections']
-    only_files=list(filter(lambda x: (type(x) is not str) ,files))
-    rand_folder_name = uuid.uuid4()
-    os.makedirs(f"upload_data/{rand_folder_name}")
-    for file in only_files:
-        file_location =  f"upload_data/{rand_folder_name}/heatmap_{index_file.pop()}.csv"
-        temp_files_array.append(file_location)
-        with open(file_location, "wb+") as file_object:
-            shutil.copyfileobj(file.file, file_object) 
-    row_distance= 'canberra'
-    row_linkage= 'single'
-    try:
-        # respone_first_heatmap = heatmap.create_heatmap_json('Mirim.csv',row_distance=row_distance,row_linkage=row_linkage)
-        # respone_second_heatmap = heatmap.create_heatmap_json('Geneim.csv',row_distance=row_distance,row_linkage=row_linkage)
-        respone_first_heatmap = heatmap.create_heatmap_json(temp_files_array[0],row_distance=row_distance,row_linkage=row_linkage)
-        respone_second_heatmap = heatmap.create_heatmap_json(temp_files_array[1],row_distance=row_distance,row_linkage=row_linkage)
-        twomaps={ "first": respone_first_heatmap, "second": respone_second_heatmap}; #need to get also 2 connection dict 
-        return twomaps;
-    except Exception as e:
-        print(e)
+async def upload_two_files(response: Response,files:List = File(...)):
+    properties = json.loads(files[len(files)-1])
+
+    rand_user_id = uuid.uuid4()
+    # JUST FOR TEST TO AVOID A LOT OF FILES
+    #
+    rand_user_id='aae10d89-5fed-4fb4-b2d7-1ac709fb9534'
+    #
+    files_tuple = []
+    filenames = []
+    locations_of_files = [] 
+
+      
+    prepare_file(rand_user_id) 
+
+    properites_first_map = get_prop(properties,'file1','metadata','raw_linkage','raw_distance','both','column_linkage','column_distance')
+    two_heatmap_properties(files_tuple,rand_user_id,files,filenames,locations_of_files,properties)
+    copy_files(files_tuple)
+
+
+    create_connection_file(files[len(files)-2],rand_user_id)
+
+    respone_first_heatmap = create_heat_map(properties,properites_first_map,locations_of_files)
+    properites_second_map = get_prop(properties,'file2','metadata2','raw_linkage2','raw_distance2','both2','column_linkage2','column_distance2')
+
+    respone_second_heatmap = create_heat_map(properties,properites_second_map,locations_of_files)
+        
+        
+    twomaps={ "first": respone_first_heatmap, "second": respone_second_heatmap}; #need to get also 2 connection dict 
+
+
+    response.headers["uuid"] = str(rand_user_id)
+    
+    return twomaps
+    
+    
   
 @router.post('/union')
 async def union(request: Request):
@@ -122,4 +143,92 @@ async def generate_heatmap(id: str,request :Request):
     print(data_json)
 
 
+
+def one_heatmap_properties(files_tuple,rand_user_id,files,filenames,locations_of_files,properties):
+
+    files_tuple.append((files[0],f"upload_data/{rand_user_id}/heatmap.csv"))
+    locations_of_files.append(f"upload_data/{rand_user_id}/heatmap.csv")
+    filenames.append("heatmap.csv")
+
+    if(properties['metadata'] == '1'):
+        files_tuple.append((files[1],f"upload_data/{rand_user_id}/metadata.csv"))
+        filenames.append("metadata.csv")
+        locations_of_files.append(f"upload_data/{rand_user_id}/metadata.csv")
+
+
+def two_heatmap_properties(files_tuple,rand_user_id,files,filenames,locations_of_files,properties):
+    index_for_second_heatmap = False
+    files_tuple.append((files[0],f"upload_data/{rand_user_id}/heatmap1.csv"))
+    locations_of_files.append(f"upload_data/{rand_user_id}/heatmap1.csv")
+    filenames.append("heatmap1.csv")
+    if(properties['metadata'] == '1'):
+        index_for_second_heatmap = True
+        files_tuple.append((files[1],f"upload_data/{rand_user_id}/metadata1.csv"))
+        filenames.append("metadata1.csv")
+        locations_of_files.append(f"upload_data/{rand_user_id}/metadata1.csv")
+
+    if index_for_second_heatmap == True:
+        files_tuple.append((files[2],f"upload_data/{rand_user_id}/heatmap2.csv"))
+    else:
+        files_tuple.append((files[1],f"upload_data/{rand_user_id}/heatmap2.csv"))
+        
+    locations_of_files.append(f"upload_data/{rand_user_id}/heatmap2.csv")
+    filenames.append("heatmap2.csv")
+
+    if properties['metadata2'] == '1' :
+        if index_for_second_heatmap == True:
+            files_tuple.append((files[3],f"upload_data/{rand_user_id}/metadata2.csv"))
+        else:
+            files_tuple.append((files[2],f"upload_data/{rand_user_id}/metadata2.csv"))
+        filenames.append("metadata2.csv")
+        locations_of_files.append(f"upload_data/{rand_user_id}/metadata2.csv")
+
+
+
+
+def prepare_file(id):
+    if not os.path.exists('upload_data'):
+        os.makedirs('upload_data')
+    if os.path.exists(f"upload_data/{id}"):
+        shutil.rmtree(f"upload_data/{id}")
+    os.makedirs(f"upload_data/{id}")
     
+def copy_files(files):
+    for file in files:
+        file_location =  file[1]
+        with open(file_location, "wb+") as file_object:
+            shutil.copyfileobj(file[0].file, file_object) 
+
+def get_prop(properties,file,metadata,raw_linkage,raw_distance,both,column_linkage,column_distance):
+    properties_edit ={}
+    properties_edit[file] = properties[file]
+    properties_edit['metadata'] = properties[metadata]
+    properties_edit['raw_linkage'] = properties[raw_linkage]
+    properties_edit['raw_distance'] = properties[raw_distance]
+    if properties[both] == 1:
+        properties_edit['both'] = 1
+        properties_edit['column_linkage'] = properties[column_linkage]
+        properties_edit['column_distance'] = properties[column_distance] 
+    return properties_edit
+
+def create_heat_map(original_propperties, heatmap_propperties,locations_of_files):
+    print(heatmap_propperties)
+    if heatmap_propperties['metadata'] =='1':
+        if original_propperties['both'] == 1:
+            heatmap_res = heatmap.create_heatmap_json(locations_of_files[0],metadata=locations_of_files[1],row_distance=heatmap_propperties['raw_distance'],row_linkage=heatmap_propperties['raw_linkage'],column_distance=heatmap_propperties['column_distance'],column_linkage=heatmap_propperties['column_linkage'],properties=heatmap_propperties)
+        else:
+            heatmap_res = heatmap.create_heatmap_json(locations_of_files[0],metadata=locations_of_files[1],row_distance=heatmap_propperties['raw_distance'],row_linkage=heatmap_propperties['raw_linkage'],properties=heatmap_propperties)
+
+    else:
+        if original_propperties['both'] == 1:
+            heatmap_res = heatmap.create_heatmap_json(locations_of_files[0],row_distance=heatmap_propperties['raw_distance'],row_linkage=heatmap_propperties['raw_linkage'],column_distance=heatmap_propperties['column_distance'],column_linkage=heatmap_propperties['column_linkage'],properties=heatmap_propperties)
+        else:
+            heatmap_res = heatmap.create_heatmap_json(locations_of_files[0],row_distance=heatmap_propperties['raw_distance'],row_linkage=heatmap_propperties['raw_linkage'],properties=heatmap_propperties)
+    return heatmap_res
+
+
+def create_connection_file(file,id):
+    print(file)
+    location = f"upload_data/{id}/connection.csv"
+    with open(location, "wb+") as file_object:
+            shutil.copyfileobj(file.file, file_object)

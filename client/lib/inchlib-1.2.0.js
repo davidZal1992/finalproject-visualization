@@ -819,7 +819,8 @@ var InCHlib, _this;
     var _this = this;
     _this.json = json;
     _this.data = _this.json.data;
-    
+    console.log('asdsadasdadad')
+    console.log(json['data'])
     var settings = {"metadata": {}, "column_dendrogram": {}, "column_metadata": {}};
     if(json["metadata"] !== undefined && _this.settings.metadata.draw){
       _this.metadata = json.metadata;
@@ -1225,6 +1226,8 @@ var InCHlib, _this;
     _this._draw_navigation();
     _this.highlight_rows(_this.settings.highlighted_rows);
     console.timeEnd("DRAW");
+    document.getElementById("spinner").style.display="none";
+    $('html, body').animate({ scrollTop: 0 }, 'fast');
   }
 
   InCHlib.prototype._draw_dendrogram_layers = function(){

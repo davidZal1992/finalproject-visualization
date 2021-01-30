@@ -1,4 +1,3 @@
-#coding: utf-8
 from __future__ import print_function
 
 import csv, json, copy, re, argparse, os, requests
@@ -282,7 +281,6 @@ class Dendrogram():
             }});
             </script>
         </head>
-
         <body>
             <div id="inchlib"></div>
         </body>
@@ -324,6 +322,9 @@ class Dendrogram():
 
     def __connect_metadata_to_data__(self):
         print("Adding metadata: {} rows".format(len(self.metadata)))
+
+        print(self.metadata)
+
         self.dendrogram["metadata"] = {}
 
         if self.metadata_header:
@@ -705,4 +706,3 @@ if __name__ == '__main__':
     
     args = parser.parse_args()
     _process_(args)
-

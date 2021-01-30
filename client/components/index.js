@@ -18,5 +18,7 @@ $(document).ready(() =>{
     ml1.style.display="none";
     var ml2 = document.getElementById("ml2");
     ml2.style.display="none";
+
+   document.getElementById("spinner").style.display="none";
 })
   

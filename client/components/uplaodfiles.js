@@ -6,7 +6,7 @@ const {validate} =require('./forms')
   document.getElementById('myDefForm').addEventListener('submit', function(e) {
   var errorM = document.getElementById("error-message")
   e.preventDefault();
-  const res = document.getElementById("checkbox").checked;
+  const res = document.getElementById("checkbox-maps-choose").checked;
   if(!validate(res)){
     setTimeout(function(){ 
     errorM.classList.remove("error-m")
@@ -16,12 +16,14 @@ const {validate} =require('./forms')
     errorM.innerText="* Some files are required"
     return false;
   }
+
+  document.getElementById("spinner").style.display="block";
   if(res){
     uploadOneHeatMap();
   }
   else{
     upload2HeatMaps()
-    // upload2();
+
   }
 },false);
 
@@ -29,43 +31,93 @@ const {validate} =require('./forms')
 function uploadOneHeatMap(){
 
   let formData = new FormData();
-  let cluster = document.getElementById('cluster-select').value
-  let linkage = document.getElementById('linkage-select').value
-
+  let properties = {}
+  
   formData.append("files", document.getElementById('mirNA').files[0]);
-  formData.append("files",cluster);
-  formData.append("files",linkage);
 
+  properties = propertiesFilePrepare('mirNA',"mirNA-metadata",'checkbox-meta-data1')
 
-  axios.post('http://127.0.0.1:8000/actions/uploadone', formData, {
-    headers: {
-      'content-Type': 'multipart/form-data',
-      "Access-Control-Allow-Origin": "*"
-    }
-    }).then((response) => {
-      console.log(response.data)
-      drawmap(response.data,"inchlib")
-  }, (error) => {
-    console.log(error);
-  });
+  if(properties['metadata'] == 1) 
+    formData.append("files", document.getElementById('mirNA-metadata').files[0])
+
+  properties['raw_distance'] = document.getElementById('distance-select').value
+  properties['raw_linkage'] = document.getElementById('linkage-select').value
+  properties['both']=0
+  if(document.getElementById("miRNA-clust-select").value == "Both"){
+    properties['both']=1
+    properties['column_distance'] = document.getElementById('distance-select-column').value
+    properties['column_linkage'] = document.getElementById('linkage-select-column').value
+  }
+
+  formData.append("files", JSON.stringify(properties));
+
+  
+
+    axios.post('http://127.0.0.1:8000/actions/uploadone', formData, {
+      headers: {
+        'content-Type': 'multipart/form-data',
+        "Access-Control-Allow-Origin": "*"
+      }
+      }).then((response) => {
+        drawmap(response.data,"inchlib")
+    }, (error) => {
+      console.log(error);
+    });
 }
 
 function upload2HeatMaps(){
   let formData = new FormData();
-  let cluster = document.getElementById('cluster-select').value
-  let linkage = document.getElementById('linkage-select').value
-  let cluster_detailes_1 = document.getElementById('miRNA-clust-select').value
-  let cluster_detailes_2 = document.getElementById('target-clust-select').value
+
+  let properties = {}
+  let propertiesSecond = {}
 
   formData.append("files", document.getElementById('mirNA').files[0]);
+ 
+  properties = propertiesFilePrepare('mirNA',"mirNA-metadata",'checkbox-meta-data1')
+
+  if(properties['metadata'] == 1) 
+    formData.append("files", document.getElementById('mirNA-metadata').files[0])
+
+
+  // Second Map
+
   formData.append("files", document.getElementById('target').files[0]);
-  formData.append("files", document.getElementById('connection').files[0]);
-  formData.append("files", document.getElementById('mirNA-metadata').files[0]);
-  formData.append("files",cluster);
-  formData.append("files",linkage);
-  formData.append("files",cluster_detailes_1);
-  formData.append("files", document.getElementById('target-metadata').files[0]);
-  formData.append("files",cluster_detailes_2);
+
+  propertiesSecond = propertiesFilePrepare('target','target-metadata','checkbox-meta-data1')
+
+  if(propertiesSecond['metadata'] == 1) 
+    formData.append("files", document.getElementById('target-metadata').files[0])
+
+
+  //Connections
+  formData.append("files", document.getElementById('connection').files[0])
+
+  properties['file2'] = propertiesSecond['file1']
+  properties['metadata2'] = propertiesSecond['metadata']
+
+  // Clustering
+
+  properties['raw_distance'] = document.getElementById('distance-select').value
+  properties['raw_linkage'] = document.getElementById('linkage-select').value
+  properties['both'] = 0
+  if(document.getElementById("miRNA-clust-select").value == "Both"){
+    properties['both']=1
+    properties['column_distance'] = document.getElementById('distance-select-column').value
+    properties['column_linkage'] = document.getElementById('linkage-select-column').value
+  }
+
+  properties['raw_distance2'] = document.getElementById('distance-select').value
+  properties['raw_linkage2'] = document.getElementById('linkage-select').value
+  properties['both2'] = 0
+  if(document.getElementById("target-clust-select").value == "Both"){
+    properties['both2'] = 1
+    properties['column_distance2'] = document.getElementById('distance-select-column2').value
+    properties['column_linkage2'] = document.getElementById('linkage-select-column2').value
+  }
+
+
+  formData.append("files", JSON.stringify(properties));
+
 
 
   axios.post('http://127.0.0.1:8000/actions/upload', formData, {
@@ -74,7 +126,7 @@ function upload2HeatMaps(){
       "Access-Control-Allow-Origin": "*"
     }
     }).then((response) => {
-      console.log(response.data)
+      localStorage.setItem('uuid',response.headers.uuid)
       drawmap(response.data.first,"inchlib1");
       drawmap2(response.data.second,"inchlib2")
 
@@ -88,4 +140,22 @@ function upload2HeatMaps(){
       }, (error) => {
         console.log(error);
       });
+}
+
+
+
+function propertiesFilePrepare(id1,id2,id3){
+  if(document.getElementById(id1).files[0] && document.getElementById(id2).files[0] && document.getElementById(id3).checked){
+    properties ={
+      file1:'1',
+      metadata:'1',
+    }
+  }
+else{
+  properties ={
+      file1:'1',
+      metadata:'0',
+  }
+}
+return properties
 }
