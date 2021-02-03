@@ -83,7 +83,7 @@ function upload2HeatMaps(){
 
   formData.append("files", document.getElementById('target').files[0]);
 
-  propertiesSecond = propertiesFilePrepare('target','target-metadata','checkbox-meta-data1')
+  propertiesSecond = propertiesFilePrepare('target','target-metadata','checkbox-meta-data2')
 
   if(propertiesSecond['metadata'] == 1) 
     formData.append("files", document.getElementById('target-metadata').files[0])
