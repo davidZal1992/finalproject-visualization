@@ -24,7 +24,7 @@ async def upload_file(response: Response,files:List = File(...)):
     #
     files_tuple = []
     filenames = []
-    locations_of_files = [] 
+    locations_of_files = {}
 
     #PREPARE ALL THE DATA
     prepare_file(rand_user_id) 
@@ -54,12 +54,13 @@ async def upload_two_files(response: Response,files:List = File(...)):
     #
     files_tuple = []
     filenames = []
-    locations_of_files = [] 
+    locations_of_files = {}
 
       
     prepare_file(rand_user_id) 
 
-    properites_first_map = get_prop(properties,'file1','metadata','raw_linkage','raw_distance','both','column_linkage','column_distance')
+    print('propertiesssssssss,',properties)
+    properites_first_map = get_prop(properties,'file1','1','metadata','raw_linkage','raw_distance','both','column_linkage','column_distance')
     two_heatmap_properties(files_tuple,rand_user_id,files,filenames,locations_of_files,properties)
     copy_files(files_tuple)
 
@@ -67,11 +68,14 @@ async def upload_two_files(response: Response,files:List = File(...)):
     create_connection_file(files[len(files)-2],rand_user_id)
 
     respone_first_heatmap = create_heat_map(properties,properites_first_map,locations_of_files)
-    properites_second_map = get_prop(properties,'file2','metadata2','raw_linkage2','raw_distance2','both2','column_linkage2','column_distance2')
 
+    properites_second_map = get_prop(properties,'file2','2','metadata2','raw_linkage2','raw_distance2','both2','column_linkage2','column_distance2')
     respone_second_heatmap = create_heat_map(properties,properites_second_map,locations_of_files)
         
-        
+    print('------------------------------')
+    print('properites_first_map------------------------------',properites_first_map)
+    print('properites_second_map------------------------------',properites_second_map)
+
     twomaps={ "first": respone_first_heatmap, "second": respone_second_heatmap}; #need to get also 2 connection dict 
 
 
@@ -147,32 +151,32 @@ async def generate_heatmap(id: str,request :Request):
 def one_heatmap_properties(files_tuple,rand_user_id,files,filenames,locations_of_files,properties):
 
     files_tuple.append((files[0],f"upload_data/{rand_user_id}/heatmap.csv"))
-    locations_of_files.append(f"upload_data/{rand_user_id}/heatmap.csv")
+    locations_of_files['heatmap1']=(f"upload_data/{rand_user_id}/heatmap.csv")
     filenames.append("heatmap.csv")
 
     if(properties['metadata'] == '1'):
         files_tuple.append((files[1],f"upload_data/{rand_user_id}/metadata.csv"))
         filenames.append("metadata.csv")
-        locations_of_files.append(f"upload_data/{rand_user_id}/metadata.csv")
+        locations_of_files['metadata']=(f"upload_data/{rand_user_id}/metadata.csv")
 
 
 def two_heatmap_properties(files_tuple,rand_user_id,files,filenames,locations_of_files,properties):
     index_for_second_heatmap = False
     files_tuple.append((files[0],f"upload_data/{rand_user_id}/heatmap1.csv"))
-    locations_of_files.append(f"upload_data/{rand_user_id}/heatmap1.csv")
+    locations_of_files['heatmap1']=(f"upload_data/{rand_user_id}/heatmap1.csv")
     filenames.append("heatmap1.csv")
     if(properties['metadata'] == '1'):
         index_for_second_heatmap = True
         files_tuple.append((files[1],f"upload_data/{rand_user_id}/metadata1.csv"))
         filenames.append("metadata1.csv")
-        locations_of_files.append(f"upload_data/{rand_user_id}/metadata1.csv")
+        locations_of_files['metadata']=(f"upload_data/{rand_user_id}/metadata1.csv")
 
     if index_for_second_heatmap == True:
         files_tuple.append((files[2],f"upload_data/{rand_user_id}/heatmap2.csv"))
     else:
         files_tuple.append((files[1],f"upload_data/{rand_user_id}/heatmap2.csv"))
         
-    locations_of_files.append(f"upload_data/{rand_user_id}/heatmap2.csv")
+    locations_of_files['heatmap2']=(f"upload_data/{rand_user_id}/heatmap2.csv")
     filenames.append("heatmap2.csv")
 
     if properties['metadata2'] == '1' :
@@ -181,7 +185,7 @@ def two_heatmap_properties(files_tuple,rand_user_id,files,filenames,locations_of
         else:
             files_tuple.append((files[2],f"upload_data/{rand_user_id}/metadata2.csv"))
         filenames.append("metadata2.csv")
-        locations_of_files.append(f"upload_data/{rand_user_id}/metadata2.csv")
+        locations_of_files['metadata2']=(f"upload_data/{rand_user_id}/metadata2.csv")
 
 
 
@@ -199,9 +203,10 @@ def copy_files(files):
         with open(file_location, "wb+") as file_object:
             shutil.copyfileobj(file[0].file, file_object) 
 
-def get_prop(properties,file,metadata,raw_linkage,raw_distance,both,column_linkage,column_distance):
+def get_prop(properties,file, file_num,metadata,raw_linkage,raw_distance,both,column_linkage,column_distance):
     properties_edit ={}
-    properties_edit[file] = properties[file]
+    properties_edit['file'] = properties[file]
+    properties_edit['file_num'] = file_num
     properties_edit['metadata'] = properties[metadata]
     properties_edit['raw_linkage'] = properties[raw_linkage]
     properties_edit['raw_distance'] = properties[raw_distance]
@@ -212,18 +217,25 @@ def get_prop(properties,file,metadata,raw_linkage,raw_distance,both,column_linka
     return properties_edit
 
 def create_heat_map(original_propperties, heatmap_propperties,locations_of_files):
-    print(heatmap_propperties)
+    print('heatmap_propperties:',heatmap_propperties)
+    print('locations_of_filesssss:',locations_of_files)
+    map_num= int(heatmap_propperties['file_num']);
+    heatmapId= 'heatmap'+str(map_num)
+
     if heatmap_propperties['metadata'] =='1':
         if original_propperties['both'] == 1:
-            heatmap_res = heatmap.create_heatmap_json(locations_of_files[0],metadata=locations_of_files[1],row_distance=heatmap_propperties['raw_distance'],row_linkage=heatmap_propperties['raw_linkage'],column_distance=heatmap_propperties['column_distance'],column_linkage=heatmap_propperties['column_linkage'],properties=heatmap_propperties)
+            heatmap_res = heatmap.create_heatmap_json(locations_of_files[heatmapId],metadata=locations_of_files['metadata'+str(map_num)],row_distance=heatmap_propperties['raw_distance'],row_linkage=heatmap_propperties['raw_linkage'],column_distance=heatmap_propperties['column_distance'],column_linkage=heatmap_propperties['column_linkage'],properties=heatmap_propperties)
         else:
-            heatmap_res = heatmap.create_heatmap_json(locations_of_files[0],metadata=locations_of_files[1],row_distance=heatmap_propperties['raw_distance'],row_linkage=heatmap_propperties['raw_linkage'],properties=heatmap_propperties)
-
+            print('map_nummmmmm', map_num)
+            print('heatmapId', locations_of_files[heatmapId])
+            print('metadataaaaa ', locations_of_files['metadata'+str(map_num)])
+            heatmap_res = heatmap.create_heatmap_json(locations_of_files[heatmapId],metadata=locations_of_files['metadata'+str(map_num)],row_distance=heatmap_propperties['raw_distance'],row_linkage=heatmap_propperties['raw_linkage'],properties=heatmap_propperties)
+            print('heatmap_ressss:',heatmap_res)
     else:
         if original_propperties['both'] == 1:
-            heatmap_res = heatmap.create_heatmap_json(locations_of_files[0],row_distance=heatmap_propperties['raw_distance'],row_linkage=heatmap_propperties['raw_linkage'],column_distance=heatmap_propperties['column_distance'],column_linkage=heatmap_propperties['column_linkage'],properties=heatmap_propperties)
+            heatmap_res = heatmap.create_heatmap_json(locations_of_files[heatmapId],row_distance=heatmap_propperties['raw_distance'],row_linkage=heatmap_propperties['raw_linkage'],column_distance=heatmap_propperties['column_distance'],column_linkage=heatmap_propperties['column_linkage'],properties=heatmap_propperties)
         else:
-            heatmap_res = heatmap.create_heatmap_json(locations_of_files[0],row_distance=heatmap_propperties['raw_distance'],row_linkage=heatmap_propperties['raw_linkage'],properties=heatmap_propperties)
+            heatmap_res = heatmap.create_heatmap_json(locations_of_files[heatmapId],row_distance=heatmap_propperties['raw_distance'],row_linkage=heatmap_propperties['raw_linkage'],properties=heatmap_propperties)
     return heatmap_res
 
 

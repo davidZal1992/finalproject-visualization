@@ -13,12 +13,12 @@ def create_heatmap_json(data,**kwargs):
     c.normalize_data(feature_range=(0,1), write_original=True)
 
 
-    print(properties)
+    print('propertiesssss innnn create_heatmap_json',properties)
     # cluster data according to the parameters
-    if properties['both'] == 1:
-        c.cluster_data(row_distance=properties['raw_distance'].lower(), row_linkage=properties['raw_linkage'].lower(), axis="both", column_distance=properties['column_distance'].lower(), column_linkage=properties['column_linkage'].lower())
-    else:
-        c.cluster_data(row_distance=properties['raw_distance'].lower(), row_linkage=properties['raw_linkage'].lower(), axis="row",column_distance="euclidean", column_linkage="ward")
+    # if properties['both'] == 1:
+        # c.cluster_data(row_distance=properties['raw_distance'].lower(), row_linkage=properties['raw_linkage'].lower(), axis="both", column_distance=properties['column_distance'].lower(), column_linkage=properties['column_linkage'].lower())
+    # else:
+    c.cluster_data(row_distance=properties['raw_distance'].lower(), row_linkage=properties['raw_linkage'].lower(), axis="row",column_distance="euclidean", column_linkage="ward")
     # instantiate the Dendrogram class with the Cluster instance as an input
     d = inchlib_clust.Dendrogram(c)
 
@@ -28,11 +28,13 @@ def create_heatmap_json(data,**kwargs):
     if properties['metadata'] == '1':
         print('yesssssssssssssss')
         metadata  = kwargs.pop('metadata')
+        print('metadataaaaaaaaaaaaaaaaa: ',metadata)
+        print('---------------------')
     # read metadata file with specified delimiter, also specify whether there is a header row
-        d.add_metadata_from_file(metadata_file=metadata, delimiter=",", header=True, metadata_compressed_value="frequency")
+        # d.add_metadata_from_file(metadata_file=metadata, delimiter=",", header=True, metadata_compressed_value="frequency")
 
     # read column metadata file with specified delimiter, also specify whether there is a 'header' column
-    # d.add_column_metadata_from_file(column_metadata_file="metadata_c.csv", delimiter=",", header=True)
+        d.add_column_metadata_from_file(column_metadata_file=metadata, delimiter=",", header=True)
     # export the cluster heatmap on the standard output or to the file if filename specified
     return d.export_cluster_heatmap_as_json()
 
