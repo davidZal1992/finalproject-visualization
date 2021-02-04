@@ -1,2 +1,2 @@
-id,sample_1,sample_2,sample_3,sample_4
-s,Primary Tumor,Primary Tumor,Solid Tissue Normal,Primary Tumor
+size,l,l,m,s
+healthy,Primary Tumor,Primary Tumor,Solid Tissue Normal,Primary Tumor

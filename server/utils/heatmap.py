@@ -1,6 +1,13 @@
 from utils import inchlib_clust_dev as inchlib_clust
 def create_heatmap_json(data,**kwargs):
     properties = kwargs.pop('properties')
+    try:
+        metadataId= 'metadata'+str(properties['file_num'])
+        bothId= 'both'+str(properties['file_num'])
+    except:
+        metadataId= 'metadata'
+        bothId= 'both1'
+
     #instantiate the Cluster object
     c = inchlib_clust.Cluster()
     # read csv data file with specified delimiter, also specify whether there is a header row, the type of the data (numeric/binary) and the string representation of missing/unknown values
@@ -14,22 +21,20 @@ def create_heatmap_json(data,**kwargs):
 
 
     print('propertiesssss innnn create_heatmap_json',properties)
+    print('propertiesssss bothIdbothIdbothId',bothId)
     # cluster data according to the parameters
-    # if properties['both'] == 1:
-        # c.cluster_data(row_distance=properties['raw_distance'].lower(), row_linkage=properties['raw_linkage'].lower(), axis="both", column_distance=properties['column_distance'].lower(), column_linkage=properties['column_linkage'].lower())
-    # else:
-    c.cluster_data(row_distance=properties['raw_distance'].lower(), row_linkage=properties['raw_linkage'].lower(), axis="row",column_distance="euclidean", column_linkage="ward")
+    if properties[bothId] == 1:
+        c.cluster_data(row_distance=properties['raw_distance'].lower(), row_linkage=properties['raw_linkage'].lower(), axis="both", column_distance=properties['column_distance'].lower(), column_linkage=properties['column_linkage'].lower())
+    else:
+        c.cluster_data(row_distance=properties['raw_distance'].lower(), row_linkage=properties['raw_linkage'].lower(), axis="row",column_distance="euclidean", column_linkage="ward")
     # instantiate the Dendrogram class with the Cluster instance as an input
     d = inchlib_clust.Dendrogram(c)
 
     # create the cluster heatmap representation and define whether you want to compress the data by defining the maximum number of heatmap rows, the resulted value of compressed (merged) rows and whether you want to write the features
     d.create_cluster_heatmap(compress=500, compressed_value="median", write_data=True)
 
-    if properties['metadata'] == '1':
-        print('yesssssssssssssss')
+    if properties[metadataId] == '1':
         metadata  = kwargs.pop('metadata')
-        print('metadataaaaaaaaaaaaaaaaa: ',metadata)
-        print('---------------------')
     # read metadata file with specified delimiter, also specify whether there is a header row
         # d.add_metadata_from_file(metadata_file=metadata, delimiter=",", header=True, metadata_compressed_value="frequency")
 
