@@ -1,8 +1,13 @@
 
 var idSet = new Set()
+export function initTable(table){
+    console.log('inside delete table'+table);
+    idSet= new Set();
+    table.innerHTML="";
+}
 
 export function addMir(id, idMap){
-    if(idMap==='inchlib1'){// add mir only if the mir map was clicked
+    if(idMap==='inchlib1' ||idMap==='inchlib' ){// add mir only if the mir map was clicked
         var table = document.getElementById("table-connect-1to2")
         var length = document.getElementById("table-connect-1to2").rows.length;
         var connection_kind= "connect_1to2";
@@ -22,7 +27,13 @@ export function addMir(id, idMap){
             console.log(element_getDetailes);
             newRow.insertCell(1).innerHTML=`<button id=${element_getDetailes}  type='button' >Click here</button>`;
             newRow.insertCell(2).innerHTML=`<i id=${element} style="color:red;"class="fas fa-trash-alt"></i>`;
-            document.getElementById(element).addEventListener('click', deleteId);
+            document.getElementById(element).addEventListener('click', function deleteId(event){
+                var td = event.target.parentNode; 
+                var tr = td.parentNode; // the row to be removed
+                console.log('elementttt: '+tr);
+                tr.parentNode.removeChild(tr);
+                idSet.delete(element);
+            });
             document.getElementById(element_getDetailes).addEventListener('click', targetConnection);
             length++;
 
@@ -30,11 +41,6 @@ export function addMir(id, idMap){
         });  
 }
 
-function deleteId(event){
-    var td = event.target.parentNode; 
-    var tr = td.parentNode; // the row to be removed
-    tr.parentNode.removeChild(tr);
-}
 
 function targetConnection(event){
     var td = event.target.parentNode; 

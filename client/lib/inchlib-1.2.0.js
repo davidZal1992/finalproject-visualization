@@ -215,7 +215,7 @@ var InCHlib, _this;
             }
           },
           "column_metadata": {
-            "draw": false,
+            "draw": true,
             "row_height": 8,
             "feature_names": {
               "draw": true,
@@ -837,6 +837,9 @@ var InCHlib, _this;
     else{
       settings.column_dendrogram.draw = false;
     }
+    console.log('json["column_metadata"]'+_this.settings['column_metadata']);
+    console.log('json.column_metadata' + JSON.stringify(json.column_metadata));
+
     if(json["column_metadata"] !== undefined && _this.settings.column_metadata.draw){
       _this.column_metadata = json.column_metadata;
       settings.column_metadata.draw = true;

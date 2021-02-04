@@ -2,6 +2,7 @@ const axios = require('axios')
 const {drawmap} = require('./drawmap')
 const {drawmap2} = require('./drawmap')
 const {validate} =require('./forms')
+const {cleanConnectionTables} = require('./drawmap')
 
   document.getElementById('myDefForm').addEventListener('submit', function(e) {
   var errorM = document.getElementById("error-message")
@@ -42,9 +43,9 @@ function uploadOneHeatMap(){
 
   properties['raw_distance'] = document.getElementById('distance-select').value
   properties['raw_linkage'] = document.getElementById('linkage-select').value
-  properties['both']=0
+  properties['both1']=0
   if(document.getElementById("miRNA-clust-select").value == "Both"){
-    properties['both']=1
+    properties['both1']=1
     properties['column_distance'] = document.getElementById('distance-select-column').value
     properties['column_linkage'] = document.getElementById('linkage-select-column').value
   }
@@ -59,6 +60,7 @@ function uploadOneHeatMap(){
         "Access-Control-Allow-Origin": "*"
       }
       }).then((response) => {
+        cleanConnectionTables();
         drawmap(response.data,"inchlib")
     }, (error) => {
       console.log(error);
@@ -99,9 +101,9 @@ function upload2HeatMaps(){
 
   properties['raw_distance'] = document.getElementById('distance-select').value
   properties['raw_linkage'] = document.getElementById('linkage-select').value
-  properties['both'] = 0
+  properties['both1'] = 0
   if(document.getElementById("miRNA-clust-select").value == "Both"){
-    properties['both']=1
+    properties['both1']=1
     properties['column_distance'] = document.getElementById('distance-select-column').value
     properties['column_linkage'] = document.getElementById('linkage-select-column').value
   }
@@ -118,8 +120,6 @@ function upload2HeatMaps(){
 
   formData.append("files", JSON.stringify(properties));
 
-
-
   axios.post('http://127.0.0.1:8000/actions/upload', formData, {
     headers: {
       'content-Type': 'multipart/form-data',
@@ -127,8 +127,9 @@ function upload2HeatMaps(){
     }
     }).then((response) => {
       localStorage.setItem('uuid',response.headers.uuid)
+      cleanConnectionTables();
       drawmap(response.data.first,"inchlib1");
-      drawmap2(response.data.second,"inchlib2")
+      drawmap2(response.data.second,"inchlib2");
 
       // var dict_1to2= response.data.dict_1to2;
       // var dict_1to2_content = JSON.stringify(dict_1to2);

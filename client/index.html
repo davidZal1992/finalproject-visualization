@@ -25,7 +25,7 @@
     </div>
     <div class="table-container">
         <div class="column2">
-            <p id ="headline1" style="margin-left:2rem;" class="headline">mirNA Heatmap</p>
+            <p id ="headline1" style="margin-left:2rem;" class="headline">First data Heatmap</p>
             <div id="table-box-connect-1to2" class="table-box-connect-1to2">
                 <table class="table table-sm" id="table-connect-1to2">
                     <thead>
@@ -44,7 +44,7 @@
             </div>
         </div>
         <div class="column2">
-            <p id ="headline2" class="headline" style="margin-left:5rem;">Target Heatmap</p>
+            <p id ="headline2" class="headline" style="margin-left:5rem;">Second data Heatmap</p>
             <div id="table-box-connect-2to1" class="table-box-connect-1to2">
                 <table class="table table-sm" id="table-connect-2to1">
                     <thead>
@@ -66,7 +66,7 @@
 
 
 
-    <div   id="two_maps" style="justify-content: space-around; display: flex; margin-left: 25%;" >
+    <div   id="two_maps" style="justify-content: space-around; display: flex; " >
         <div>
             <div  id='inchlib1' ></div>
         </div>
@@ -117,31 +117,31 @@ mir2,gen3
                 </div>
                 <div class="form-group row">
                     <div class="col-sm-6">
-                            <label>Load miRNA Data</label>
+                            <label>Load First Data</label>
                             <input type="file" id="mirNA" class="form-control" style="width:60%" />
                             <input id="checkbox-meta-data1" type="checkbox" class="form-check-input" style="margin-bottom: 15px;">
                             <label id="use">add Meta-data</label>
                     </div>
                     <div class="col-sm-6" id="checkbox-mirNA-metadata-option" style="display:none">
-                        <label>Load miRNA Meta Data</label>
+                        <label>Load First Meta Data</label>
                         <input type="file" class="form-control" id="mirNA-metadata" style= "width:60%" />
                     </div>
                 </div>
                 <div class="form-group row">
                     <div class="col-sm-6" id="checkbox-target-metadata-op">
-                        <label>Load Target Data</label>
+                        <label>Load Second Data</label>
                         <input type="file" id="target" class="form-control" style="width:60%" />
                         <input id="checkbox-meta-data2" type="checkbox" class="form-check-input" style="margin-bottom: 15px;">
                         <label id="use">add Meta-data</label>
                     </div>
                     <div class="col-sm-6" id="checkbox-target-metadata-option" style="display:none;">
-                        <label>Load Target Meta Data </label>
+                        <label>Load Second Meta Data </label>
                         <input type="file" class="form-control" id="target-metadata" style= "width:60%;"/>
                     </div>
                 </div>
                 <div class="form-group row" style="margin-bottom:3rem">
                     <div class="col-sm-6" id="connections">
-                        <label >Load connections Data</label>
+                        <label >Load Connections Data</label>
                         <input type="file" class="form-control" id="connection" style="width:60%" />
                     </div>
                 </div>
@@ -158,7 +158,7 @@ mir2,gen3
                 <div class="form-group row ">
                     <div class="col-sm-6">
                         <div class="col-sm-6">
-                            <label>Choose miRNA Cluster</label>
+                            <label>Choose Fisrt Data Cluster</label>
                                 <select class="form-control" id="miRNA-clust-select" style="width:60%">
                                     <option>Rows</option>
                                     <option>Both</option>
@@ -238,7 +238,7 @@ mir2,gen3
                 <div class="form-group row ">
                     <div class="col-sm-6">
                         <div class="col-sm-6">
-                            <label>Choose miRNA Cluster</label>
+                            <label>Choose Second Data Cluster</label>
                                 <select class="form-control" id="target-clust-select" style="width:60%">
                                     <option>Rows</option>
                                     <option>Both</option>
