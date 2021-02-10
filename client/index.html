@@ -25,7 +25,7 @@
     </div>
     <div class="table-container">
         <div class="column2">
-            <p id ="headline1" style="margin-left:2rem;" class="headline">mirNA Heatmap</p>
+            <p id ="headline1" style="margin-left:2rem;" class="headline">First data Heatmap</p>
             <div id="table-box-connect-1to2" class="table-box-connect-1to2">
                 <table class="table table-sm" id="table-connect-1to2">
                     <thead>
@@ -44,7 +44,7 @@
             </div>
         </div>
         <div class="column2">
-            <p id ="headline2" class="headline" style="margin-left:5rem;">Target Heatmap</p>
+            <p id ="headline2" class="headline" style="margin-left:5rem;">Second data Heatmap</p>
             <div id="table-box-connect-2to1" class="table-box-connect-1to2">
                 <table class="table table-sm" id="table-connect-2to1">
                     <thead>
@@ -66,21 +66,19 @@
 
 
 
-
-    <div class="container">
-            <div id="two_maps" class="two_maps_container">
-                <div class="column2">
-                    <div  id='inchlib1' style="margin-right:5rem;"></div>
-                </div>
-                <div class="column2">
-                    
-                    <div  id='inchlib2' style="margin-left:5rem;"></div>
-                </div>
-            </div>
-            <div class="one_map_container">
-                <div class="uniquiehm" id='inchlib' ></div>
-            </div>
+    <div   id="two_maps" style="justify-content: space-around; display: flex; " >
+        <div>
+            <div  id='inchlib1' ></div>
+        </div>
+        <div>
+             <div  id='inchlib2' ></div>
+        </div>
     </div>
+
+
+<div class="one_map_container">
+    <div class="uniquiehm" id='inchlib' ></div>
+</div>
 
    <hr class="my-4">
 
@@ -103,102 +101,226 @@ mir2,gen1
 mir2,gen3
             </div>
             <p>Example file for you data you can find here:<a href="https://www.openscreen.cz/software/inchlib/static/source_data/example_data.csv" target="blank">Whole data file</a></p>
-
-
-            <form id="myFilesForm" >   
-                <div style="margin-left: 1rem;">
-                    <input id="checkbox" type="checkbox" class="form-check-input">
-                    <label id="use">Use 1 heatmap</label>
-                    <p id="error-message">&nbsp;</p>
-                </div>  
-                <div class="settings"> 
-                    <div class="column">
-                        <label>Load miRNA Data</label>
-                        <input type="file" class="form-control" id="mirNA" style="width:60%" />
-                        <div style="margin-left: 1rem;">
-                            <input id="checkbox-meta-data1" type="checkbox" class="form-check-input">
-                            <label id="use">add meta-data</label>
-                        </div>
-                        <div id="checkbox-option" style="margin-top: 10px;" data-error="This field is require">
-                            <label>Load target Data</label>
-                            <input type="file" class="form-control" id="target" style="width:60%"  />
-                            <div style="margin-left: 1rem;">
-                                <input id="checkbox-meta-data2" type="checkbox" class="form-check-input">
-                                <label id="use">add meta-data</label>
-                            </div>
-                            <div  style="margin-top: 10px;">
-                            <label >Load connections Data</label>
-                            <input type="file" class="form-control" id="connection" style="width:60%" />
-                            </div>
-                        </div>
+    </div>
+ 
+    
+<hr class="my-4">
+<p style="font-weight:bold">Settings</p>
+    <div class="row">
+        <div class="col-md-10 ">   
+            <form id="myDefForm"> 
+                <div class="form-group row">
+                    <div class="col-sm-6">
+                        <input id="checkbox-maps-choose" type="checkbox" class="form-check-input" style="margin-bottom: 1rem;">
+                        <label id="use">For one heatmap</label>
                     </div>
-                    <div class="column">
-                        <div id="checkbox-mirNA-metadata-option" style="display:none">
-                        <label>Load miRNA meta data </label>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-6">
+                            <label>Load First Data</label>
+                            <input type="file" id="mirNA" class="form-control" style="width:60%" />
+                            <input id="checkbox-meta-data1" type="checkbox" class="form-check-input" style="margin-bottom: 15px;">
+                            <label id="use">add Meta-data</label>
+                    </div>
+                    <div class="col-sm-6" id="checkbox-mirNA-metadata-option" style="display:none">
+                        <label>Load First Meta Data</label>
                         <input type="file" class="form-control" id="mirNA-metadata" style= "width:60%" />
-                        </div>
-                        <div id="checkbox-target-metadata-op">
-                        <div id="checkbox-target-metadata-option" style="display:none">
-                            <label>Load target meta data </label>
-                            <input type="file" class="form-control" id="target-metadata" style= "width:77%" />
-                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-6" id="checkbox-target-metadata-op">
+                        <label>Load Second Data</label>
+                        <input type="file" id="target" class="form-control" style="width:60%" />
+                        <input id="checkbox-meta-data2" type="checkbox" class="form-check-input" style="margin-bottom: 15px;">
+                        <label id="use">add Meta-data</label>
+                    </div>
+                    <div class="col-sm-6" id="checkbox-target-metadata-option" style="display:none;">
+                        <label>Load Second Meta Data </label>
+                        <input type="file" class="form-control" id="target-metadata" style= "width:60%;"/>
+                    </div>
+                </div>
+                <div class="form-group row" style="margin-bottom:3rem">
+                    <div class="col-sm-6" id="connections">
+                        <label >Load Connections Data</label>
+                        <input type="file" class="form-control" id="connection" style="width:60%" />
+                    </div>
+                </div>
+
+                <!--FIRST HEATMAP CLUSTERING-->
+                <div class="form-group row ">
+                    <div class="col-sm-6">
+                        <label style="font-weight:bold">Choose Cluster</label>
+                        <br><br>
+                        <label style="font-weight:bold">First HeatMap</label>
+                        <br><br>
+                    </div>
+                </div>
+                <div class="form-group row ">
+                    <div class="col-sm-6">
+                        <div class="col-sm-6">
+                            <label>Choose Fisrt Data Cluster</label>
+                                <select class="form-control" id="miRNA-clust-select" style="width:60%">
+                                    <option>Rows</option>
+                                    <option>Both</option>
+                                </select>
                         </div>
                     </div>
                 </div>
-                 
-            </form>
-            <form id="myDefForm" >     
-                <div class="settings"> 
-                    <div class="column">
-                        <label style="font-weight:bold">Choose Cluster</label>
-                        <br></br>
-                        <label for="exampleFormControlSelect1"> Distance Type</label>
-                        <select class="form-control" id="cluster-select" style="width:30%">
-                            <option>Canberra</option>
-                            <option>Complete</option>
-                            <option>Cosine</option>
-                            <option>Correlation</option>
-                            <option>Mahalanobis</option>
-                            <option>Seuclidean</option>
-                            <option>Cityblock</option>
-                            <option>Chebyshev</option>
-                            <option>Euclidean</option>
-                            <option>Sqeuclidean</option>
-                        </select>
+                <div class="form-group row ">
+                    <div class="col-sm-6">
                         <label>Choose Linkage Type</label>
-                        <select class="form-control" id="linkage-select" style="width:30%">
-                            <option>Single</option>
-                            <option>Complete</option>
-                            <option>Average</option>
-                            <option>Centroid</option>
-                            <option>Ward</option>
-                            <option>Median</option>
-                            <option>Weighted</option>
-                        </select>
-                        <label>Choose miRNA cluster</label>
-                        <select class="form-control" id="miRNA-clust-select" style="width:30%">
-                            <option>no cluster</option>
-                            <option>columns</option>
-                            <option>both</option>
-                        </select>
-        
+                            <select class="form-control" id="linkage-select" style="width:60%">
+                                <option>Single</option>
+                                <option>Complete</option>
+                                <option>Average</option>
+                                <option>Centroid</option>
+                                <option>Ward</option>
+                                <option>Median</option>
+                                <option>Weighted</option>
+                            </select>
                     </div>
-                    <div class="column">
-                        <div id="target-clust">
-                        <label>Choose target cluster</label>
-                        <select class="form-control" id="target-clust-select" style="width:30%">
-                            <option>no cluster</option>
-                            <option>columns</option>
-                            <option>both</option>
-                        </select>
+                    <div class="col-sm-6" id='mir-linkage-column' style="display: none;">
+                        <label>Choose Column Linkage Type</label>
+                            <select class="form-control" id="linkage-select-column" style="width:60%">
+                                <option>Single</option>
+                                <option>Complete</option>
+                                <option>Average</option>
+                                <option>Centroid</option>
+                                <option>Ward</option>
+                                <option>Median</option>
+                                <option>Weighted</option>
+                            </select>
+                    </div>
+                </div>
+                <div class="form-group row ">
+                    <div class="col-sm-6">
+                        <label for="exampleFormControlSelect1">Choose Distance Type</label>
+                            <select class="form-control" id="distance-select" style="width:60%">
+                                <option>Canberra</option>
+                                <option>Complete</option>
+                                <option>Cosine</option>
+                                <option>Correlation</option>
+                                <option>Mahalanobis</option>
+                                <option>Seuclidean</option>
+                                <option>Cityblock</option>
+                                <option>Chebyshev</option>
+                                <option>Euclidean</option>
+                                <option>Sqeuclidean</option>
+                            </select>
+                    </div>
+                    <div class="col-sm-6" id='mir-distance-column' style="display: none;"> 
+                        <label for="exampleFormControlSelect1">Choose Column Distance Type</label>
+                            <select class="form-control" id="distance-select-column" style="width:60%">
+                                <option>Canberra</option>
+                                <option>Complete</option>
+                                <option>Cosine</option>
+                                <option>Correlation</option>
+                                <option>Mahalanobis</option>
+                                <option>Seuclidean</option>
+                                <option>Cityblock</option>
+                                <option>Chebyshev</option>
+                                <option>Euclidean</option>
+                                <option>Sqeuclidean</option>
+                            </select> 
+                    </div>
+                </div>
+
+                <hr class="my-4" id="hr2">
+
+                <!--SECOND HEATMAP CLUSTERING-->
+            <div id="secondheatmapssettings" >
+                <div class="form-group row">
+                    <div class="col-sm-6">
+                        <label style="font-weight:bold">Second HeatMap</label>
+                        <br><br>
+                    </div>
+                </div>
+                <div class="form-group row ">
+                    <div class="col-sm-6">
+                        <div class="col-sm-6">
+                            <label>Choose Second Data Cluster</label>
+                                <select class="form-control" id="target-clust-select" style="width:60%">
+                                    <option>Rows</option>
+                                    <option>Both</option>
+                                </select>
                         </div>
-                        <input id="buttonid" type="submit" class="btn btn-primary"></input>
-                     </div>
-        
                     </div>
+                </div>
+                <div class="form-group row ">
+                    <div class="col-sm-6" id='tgt-linkage-column' style="display: none;">
+                        <label>Choose Linkage Type</label>
+                            <select class="form-control" id="linkage-select2" style="width:60%">
+                                <option>Single</option>
+                                <option>Complete</option>
+                                <option>Average</option>
+                                <option>Centroid</option>
+                                <option>Ward</option>
+                                <option>Median</option>
+                                <option>Weighted</option>
+                            </select>
+                    </div>
+                    <div class="col-sm-6">
+                        <label>Choose Column Linkage Type</label>
+                            <select class="form-control" id="linkage-select-column2" style="width:60%">
+                                <option>Single</option>
+                                <option>Complete</option>
+                                <option>Average</option>
+                                <option>Centroid</option>
+                                <option>Ward</option>
+                                <option>Median</option>
+                                <option>Weighted</option>
+                            </select>
+                    </div>
+                </div>
+                <div class="form-group row ">
+                    <div class="col-sm-6">
+                        <label for="exampleFormControlSelect1"> Distance Type</label>
+                            <select class="form-control" id="distance-select2" style="width:60%">
+                                <option>Canberra</option>
+                                <option>Complete</option>
+                                <option>Cosine</option>
+                                <option>Correlation</option>
+                                <option>Mahalanobis</option>
+                                <option>Seuclidean</option>
+                                <option>Cityblock</option>
+                                <option>Chebyshev</option>
+                                <option>Euclidean</option>
+                                <option>Sqeuclidean</option>
+                            </select>
+                    </div>
+                    <div class="col-sm-6" id='tgt-distance-column' style="display: none;">
+                        <label for="exampleFormControlSelect1">Choose Distance Type</label>
+                            <select class="form-control" id="distance-select-column2" style="width:60%">
+                                <option>Canberra</option>
+                                <option>Complete</option>
+                                <option>Cosine</option>
+                                <option>Correlation</option>
+                                <option>Mahalanobis</option>
+                                <option>Seuclidean</option>
+                                <option>Cityblock</option>
+                                <option>Chebyshev</option>
+                                <option>Euclidean</option>
+                                <option>Sqeuclidean</option>
+                            </select> 
+                    </div>
+                </div>
+            </div>
+                <div class="col-sm-6">
+                    <p id="error-message">&nbsp;</p>
+                    <input id="buttonid" type="submit" class="btn btn-primary"></input>
+                    <div id="spinner" class="spinner-border text-muted" style="margin-left:35px; display: flex;"></div>
+                </div>
             </form>
-            <div class="away"> </div>
-  
+        </div>
+    </div>
+
+
+
+
+
+
+
+
   <!-- Modal -->
   
   <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -212,11 +334,10 @@ mir2,gen3
         </div>
         <div style="margin:auto;" class="modal-body">
             <div class="column3">
-                <label>Cluster:</label>
+                <label>Rows:</label>
                 <select style="width:100px" class="form-control" id="cluster-for-pre" style="width:30%">
                     <option>Rows</option>
                     <option>Both</option>
-                    <option>None</option>
                 </select>
                 <label>Linkage Type</label>
                 <select class="form-control" id="linkage-select" style="width:100%">
@@ -228,7 +349,7 @@ mir2,gen3
                     <option>Median</option>
                     <option>Weighted</option>
                 </select>
-                <label for="exampleFormControlSelect1"> Distance Type</label>
+                <label for="exampleFormControlSelect1">Choose Distance Type</label>
                 <select class="form-control" id="cluster-select" style="width:100%">
                     <option>Canberra</option>
                     <option>Complete</option>
@@ -273,7 +394,7 @@ mir2,gen3
         <div style="margin:auto;" class="modal-body">
             <div class="column3">
                 <label>Cluster:</label>
-                <label id="connection_list">no connections</label>
+                <label id="connection_list">No targes has found</label>
 
             </div>
         </div>
@@ -297,4 +418,5 @@ mir2,gen3
  </html>    
 
 
+ 
  

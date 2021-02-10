@@ -215,7 +215,7 @@ var InCHlib, _this;
             }
           },
           "column_metadata": {
-            "draw": false,
+            "draw": true,
             "row_height": 8,
             "feature_names": {
               "draw": true,
@@ -819,7 +819,8 @@ var InCHlib, _this;
     var _this = this;
     _this.json = json;
     _this.data = _this.json.data;
-    
+    console.log('asdsadasdadad')
+    console.log(json['data'])
     var settings = {"metadata": {}, "column_dendrogram": {}, "column_metadata": {}};
     if(json["metadata"] !== undefined && _this.settings.metadata.draw){
       _this.metadata = json.metadata;
@@ -836,6 +837,9 @@ var InCHlib, _this;
     else{
       settings.column_dendrogram.draw = false;
     }
+    console.log('json["column_metadata"]'+_this.settings['column_metadata']);
+    console.log('json.column_metadata' + JSON.stringify(json.column_metadata));
+
     if(json["column_metadata"] !== undefined && _this.settings.column_metadata.draw){
       _this.column_metadata = json.column_metadata;
       settings.column_metadata.draw = true;
@@ -1225,6 +1229,8 @@ var InCHlib, _this;
     _this._draw_navigation();
     _this.highlight_rows(_this.settings.highlighted_rows);
     console.timeEnd("DRAW");
+    document.getElementById("spinner").style.display="none";
+    $('html, body').animate({ scrollTop: 0 }, 'fast');
   }
 
   InCHlib.prototype._draw_dendrogram_layers = function(){

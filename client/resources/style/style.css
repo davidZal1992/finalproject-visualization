@@ -9,20 +9,12 @@ body{
 .header{
     background: url('../assets/dna-3539309_960_720.jpg') no-repeat center center/cover;
 }
-.container{
-    align-items: left;
-    position: relative;
-    right: 15%
-    
-}
+
 
 .headline{
     font-size: 35px;
 }
 
-form{
-    margin-top: 5rem;
-}
 
 .table-box-connect-1to2{
     width:500px;
@@ -64,7 +56,8 @@ form{
     padding:10px;
     position: relative;
     float: left;
-    justify-content: space-between;
+    justify-content: center;
+    width:50%;
  }
 .code {
     margin-top: 10px;
@@ -89,6 +82,8 @@ form{
 #buttonid{
     margin-top:1rem;
 }
+
+
 
 .two_maps_container{
     padding: 10px;
@@ -156,11 +151,7 @@ form{
 }
 
 .uniquiehm{
-    margin-left: auto;
-    margin-right: auto;
-    align-items: center;
-    text-align: center;
-    left:35%;
+  margin:auto;
 }
 
 .input-error{
@@ -176,23 +167,7 @@ form{
     justify-content: space-around;
 }
 
-#target-clust{
-    position: absolute;
-    margin-top:1rem;
-    top: 42px;
-    width: 100%;
-}
 
-#buttonid{
-    position: absolute;
-    margin-top:1rem;
-    top: 170px;
-}
-
-#checkbox-target-metadata-option{
-    position: absolute;
-    top: 115px;
-}
 
 .away{
     width:10%;
@@ -202,7 +177,3 @@ form{
 
 }
  
-#myFilesForm{
-    margin-bottom: -40px;
-    margin-top: -5px;
-} 

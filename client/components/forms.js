@@ -1,7 +1,9 @@
 //Choose how much maps display
-document.getElementById('checkbox').addEventListener('click', showHideMapsNum);
+document.getElementById('checkbox-maps-choose').addEventListener('click', showHideMapsNum);
 document.getElementById('checkbox-meta-data1').addEventListener('click', showHideMetaData1);
 document.getElementById('checkbox-meta-data2').addEventListener('click', showHideMetaData2);
+document.getElementById('miRNA-clust-select').addEventListener('change', changeSelectClusterMir)
+document.getElementById('target-clust-select').addEventListener('change', changeSelectClusterTarget)
 
 
 function showHideMetaData1(){
@@ -28,20 +30,29 @@ function showHideMetaData2(){
 }
 
 function showHideMapsNum(){
-    const res = document.getElementById("checkbox").checked;
-    var target_metadata=  document.getElementById("checkbox-target-metadata-op");
-    var target_clust=  document.getElementById("target-clust");
-    var settings = document.getElementById("checkbox-option");
+    const res = document.getElementById("checkbox-maps-choose").checked;
+    var target_metadata =  document.getElementById("checkbox-target-metadata-op");
+    var checkbox_target_md = document.getElementById("checkbox-target-metadata-option")
+    var connections = document.getElementById("connections")
+    var settingssecondheatmap = document.getElementById("secondheatmapssettings");
+    var hr = document.getElementById("hr2");
+    document.getElementById("checkbox-meta-data2").checked = false;
+    //var settings = document.getElementById("checkbox-option");
+
     if(res){
-        settings.style.display="none"; 
+        settingssecondheatmap.style.display="none"
         target_metadata.style.display="none"; 
-        target_clust.style.display="none"; 
+        checkbox_target_md.style.display="none";
+        connections.style.display="none";
+        hr.style.display="none";
+
 
     }
     else{
-        settings.style.display="block";  
+        settingssecondheatmap.style.display="block"
         target_metadata.style.display="block";
-        target_clust.style.display="block"; 
+        connections.style.display="block";
+        hr.style.display="block";
 
     }
 }
@@ -99,5 +110,34 @@ export function validate(res){
         }
     }
     return true;
+
+}
+
+
+function changeSelectClusterMir(event){
+
+    if(event.target.value === 'Both'){
+        document.getElementById('mir-linkage-column').style.display='block'
+        document.getElementById('mir-distance-column').style.display='block'
+    }
+    else{
+        document.getElementById('mir-linkage-column').style.display='none'
+        document.getElementById('mir-distance-column').style.display='none'
+    }   
+
+
+}
+
+function changeSelectClusterTarget(event){
+
+    if(event.target.value === 'Both'){
+        document.getElementById('tgt-linkage-column').style.display='block'
+        document.getElementById('tgt-distance-column').style.display='block'
+    }
+    else{
+        document.getElementById('tgt-linkage-column').style.display='none'
+        document.getElementById('tgt-distance-column').style.display='none'
+    }
+
 
 }
