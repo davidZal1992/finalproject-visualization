@@ -59,12 +59,12 @@ async def upload_two_files(response: Response,files:List = File(...)):
       
     prepare_file(rand_user_id) 
 
-    print('propertiesssssssss,',properties)
+    # print('propertiesssssssss,',properties)
     properties['metadata1']=properties['metadata']
     properites_first_map = get_prop(properties,'file1','1','metadata1','raw_linkage','raw_distance','both1','column_linkage','column_distance')
     two_heatmap_properties(files_tuple,rand_user_id,files,filenames,locations_of_files,properties)
     copy_files(files_tuple)
-
+    
     create_connection_file(files[len(files)-2],rand_user_id)
 
     respone_first_heatmap = create_heat_map(properties,properites_first_map,locations_of_files)
@@ -72,13 +72,13 @@ async def upload_two_files(response: Response,files:List = File(...)):
     properites_second_map = get_prop(properties,'file2','2','metadata2','raw_linkage2','raw_distance2','both2','column_linkage2','column_distance2')
     respone_second_heatmap = create_heat_map(properties,properites_second_map,locations_of_files)
         
-    print('------------------------------')
-    print('respone_first_heatmap------------------------------',respone_first_heatmap)
-    print('respone_second_heatmap------------------------------',respone_second_heatmap)
+    # print('------------------------------')
+    # print('respone_first_heatmap------------------------------',respone_first_heatmap)
+    # print('respone_second_heatmap------------------------------',respone_second_heatmap)
 
     twomaps={ "first": respone_first_heatmap, "second": respone_second_heatmap}; #need to get also 2 connection dict 
 
-
+    # answer= {"twomaps": twomaps, "first_second_connections": ,"second_first_connections": }
     response.headers["uuid"] = str(rand_user_id)
     
     return twomaps
@@ -189,7 +189,6 @@ def two_heatmap_properties(files_tuple,rand_user_id,files,filenames,locations_of
 
 
 
-
 def prepare_file(id):
     if not os.path.exists('upload_data'):
         os.makedirs('upload_data')
@@ -207,7 +206,7 @@ def get_prop(properties,file, file_num,metadata,raw_linkage,raw_distance,both,co
     properties_edit ={}
     properties_edit['file'] = properties[file]
     properties_edit['file_num'] = file_num
-    print('ppppproperties', properties)
+    # print('ppppproperties', properties)
     properties_edit[metadata] = properties[metadata]
     properties_edit['raw_linkage'] = properties[raw_linkage]
     properties_edit['raw_distance'] = properties[raw_distance]
@@ -217,12 +216,9 @@ def get_prop(properties,file, file_num,metadata,raw_linkage,raw_distance,both,co
         properties_edit['column_distance'] = properties[column_distance] 
     else:
         properties_edit[both] = 0
-    print('properties_edittttt',properties_edit)    
     return properties_edit
 
 def create_heat_map(original_propperties, heatmap_propperties,locations_of_files):
-    print('heatmap_propperties:',heatmap_propperties)
-    print('locations_of_filesssss:',locations_of_files)
     try:
         map_num= int(heatmap_propperties['file_num']);
         heatmapId= 'heatmap'+str(map_num)
@@ -235,7 +231,7 @@ def create_heat_map(original_propperties, heatmap_propperties,locations_of_files
         metadataId= 'metadata'
         bothId= 'both1'
 
-    print('heatmap_proppertiesssss',heatmap_propperties)
+    # print('heatmap_proppertiesssss',heatmap_propperties)
     if heatmap_propperties[metadataId] =='1':
         if original_propperties[bothId] == 1:
             heatmap_res = heatmap.create_heatmap_json(locations_of_files[heatmapId],metadata=locations_of_files[metadataId],row_distance=heatmap_propperties['raw_distance'],row_linkage=heatmap_propperties['raw_linkage'],column_distance=heatmap_propperties['column_distance'],column_linkage=heatmap_propperties['column_linkage'],properties=heatmap_propperties)
@@ -247,7 +243,7 @@ def create_heat_map(original_propperties, heatmap_propperties,locations_of_files
             # print('heatmap_ressss:',heatmap_res)
     else:
         if original_propperties[bothId] == 1:
-            print('where is column_distance- original_propperties:', original_propperties)
+            # print('where is column_distance- original_propperties:', original_propperties)
             heatmap_res = heatmap.create_heatmap_json(locations_of_files[heatmapId],row_distance=heatmap_propperties['raw_distance'],row_linkage=heatmap_propperties['raw_linkage'],column_distance=heatmap_propperties['column_distance'],column_linkage=heatmap_propperties['column_linkage'],properties=heatmap_propperties)
         else:
             heatmap_res = heatmap.create_heatmap_json(locations_of_files[heatmapId],row_distance=heatmap_propperties['raw_distance'],row_linkage=heatmap_propperties['raw_linkage'],properties=heatmap_propperties)
@@ -256,6 +252,34 @@ def create_heat_map(original_propperties, heatmap_propperties,locations_of_files
 
 def create_connection_file(file,id):
     print(file)
+    # path= "upload_data/"+ id +"/connection.csv"
     location = f"upload_data/{id}/connection.csv"
     with open(location, "wb+") as file_object:
             shutil.copyfileobj(file.file, file_object)
+
+    # f = open(path, "r")
+    # Lines = f.readlines()
+    # for line in Lines:
+    #     print("Line{}: {}".format(count, line.strip()))
+    # f.close()
+
+
+    # genim= 
+    # {  
+    #     (gene1, (mir1)->(mir2)->(mir3) )
+    #     (gene2, list)
+    #     (gene3, list)
+    # }
+    # mirim=
+    # {
+    # {  
+    #     (mir1, (gene1)->(gene3) )
+    #     (mir2, list)
+    #     (mir3, list)
+    # }
+
+    # (gene1)(mir1)
+    # (gene1)(mir2)
+    # (gene2)(mir2)
+    # (gene3)(mir1)
+
