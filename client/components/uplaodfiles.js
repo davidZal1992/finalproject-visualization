@@ -52,8 +52,6 @@ function uploadOneHeatMap(){
 
   formData.append("files", JSON.stringify(properties));
 
-  
-
     axios.post('http://127.0.0.1:8000/actions/uploadone', formData, {
       headers: {
         'content-Type': 'multipart/form-data',
