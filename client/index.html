@@ -324,61 +324,102 @@ mir2,gen3
   <!-- Modal -->
   
   <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document" style="width: 600px;">
-      <div class="modal-content">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content" style=width:100%>
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">Preprocess</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div style="margin:auto;" class="modal-body">
-            <div class="column3">
-                <label>Rows:</label>
-                <select style="width:100px" class="form-control" id="cluster-for-pre" style="width:30%">
-                    <option>Rows</option>
-                    <option>Both</option>
-                </select>
-                <label>Linkage Type</label>
-                <select class="form-control" id="linkage-select" style="width:100%">
-                    <option>Single</option>
-                    <option>Complete</option>
-                    <option>Average</option>
-                    <option>Centroid</option>
-                    <option>Ward</option>
-                    <option>Median</option>
-                    <option>Weighted</option>
-                </select>
-                <label for="exampleFormControlSelect1">Choose Distance Type</label>
-                <select class="form-control" id="cluster-select" style="width:100%">
-                    <option>Canberra</option>
-                    <option>Complete</option>
-                    <option>Cosine</option>
-                    <option>Correlation</option>
-                    <option>Mahalanobis</option>
-                    <option>Seuclidean</option>
-                    <option>Cityblock</option>
-                    <option>Chebyshev</option>
-                    <option>Euclidean</option>
-                    <option>Sqeuclidean</option>
-                </select>
-                
-            </div>
-            <div class="column3">
-                <label>Choose Action:</label>
-                <select style="width:100px"class="form-control" id="action-for-pre" style="width:30%">
-                    <option>Intersection</option>
-                    <option>Union</option>
-                </select>
+        <div class="row">
+            <div class="col">   
+                <form style="margin-left: 1rem;">
+                    <div class="form-group row ">
+                            <div class="col">
+                                <label>Choose Second Data Cluster</label>
+                                    <select class="form-control" id="target-clust-select-manipul" style="width:40%">
+                                        <option>Rows</option>
+                                        <option>Both</option>
+                                    </select>
+                            </div>
+                            <div class="col">
+                                <label>Choose Action</label>
+                                    <select class="form-control" id="action" style="width:60%">
+                                        <option>Intersection</option>
+                                        <option>Union</option>
+                                    </select>
+                            </div>
+                    </div>
+                    <div class="form-group row ">
+                        <div class="col-sm-6">
+                            <label>Choose Linkage Type</label>
+                                <select class="form-control" id="linkage-select-manipulate" style="width:60%">
+                                    <option>Single</option>
+                                    <option>Complete</option>
+                                    <option>Average</option>
+                                    <option>Centroid</option>
+                                    <option>Ward</option>
+                                    <option>Median</option>
+                                    <option>Weighted</option>
+                                </select>
+                        </div>
+                        <div class="col-sm-6" id='mir-linkage-column-manipulate' style="display: none;">
+                            <label>Choose Column Linkage Type</label>
+                                <select class="form-control" id="linkage-select-column-manipulate" style="width:60%">
+                                    <option>Single</option>
+                                    <option>Complete</option>
+                                    <option>Average</option>
+                                    <option>Centroid</option>
+                                    <option>Ward</option>
+                                    <option>Median</option>
+                                    <option>Weighted</option>
+                                </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col">
+                            <label for="exampleFormControlSelect1"> Distance Type</label>
+                                <select class="form-control" id="distance-select2-manipulate" style="width:40%">
+                                    <option>Canberra</option>
+                                    <option>Complete</option>
+                                    <option>Cosine</option>
+                                    <option>Correlation</option>
+                                    <option>Mahalanobis</option>
+                                    <option>Seuclidean</option>
+                                    <option>Cityblock</option>
+                                    <option>Chebyshev</option>
+                                    <option>Euclidean</option>
+                                    <option>Sqeuclidean</option>
+                                </select>
+                        </div>
+                        <div class="col" id='tgt-distance-column-manipul' style="display: none;">
+                            <label for="exampleFormControlSelect1">Choose Distance Type</label>
+                                <select class="form-control" id="distance-select-column2-manipulate" style="width:60%">
+                                    <option>Canberra</option>
+                                    <option>Complete</option>
+                                    <option>Cosine</option>
+                                    <option>Correlation</option>
+                                    <option>Mahalanobis</option>
+                                    <option>Seuclidean</option>
+                                    <option>Cityblock</option>
+                                    <option>Chebyshev</option>
+                                    <option>Euclidean</option>
+                                    <option>Sqeuclidean</option>
+                                </select> 
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button id='generate_preprocess' type="button" class="btn btn-primary">Generate</button>
+            <button type="button"  class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button id='mainuplate-data' type="button" class="btn btn-primary">Generate</button>
         </div>
       </div>
-    </div>
+     </div>
   </div>
+ 
   
    <!-- connection -->
   
@@ -415,6 +456,7 @@ mir2,gen3
     <script type="text/javascript" src="./components/index.js"></script>
     <script type="text/javascript" src="./components/forms.js"></script>
     <script type="text/javascript" src="./components/twotablesprocess.js"></script>
+    <script type="text/javascript" src="./components/datamaniuplation.js"></script>
  </html>    
 
 

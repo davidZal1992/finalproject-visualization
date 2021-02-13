@@ -87,30 +87,8 @@ async def upload_two_files(response: Response,files:List = File(...)):
   
 @router.post('/union')
 async def union(request: Request):
-    # row_distance= 'canberra'
-    # row_linkage= 'single'
-    data_json =   await request.body()
-    df_con =  pd.read_csv('conections.csv')
-    df_gene =  pd.read_csv('Geneim.csv')
-    df_mirim =  pd.read_csv('Mirim.csv')
-    obj = json.loads(data_json)
-    type_action = obj['type']
-    search_for_src = [x['name'] for x in  obj['data']]
-    if type_action == "union1":
-        result = df_con[df_con['mir_num'].str.contains('|'.join(search_for_src))] 
-        result = result.iloc[:,1:]
-        search_for_trg = result.stack().tolist()
-        print(search_for_trg)
-        heatmap_values = df_gene[df_gene['id'].str.contains('|'.join(search_for_trg))]
-        heatmap_values =  [heatmap_values.columns.values.tolist()]+heatmap_values.values.tolist()
-    else:
-        result = df_con[df_con.isin(search_for_src).any(1)].mir_num.tolist()
-        print(result)
-        heatmap_values = df_mirim[df_mirim['id'].isin(list_mir)]
-        heatmap_values =  [heatmap_values.columns.values.tolist()]+heatmap_values.values.tolist()
-    print(heatmap_values)
-    # return heatmap.create_heatmap_json_without_cluster(heatmap_values,csv=False)
-    return heatmap_values
+    print(request)
+    
     
 
 
