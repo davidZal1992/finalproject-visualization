@@ -52,6 +52,13 @@ body{
  }
 
 
+ .column_connection_list{
+    padding:15px;
+    position: relative;
+    float: left;
+    width:100%;
+ }
+
 .column2{
     padding:10px;
     position: relative;

@@ -129,13 +129,12 @@ function upload2HeatMaps(){
       drawmap(response.data.first,"inchlib1");
       drawmap2(response.data.second,"inchlib2");
 
-      // var dict_1to2= response.data.dict_1to2;
-      // var dict_1to2_content = JSON.stringify(dict_1to2);
+      var first_second_connections= response.data.first_second_connections;
+      localStorage.setItem('first_second_connections',JSON.stringify(first_second_connections))
 
-      // var fs = require('fs');
-      // fs.writeFile("/resources/dict_1to2.json", dict_1to2_content, function(err, result) {
-      //     if(err) console.log('error', err);
-      // });
+      var second_first_connections= response.data.second_first_connections;
+      localStorage.setItem('second_first_connections',JSON.stringify(second_first_connections))
+
       }, (error) => {
         console.log(error);
       });
