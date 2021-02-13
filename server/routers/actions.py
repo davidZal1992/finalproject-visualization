@@ -59,7 +59,6 @@ async def upload_two_files(response: Response,files:List = File(...)):
       
     prepare_file(rand_user_id) 
 
-    # print('propertiesssssssss,',properties)
     properties['metadata1']=properties['metadata']
     properites_first_map = get_prop(properties,'file1','1','metadata1','raw_linkage','raw_distance','both1','column_linkage','column_distance')
     two_heatmap_properties(files_tuple,rand_user_id,files,filenames,locations_of_files,properties)
@@ -71,17 +70,11 @@ async def upload_two_files(response: Response,files:List = File(...)):
 
     properites_second_map = get_prop(properties,'file2','2','metadata2','raw_linkage2','raw_distance2','both2','column_linkage2','column_distance2')
     respone_second_heatmap = create_heat_map(properties,properites_second_map,locations_of_files)
-        
-    # print('------------------------------')
-    # print('respone_first_heatmap------------------------------',respone_first_heatmap)
-    # print('respone_second_heatmap------------------------------',respone_second_heatmap)
 
-    twomaps={ "first": respone_first_heatmap, "second": respone_second_heatmap}; #need to get also 2 connection dict 
-
-    # answer= {"twomaps": twomaps, "first_second_connections": first_to_second,"second_first_connections": second_to_first}
+    answer= {"first": respone_first_heatmap, "second": respone_second_heatmap, "first_second_connections": first_to_second,"second_first_connections": second_to_first}
     response.headers["uuid"] = str(rand_user_id)
     
-    return twomaps
+    return answer
     
     
   
@@ -260,15 +253,15 @@ def create_connection_file(file,id):
                 writer.writerow([key, value])
 
     def addToDict(dict_to_add, key, val_instance_to_add ):
-        if key in dict_to_add:
+        val_list=[]
+        if key in dict_to_add.keys():
             val_list= dict_to_add.get(key)
         else:
             val_list=[]
         val_list.append(val_instance_to_add)
         dict_to_add[key]=val_list
 
-    print(type(file))
-    # path= "upload_data/"+ id +"/connection.csv"
+
     location = f"upload_data/{id}/connection.csv"
     with open(location, "wb+") as file_object:
             shutil.copyfileobj(file.file, file_object)
@@ -293,6 +286,7 @@ def create_connection_file(file,id):
 
     create_connection_file(f'upload_data/{id}/first_second_connections.csv',first_to_second)
     create_connection_file(f'upload_data/{id}/second_first_connections.csv',second_to_first)
+    
     
     return first_to_second, second_to_first
 

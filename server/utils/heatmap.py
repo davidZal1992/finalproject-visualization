@@ -19,9 +19,6 @@ def create_heatmap_json(data,**kwargs):
     # normalize data to (0,1) scale, but after clustering write the original data to the heatmap
     c.normalize_data(feature_range=(0,1), write_original=True)
 
-
-    # print('propertiesssss innnn create_heatmap_json',properties)
-    # print('propertiesssss bothIdbothIdbothId',bothId)
     # cluster data according to the parameters
     if properties[bothId] == 1:
         c.cluster_data(row_distance=properties['raw_distance'].lower(), row_linkage=properties['raw_linkage'].lower(), axis="both", column_distance=properties['column_distance'].lower(), column_linkage=properties['column_linkage'].lower())
