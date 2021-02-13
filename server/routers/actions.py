@@ -65,7 +65,7 @@ async def upload_two_files(response: Response,files:List = File(...)):
     two_heatmap_properties(files_tuple,rand_user_id,files,filenames,locations_of_files,properties)
     copy_files(files_tuple)
     
-    create_connection_file(files[len(files)-2],rand_user_id)
+    first_to_second, second_to_first= create_connection_file(files[len(files)-2],rand_user_id)
 
     respone_first_heatmap = create_heat_map(properties,properites_first_map,locations_of_files)
 
@@ -78,7 +78,7 @@ async def upload_two_files(response: Response,files:List = File(...)):
 
     twomaps={ "first": respone_first_heatmap, "second": respone_second_heatmap}; #need to get also 2 connection dict 
 
-    # answer= {"twomaps": twomaps, "first_second_connections": ,"second_first_connections": }
+    # answer= {"twomaps": twomaps, "first_second_connections": first_to_second,"second_first_connections": second_to_first}
     response.headers["uuid"] = str(rand_user_id)
     
     return twomaps
@@ -229,35 +229,49 @@ def create_heat_map(original_propperties, heatmap_propperties,locations_of_files
 
 
 def create_connection_file(file,id):
-    print(file)
+    import csv
+
+    def create_connection_file(file_path, connection_dict):
+        with open(file_path, 'w',newline='') as csv_file:  
+            writer = csv.writer(csv_file)
+            for key, value in connection_dict.items():
+                writer.writerow([key, value])
+
+    def addToDict(dict_to_add, key, val_instance_to_add ):
+        if key in dict_to_add:
+            val_list= dict_to_add.get(key)
+        else:
+            val_list=[]
+        val_list.append(val_instance_to_add)
+        dict_to_add[key]=val_list
+
+    print(type(file))
     # path= "upload_data/"+ id +"/connection.csv"
     location = f"upload_data/{id}/connection.csv"
     with open(location, "wb+") as file_object:
             shutil.copyfileobj(file.file, file_object)
 
-    # f = open(path, "r")
-    # Lines = f.readlines()
-    # for line in Lines:
-    #     print("Line{}: {}".format(count, line.strip()))
-    # f.close()
+    f = open(location, "r")
+    Lines = f.readlines()
+    count=0
 
+    first_to_second= {}
+    second_to_first= {}
 
-    # genim= 
-    # {  
-    #     (gene1, (mir1)->(mir2)->(mir3) )
-    #     (gene2, list)
-    #     (gene3, list)
-    # }
-    # mirim=
-    # {
-    # {  
-    #     (mir1, (gene1)->(gene3) )
-    #     (mir2, list)
-    #     (mir3, list)
-    # }
+    for line in Lines:
+        count=count+1
+        data= line.strip().split(',')
+        first_instance= data[0];
+        second_instance= data[1];
+        
+        addToDict(first_to_second, first_instance, second_instance)
+        addToDict(second_to_first, second_instance, first_instance)
 
-    # (gene1)(mir1)
-    # (gene1)(mir2)
-    # (gene2)(mir2)
-    # (gene3)(mir1)
+    f.close()
+
+    create_connection_file(f'upload_data/{id}/first_second_connections.csv',first_to_second)
+    create_connection_file(f'upload_data/{id}/second_first_connections.csv',second_to_first)
+    
+    return first_to_second, second_to_first
+
 
