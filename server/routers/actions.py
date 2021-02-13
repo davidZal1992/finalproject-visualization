@@ -8,6 +8,7 @@ import json
 import uuid
 from utils import heatmap
 import os
+from itertools import chain
 
 
 router = APIRouter()
@@ -87,10 +88,22 @@ async def upload_two_files(response: Response,files:List = File(...)):
   
 @router.post('/union')
 async def union(request: Request):
-    print(request)
-    
-    
-
+    properties = json.loads(await request.body())
+    properties['metdata'] = '0' 
+    uuid = request.headers['uuid']
+    targets = get_targets(properties,uuid)
+    create_new_heatmap_from_targets(properties,targets,properties['data_work_on'],uuid)
+    locations = prepar_md_locations(properties,uuid)
+    new_data_location = f"upload_data/{uuid}/{properties['action']}.csv"
+    if properties['both1'] == 0:
+        md_location = prepar_md_locations(properties,uuid)
+        if md_location != "":
+             properties['metadata'] = '1'
+        heatmap_res = heatmap.create_heatmap_json(new_data_location,row_distance=properties['raw_distance'],row_linkage=properties['raw_linkage'],properties=properties,metadata=md_location)
+    else:
+        heatmap_res = heatmap.create_heatmap_json(new_data_location,row_distance=properties['raw_distance'],row_linkage=properties['raw_linkage'],column_distance=properties['column_distance'],column_linkage=properties['column_linkage'],properties=properties,metadata=md_location)
+  
+    return heatmap_res
 
 @router.post('/intersection')
 async def intersection(request: Request):
@@ -118,12 +131,43 @@ async def intersection(request: Request):
     print(heatmap_values)
     return heatmap_values
 
+def prepar_md_locations(propperties,uuid):
+    md_location=""
+    if propperties['data_work_on'] == 'first_second':
+        if os.path.exists(f"upload_data/{uuid}/metadata2.csv"):
+            md_location = f"upload_data/{uuid}/metadata2.csv"
+    else:
+        md_location = f"upload_data/{uuid}/metadata1.csv"
+    return md_location
 
-@router.get('/vis_matrix/{id}')
-async def generate_heatmap(id: str,request :Request):
-    data_json =   await request.body()
-    print(data_json)
 
+def get_targets(properties,uuid):
+    data = pd.read_csv(f"upload_data/{uuid}/{properties['data_work_on']}"+"_connections.csv",names=['src','target'])
+    targets = []
+    dic_data =  data.set_index('src').T.to_dict('list')
+    for src in properties['values']:
+        if src in dic_data.keys():
+           val =  dic_data[src][0] #maybe regex better
+           val = val.replace("[", "")
+           val = val.replace("]", "")
+           val = val.replace("'", "")
+           targets.extend((val.split(',')))
+
+    return targets
+
+
+
+def create_new_heatmap_from_targets(properties,targets,choise,uuid):
+    location=""
+    if choise == "first_second":
+        location="heatmap2.csv"
+    else:
+        location="heatmap1.csv"
+    data = pd.read_csv(f"upload_data/{uuid}/{location}")
+    data = data.set_index([data[data.columns[0]]])
+    new_data_after_union = data.loc[data.index.isin(targets)]
+    new_data_after_union.drop(data.columns[0], axis=1, inplace=True)
+    new_data_after_union.to_csv(f"upload_data/{uuid}/{properties['action']}.csv")
 
 
 def one_heatmap_properties(files_tuple,rand_user_id,files,filenames,locations_of_files,properties):

@@ -32,9 +32,9 @@ def create_heatmap_json(data,**kwargs):
 
     # create the cluster heatmap representation and define whether you want to compress the data by defining the maximum number of heatmap rows, the resulted value of compressed (merged) rows and whether you want to write the features
     d.create_cluster_heatmap(compress=100, compressed_value="median", write_data=True)
-
     if properties[metadataId] == '1':
         metadata  = kwargs.pop('metadata')
+        print(metadata)
     # read metadata file with specified delimiter, also specify whether there is a header row
         # d.add_metadata_from_file(metadata_file=metadata, delimiter=",", header=True, metadata_compressed_value="frequency")
 

@@ -5,7 +5,8 @@ var InCHlib = require("../lib/inchlib-1.2.0");
 // var tet = require("../resources/microarrays.json")
 const {initTable} = require('./insertable')
 
-
+document.getElementById('clear-tb1').addEventListener('click', cleanTableOne )
+document.getElementById('clear-tb2').addEventListener('click', cleanTableTwo )
 
 export function drawmap(json,target){
 var inchlib = new InCHlib({"target": target,
@@ -123,10 +124,40 @@ export function drawmap2(json,target){
     }
 
 
+
+    export function drawmapAfterManipulate(json,target){
+        var inchlib = new InCHlib({"target": target,
+                            "width": 800,
+                            "height": 1200,
+                            "column_metadata_colors": "RdLrBu",
+                            "heatmap_colors": "RdBkGr",
+                            "max_percentile": 90,
+                            "middle_percentile": 60,
+                            "min_percentile": 10,
+                            "heatmap_font_color": "white",
+                             text: 'biojs'});
+                          
+        inchlib.send_json(JSON.parse(json));
+        inchlib.draw();
+        };
+        
+
+
+
     
 export function cleanConnectionTables(){
     var table_1to2 = document.getElementById("table-connect-1to2");
     initTable(table_1to2)
     var table_2to1 = document.getElementById("table-connect-2to1");
     initTable(table_2to1);
+}
+
+ function cleanTableOne(){
+    var table_1to2 = document.getElementById("table-connect-1to2");
+    initTable(table_2to1)
+}
+
+function cleanTableTwo(){
+    var table_2to1 = document.getElementById("table-connect-2to1");
+    initTable(table_1to2)
 }

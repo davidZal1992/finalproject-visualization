@@ -1,5 +1,5 @@
 const axios = require('axios')
-
+const {drawmapAfterManipulate} = require('./drawmap')
 
 var wichTableWorkOn;
 var clusterManipluate;
@@ -14,6 +14,9 @@ document.getElementById('preprocess2').addEventListener('click',(e) =>{
 
 
 document.getElementById('mainuplate-data').addEventListener('click',(e) =>{
+    $(function () {
+        $('#exampleModal').modal('toggle');
+     });
     dataManipulate();
 },false)
 
@@ -32,17 +35,20 @@ function dataManipulate(){
     let distance1 = document.getElementById('distance-select2-manipulate').value
     let values = getAllValues(wichTableWorkOn ==="first_second" ? "table-connect-1to2" :"table-connect-2to1" )
     properties['data_work_on'] = wichTableWorkOn;
+    properties['metadata'] = 0;
     properties['action'] = (action+"").toLowerCase()
-    properties['cluster'] = checkIfBoth
-    properties['linakge1'] = linkage1
-    properties['distance1'] = linkage1
+    properties['raw_linkage'] = linkage1
+    properties['raw_distance'] = distance1
     
 
     if(checkIfBoth==='Both'){
-        properties['linakge2'] = document.getElementById('linkage-select-column-manipulate').value
-        properties['distance2'] = document.getElementById('distance-select-column2-manipulate').value
+        properties['both1'] = 1;
+        properties['column_linkage'] = document.getElementById('linkage-select-column-manipulate').value
+        properties['column_distance'] = document.getElementById('distance-select-column2-manipulate').value
     }
-
+    else{
+        properties['both1'] = 0;
+    }
     properties['values'] = values
 
     sendToServer(properties)
@@ -52,14 +58,20 @@ function dataManipulate(){
 
 
 function sendToServer(properties){
+    let map;
+    if(properties['data_work_on']=='first_second')
+        map="inchlib2"
+    else
+        map="inchlib1"
 
     axios.post('http://127.0.0.1:8000/actions/'+properties['action'], properties, {
       headers: {
         'content-Type': 'application/json',
-        "Access-Control-Allow-Origin": "*"
+        "Access-Control-Allow-Origin": "*",
+        "uuid":localStorage.getItem('uuid')
       }
       }).then((response) => {
-        console.log(response)
+        drawmapAfterManipulate(response.data,map)
     }, (error) => {
       console.log(error);
     });
