@@ -16,28 +16,31 @@ router = APIRouter()
 
 @router.post('/uploadone')
 async def upload_file(response: Response,files:List = File(...)):
-    properties = json.loads(files[len(files)-1])
+    try:
+        properties = json.loads(files[len(files)-1])
 
-    rand_user_id = uuid.uuid4()
-    # JUST FOR TEST TO AVOID A LOT OF FILES
-    #
-    rand_user_id='aae10d89-5fed-4fb4-b2d7-1ac709fb9534'
-    #
-    files_tuple = []
-    filenames = []
-    locations_of_files = {}
+        rand_user_id = uuid.uuid4()
+        # JUST FOR TEST TO AVOID A LOT OF FILES
+        #
+        rand_user_id='aae10d89-5fed-4fb4-b2d7-1ac709fb9534'
+        #
+        files_tuple = []
+        filenames = []
+        locations_of_files = {}
 
-    #PREPARE ALL THE DATA
-    prepare_file(rand_user_id) 
+        #PREPARE ALL THE DATA
+        prepare_file(rand_user_id) 
 
-    one_heatmap_properties(files_tuple,rand_user_id,files,filenames,locations_of_files,properties) 
-    copy_files(files_tuple)
+        one_heatmap_properties(files_tuple,rand_user_id,files,filenames,locations_of_files,properties) 
+        copy_files(files_tuple)
 
-    #USE INCHLIB LIBRARY
-    respone_heatmap = create_heat_map(properties,properties,locations_of_files)
-    
-    #RESPONSE TO CLIENT UUID
-    response.headers["uuid"] = str(rand_user_id)
+        #USE INCHLIB LIBRARY
+        respone_heatmap = create_heat_map(properties,properties,locations_of_files)
+        
+        #RESPONSE TO CLIENT UUID
+        response.headers["uuid"] = str(rand_user_id)
+    except:
+         raise HTTPException(status_code=500, detail="Something get wrong, check your settings again")
         
     return respone_heatmap
     
@@ -46,42 +49,41 @@ async def upload_file(response: Response,files:List = File(...)):
   
 @router.post('/upload')
 async def upload_two_files(response: Response,files:List = File(...)):
-    properties = json.loads(files[len(files)-1])
+    try:
+        properties = json.loads(files[len(files)-1])
 
-    rand_user_id = uuid.uuid4()
-    # JUST FOR TEST TO AVOID A LOT OF FILES
-    #
-    rand_user_id='aae10d89-5fed-4fb4-b2d7-1ac709fb9534'
-    #
-    files_tuple = []
-    filenames = []
-    locations_of_files = {}
+        rand_user_id = uuid.uuid4()
+        # JUST FOR TEST TO AVOID A LOT OF FILES
+        #
+        rand_user_id='aae10d89-5fed-4fb4-b2d7-1ac709fb9534'
+        #
+        files_tuple = []
+        filenames = []
+        locations_of_files = {}
 
-      
-    prepare_file(rand_user_id) 
-
-    # print('propertiesssssssss,',properties)
-    properties['metadata1']=properties['metadata']
-    properites_first_map = get_prop(properties,'file1','1','metadata1','raw_linkage','raw_distance','both1','column_linkage','column_distance')
-    two_heatmap_properties(files_tuple,rand_user_id,files,filenames,locations_of_files,properties)
-    copy_files(files_tuple)
-    
-    first_to_second, second_to_first= create_connection_file(files[len(files)-2],rand_user_id)
-
-    respone_first_heatmap = create_heat_map(properties,properites_first_map,locations_of_files)
-
-    properites_second_map = get_prop(properties,'file2','2','metadata2','raw_linkage2','raw_distance2','both2','column_linkage2','column_distance2')
-    respone_second_heatmap = create_heat_map(properties,properites_second_map,locations_of_files)
         
-    # print('------------------------------')
-    # print('respone_first_heatmap------------------------------',respone_first_heatmap)
-    # print('respone_second_heatmap------------------------------',respone_second_heatmap)
+        prepare_file(rand_user_id) 
 
-    twomaps={ "first": respone_first_heatmap, "second": respone_second_heatmap}; #need to get also 2 connection dict 
+        # print('propertiesssssssss,',properties)
+        properties['metadata1']=properties['metadata']
+        properites_first_map = get_prop(properties,'file1','1','metadata1','raw_linkage','raw_distance','both1','column_linkage','column_distance')
+        two_heatmap_properties(files_tuple,rand_user_id,files,filenames,locations_of_files,properties)
+        copy_files(files_tuple)
+        
+        first_to_second, second_to_first= create_connection_file(files[len(files)-2],rand_user_id)
 
-    # answer= {"twomaps": twomaps, "first_second_connections": first_to_second,"second_first_connections": second_to_first}
-    response.headers["uuid"] = str(rand_user_id)
+        respone_first_heatmap = create_heat_map(properties,properites_first_map,locations_of_files)
+
+        properites_second_map = get_prop(properties,'file2','2','metadata2','raw_linkage2','raw_distance2','both2','column_linkage2','column_distance2')
+        respone_second_heatmap = create_heat_map(properties,properites_second_map,locations_of_files)
+
+        twomaps={ "first": respone_first_heatmap, "second": respone_second_heatmap}; #need to get also 2 connection dict 
+
+        response.headers["uuid"] = str(rand_user_id)
     
+    except:
+         print('blabla')
+         raise HTTPException(status_code=500, detail="Something get wrong, check your settings again")
     return twomaps
     
     
@@ -92,13 +94,18 @@ async def union(request: Request):
     properties['metdata'] = '0' 
     uuid = request.headers['uuid']
     targets = get_targets(properties,uuid)
+    if len(targets) < 2:
+          raise HTTPException(status_code=500, detail="No " + properties['action'] +'`s found')
     create_new_heatmap_from_targets(properties,targets,properties['data_work_on'],uuid)
     locations = prepar_md_locations(properties,uuid)
     new_data_location = f"upload_data/{uuid}/{properties['action']}.csv"
+
+    md_location = prepar_md_locations(properties,uuid) ##check if there is any metdadata to add
+    if md_location != "": 
+       print(md_location)
+       properties['metadata'] = '1'
+
     if properties['both1'] == 0:
-        md_location = prepar_md_locations(properties,uuid)
-        if md_location != "":
-             properties['metadata'] = '1'
         heatmap_res = heatmap.create_heatmap_json(new_data_location,row_distance=properties['raw_distance'],row_linkage=properties['raw_linkage'],properties=properties,metadata=md_location)
     else:
         heatmap_res = heatmap.create_heatmap_json(new_data_location,row_distance=properties['raw_distance'],row_linkage=properties['raw_linkage'],column_distance=properties['column_distance'],column_linkage=properties['column_linkage'],properties=properties,metadata=md_location)
@@ -107,28 +114,16 @@ async def union(request: Request):
 
 @router.post('/intersection')
 async def intersection(request: Request):
-    data_json =   await request.body()
-    df_con =  pd.read_csv('conections.csv')
-    df_gene =  pd.read_csv('Geneim.csv')
-    df_mirim =  pd.read_csv('Mirim.csv')
-    obj = json.loads(data_json)
-    type_action = obj['type']
-    search_for_src = [x['name'] for x in  obj['data']]
-    df_con = df_con.set_index('mir_num')
-    if type_action == "intersection1":
-        gen_find = df_con.loc[search_for_src].values
-        gen_find_inter = list(set.intersection(*[set(x) for x in result]))
-        gen_find_inter = [s for s in gen_find_inter if str(s) != 'nan']
-        heatmap_values = df_gene[df_gene['id'].str.contains('|'.join(gen_find_inter))]
-        heatmap_values =  [heatmap_values.columns.values.tolist()]+heatmap_values.values.tolist()
-    else:
-        mir_find = []
-        for g in gen:
-            mir_find.append(df_con[df_con.eq(g).any(1)].mir_num.tolist())
-        result = set(mir_find[0]).intersection(*mir_find[:1])
-        heatmap_values = df_mirim[df_mirim['id'].isin(list_mir)]
-        heatmap_values =  [heatmap_values.columns.values.tolist()]+heatmap_values.values.tolist()
-    print(heatmap_values)
+    properties = json.loads(await request.body())
+    properties['metdata'] = '0' 
+    uuid = request.headers['uuid']
+    targets = get_targets(properties,uuid)
+    if len(targets) < 2:
+          raise HTTPException(status_code=500, detail="No " + properties['action'] +'`s found')
+    create_new_heatmap_from_targets(properties,targets,properties['data_work_on'],uuid)
+
+
+
     return heatmap_values
 
 def prepar_md_locations(propperties,uuid):
@@ -137,7 +132,8 @@ def prepar_md_locations(propperties,uuid):
         if os.path.exists(f"upload_data/{uuid}/metadata2.csv"):
             md_location = f"upload_data/{uuid}/metadata2.csv"
     else:
-        md_location = f"upload_data/{uuid}/metadata1.csv"
+        if os.path.exists(f"upload_data/{uuid}/metadata1.csv"):
+            md_location = f"upload_data/{uuid}/metadata1.csv"
     return md_location
 
 
@@ -151,8 +147,13 @@ def get_targets(properties,uuid):
            val = val.replace("[", "")
            val = val.replace("]", "")
            val = val.replace("'", "")
+        if properties['action'] == 'union':
            targets.extend((val.split(',')))
-
+        else:
+           print(targets)
+           targets = list(set(targets) & set(val.split(',')))
+           if len(targets) == 0:
+               return targets
     return targets
 
 
@@ -165,9 +166,9 @@ def create_new_heatmap_from_targets(properties,targets,choise,uuid):
         location="heatmap1.csv"
     data = pd.read_csv(f"upload_data/{uuid}/{location}")
     data = data.set_index([data[data.columns[0]]])
-    new_data_after_union = data.loc[data.index.isin(targets)]
-    new_data_after_union.drop(data.columns[0], axis=1, inplace=True)
-    new_data_after_union.to_csv(f"upload_data/{uuid}/{properties['action']}.csv")
+    new_data_after_action = data.loc[data.index.isin(targets)]
+    new_data_after_action.drop(data.columns[0], axis=1, inplace=True)
+    new_data_after_action.to_csv(f"upload_data/{uuid}/{properties['action']}.csv")
 
 
 def one_heatmap_properties(files_tuple,rand_user_id,files,filenames,locations_of_files,properties):

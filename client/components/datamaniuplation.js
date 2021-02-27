@@ -73,7 +73,15 @@ function sendToServer(properties){
       }).then((response) => {
         drawmapAfterManipulate(response.data,map)
     }, (error) => {
-      console.log(error);
+      errormessage = error.response.data['detail']
+      if(map="inchlib2"){
+        $( `<p style="color:red" id="action_error">${errormessage}</p>` ).insertAfter( "#ml1" );
+        setTimeout(() => $("#action_error").remove(),3000)
+      }
+      else{
+        $( `<p style="color:red" id="action_error">${errormessage}</p>` ).insertAfter( "#ml2" );
+        setTimeout(() => $("#action_error").remove(),3000)
+      }
     });
 
 }

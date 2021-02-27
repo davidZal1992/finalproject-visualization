@@ -41,7 +41,7 @@
                 <button id="preprocess1" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
                     Generate
                 </button>
-                <button id='clear-tb2' type="button" class="btn btn-primary">CLEAR</button>
+                <button id='clear-tb1' type="button" class="btn btn-primary">CLEAR</button>
             </div>
         </div>
         <div class="column2">
@@ -61,7 +61,7 @@
                 <button id="preprocess2" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
                     Generate
                 </button>
-                <button id='clear-tb1' type="button" class="btn btn-primary">CLEAR</button>
+                <button id='clear-tb2' type="button" class="btn btn-primary">CLEAR</button>
             </div>
         </div>
     </div>
@@ -71,15 +71,18 @@
     <div   id="two_maps" style="justify-content: space-around; display: flex; " >
         <div>
             <div  id='inchlib1' ></div>
+            <button style="display: none" id="downoad_map1">Download Map</button>
         </div>
         <div>
              <div  id='inchlib2' ></div>
+             <button style="display: none"  id="downoad_map2">Download Map</button>
         </div>
     </div>
 
 
 <div class="one_map_container">
     <div class="uniquiehm" id='inchlib' ></div>
+    <button style="display: none;" id="downoad_map">Download Map</button>
 </div>
 
    <hr class="my-4">
@@ -105,8 +108,48 @@ mir2,gen3
             <p>Example file for you data you can find here:<a href="https://www.openscreen.cz/software/inchlib/static/source_data/example_data.csv" target="blank">Whole data file</a></p>
     </div>
  
-    
-<hr class="my-4">
+<hr class="my-4">    
+
+<!-- ALL FORMS -->
+
+<div class="form-group row">
+    <div class="col-sm-6">
+        <input id="checkbox-loading-files-choose" type="checkbox" class="form-check-input" style="margin-bottom: 1rem;">
+        <label id="use">Load Existing Settings</label>
+    </div>
+</div>
+
+<div id="form-exist" style="display: none;">
+    <p style="font-weight:bold">Load Files</p>
+        <div class="row">
+            <div class="col-md-10 ">   
+                <form id="loadSettings"> 
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                            <input id="map2-loading" type="checkbox" class="form-check-input" style="margin-bottom: 1rem;">
+                            <label id="use">Load 2 Maps</label>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-6">
+                                <label>Load First Data</label>
+                                <input type="file" id="map1" class="form-control" style="width:60%" />
+                            </div>
+                            <div class="col-sm-6" id="map2-input" style="display:none">
+                                <label>Load Second Data</label>
+                                <input type="file" class="form-control" id="map2" style= "width:60%" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <p id="error-message-exists">&nbsp;</p>
+                        <input id="button_exists" type="submit" class="btn btn-primary"></input>
+                    </div>
+                </form>
+            </div>
+        </div> 
+</div>
+
+<div id="form-new">
 <p style="font-weight:bold">Settings</p>
     <div class="row">
         <div class="col-md-10 ">   
@@ -315,7 +358,7 @@ mir2,gen3
             </form>
         </div>
     </div>
-
+</div>
 
 
 
@@ -395,7 +438,7 @@ mir2,gen3
                                     <option>Sqeuclidean</option>
                                 </select>
                         </div>
-                        <div class="col" id='tgt-distance-column-manipul' style="display: none;">
+                        <div class="col" id='tgt-distance-column-manipulate' style="display: none;">
                             <label for="exampleFormControlSelect1">Choose Distance Type</label>
                                 <select class="form-control" id="distance-select-column2-manipulate" style="width:60%">
                                     <option>Canberra</option>
