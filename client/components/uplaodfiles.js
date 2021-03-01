@@ -203,6 +203,13 @@ function upload2HeatMaps(){
       drawmap(response.data.first,"inchlib1");
       localStorage.setItem("map2",response.data.second)
       drawmap2(response.data.second,"inchlib2");
+
+      var first_second_connections= response.data.first_second_connections;
+      localStorage.setItem('first_second_connections',JSON.stringify(first_second_connections))
+
+      var second_first_connections= response.data.second_first_connections;
+      localStorage.setItem('second_first_connections',JSON.stringify(second_first_connections))
+
       }, (error) => {
           document.getElementById("spinner").style.display="none";
           let errormessage = error.response.data['detail']

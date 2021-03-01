@@ -283,15 +283,15 @@ def create_connection_file(file,id):
                 writer.writerow([key, value])
 
     def addToDict(dict_to_add, key, val_instance_to_add ):
-        if key in dict_to_add:
+        val_list=[]
+        if key in dict_to_add.keys():
             val_list= dict_to_add.get(key)
         else:
             val_list=[]
         val_list.append(val_instance_to_add)
         dict_to_add[key]=val_list
 
-    print(type(file))
-    # path= "upload_data/"+ id +"/connection.csv"
+
     location = f"upload_data/{id}/connection.csv"
     with open(location, "wb+") as file_object:
             shutil.copyfileobj(file.file, file_object)
@@ -316,6 +316,7 @@ def create_connection_file(file,id):
 
     create_connection_file(f'upload_data/{id}/first_second_connections.csv',first_to_second)
     create_connection_file(f'upload_data/{id}/second_first_connections.csv',second_to_first)
+    
     
     return first_to_second, second_to_first
 
