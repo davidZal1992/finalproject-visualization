@@ -2,6 +2,7 @@ const axios = require('axios')
 const {drawmap} = require('./drawmap')
 const {drawmap2} = require('./drawmap')
 const {validate} =require('./forms')
+const {existingValidation} =require('./forms')
 const {cleanConnectionTables} = require('./drawmap')
 
   document.getElementById('myDefForm').addEventListener('submit', function(e) {
@@ -29,6 +30,73 @@ const {cleanConnectionTables} = require('./drawmap')
 },false);
 
 
+document.getElementById('loadSettings').addEventListener('submit', function(e) {
+  var errorM = document.getElementById("error-message-exists")
+  e.preventDefault();
+  const res = document.getElementById("map2-loading").checked;
+  if(!existingValidation(res)){
+    setTimeout(function(){ 
+    errorM.classList.remove("error-m")
+    errorM.innerHTML="&nbsp;"
+    },3000)
+    errorM.classList.add("error-m")
+    errorM.innerText="* Some files are required"
+    return false;
+  }
+
+  if(!res){
+    uploadOneHeatMapExists();
+  }
+  else{
+    upload2HeatMapsExists()
+
+  }
+},false)
+
+
+function uploadOneHeatMapExists(){
+  let map = document.getElementById('map1').files[0]
+  let reader = new FileReader();
+
+  reader.readAsText(map)
+  readFile(reader,map,"inchlib","map");
+}
+
+function upload2HeatMapsExists(){
+ let reader1 = new FileReader();
+ let reader2 = new FileReader();
+ let map1 = document.getElementById('map1').files[0]
+
+
+ let map2 = document.getElementById('map2').files[0]
+
+ reader1.readAsText(map1)
+ readFile(reader1,"inchlib1","map1");
+
+ reader2.readAsText(map2)
+ readFile(reader2,"inchlib2","map2");
+}
+
+function readFile(reader,target,mapname){
+  cleanConnectionTables();
+    reader.onload = function() {
+      var fileContent = reader.result;
+      localStorage.setItem(mapname,fileContent)
+      if(target=="inchlib"){
+        drawmap(fileContent,target) 
+      }
+      else{
+        if(target=="inchlib1"){
+          drawmap(fileContent,target)
+        }
+        else{
+          drawmap2(fileContent,target)
+        } 
+      }
+    };
+}
+
+
 function uploadOneHeatMap(){
 
   let formData = new FormData();
@@ -52,8 +120,6 @@ function uploadOneHeatMap(){
 
   formData.append("files", JSON.stringify(properties));
 
-  
-
     axios.post('http://127.0.0.1:8000/actions/uploadone', formData, {
       headers: {
         'content-Type': 'multipart/form-data',
@@ -61,9 +127,14 @@ function uploadOneHeatMap(){
       }
       }).then((response) => {
         cleanConnectionTables();
+        localStorage.setItem("map",response.data)
         drawmap(response.data,"inchlib")
     }, (error) => {
-      console.log(error);
+      document.getElementById("spinner").style.display="none";
+          let errormessage = error.response.data['detail']
+          $('#error-message').html(errormessage);
+          $('#error-message').addClass("error-m");
+          setTimeout(() => $("#error-message").html("&nbsp;"),6000)
     });
 }
 
@@ -128,18 +199,16 @@ function upload2HeatMaps(){
     }).then((response) => {
       localStorage.setItem('uuid',response.headers.uuid)
       cleanConnectionTables();
+      localStorage.setItem("map1",response.data.first)
       drawmap(response.data.first,"inchlib1");
+      localStorage.setItem("map2",response.data.second)
       drawmap2(response.data.second,"inchlib2");
-
-      // var dict_1to2= response.data.dict_1to2;
-      // var dict_1to2_content = JSON.stringify(dict_1to2);
-
-      // var fs = require('fs');
-      // fs.writeFile("/resources/dict_1to2.json", dict_1to2_content, function(err, result) {
-      //     if(err) console.log('error', err);
-      // });
       }, (error) => {
-        console.log(error);
+          document.getElementById("spinner").style.display="none";
+          let errormessage = error.response.data['detail']
+          $('#error-message').html(errormessage);
+          $('#error-message').addClass("error-m");
+          setTimeout(() => $("#error-message").html("&nbsp;"),6000)
       });
 }
 

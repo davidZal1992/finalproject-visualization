@@ -2,9 +2,10 @@
 document.getElementById('checkbox-maps-choose').addEventListener('click', showHideMapsNum);
 document.getElementById('checkbox-meta-data1').addEventListener('click', showHideMetaData1);
 document.getElementById('checkbox-meta-data2').addEventListener('click', showHideMetaData2);
+document.getElementById('checkbox-loading-files-choose').addEventListener('click', showHideForms);
+document.getElementById('map2-loading').addEventListener('click', showHideMap2Exist);
 document.getElementById('miRNA-clust-select').addEventListener('change', changeSelectClusterMir)
 document.getElementById('target-clust-select').addEventListener('change', changeSelectClusterTarget)
-
 
 function showHideMetaData1(){
     const res = document.getElementById("checkbox-meta-data1").checked;
@@ -45,8 +46,6 @@ function showHideMapsNum(){
         checkbox_target_md.style.display="none";
         connections.style.display="none";
         hr.style.display="none";
-
-
     }
     else{
         settingssecondheatmap.style.display="block"
@@ -113,7 +112,31 @@ export function validate(res){
 
 }
 
+export function existingValidation(){
 
+    let map1 = document.getElementById("map1")
+    let map2 = document.getElementById("map2")
+    
+    const res = document.getElementById("map2-loading").checked;
+
+    if(!map1.value){
+       map1.classList.add("input-error");
+        return false;
+    }
+    else{
+        map1.classList.remove("input-error");
+    }
+    if(res){
+        if(!map2.value){
+            map2.classList.add("input-error");
+            return false;
+        }
+        else{
+            map2.classList.remove("input-error");
+        }
+    }
+    return true;
+}
 function changeSelectClusterMir(event){
 
     if(event.target.value === 'Both'){
@@ -141,3 +164,51 @@ function changeSelectClusterTarget(event){
 
 
 }
+
+function showHideForms(){
+    let checkbox = document.getElementById("checkbox-loading-files-choose").checked;
+    if(checkbox == true){
+        document.getElementById('form-exist').style.display="block";
+        document.getElementById('form-new').style.display="none";
+    }
+    else{
+        document.getElementById('form-exist').style.display="none";
+        document.getElementById('form-new').style.display="block";
+    }
+}
+
+function showHideMap2Exist(){
+    let checkbox = document.getElementById("map2-loading").checked;
+    if(checkbox == true){
+        document.getElementById('map2-input').style.display="block";
+    }
+    else{
+        document.getElementById('map2-input').style.display="none";
+    }
+}
+
+$('#downoad_map').unbind('click').bind('click',(function(e){
+   e.preventDefault();
+   downloadObjectAsJson("map")
+}))
+
+$('#downoad_map1').unbind('click').bind('click',(function(e){
+    e.preventDefault();
+    downloadObjectAsJson("map1")
+ }))
+
+ $('#downoad_map2').unbind('click').bind('click',(function(e){
+    e.preventDefault();
+    downloadObjectAsJson("map2")
+ }))
+
+
+function downloadObjectAsJson(wichmap){
+    var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(localStorage.getItem(wichmap));
+    var downloadAnchorNode = document.createElement('a');
+    downloadAnchorNode.setAttribute("href",     dataStr);
+    downloadAnchorNode.setAttribute("download", wichmap + ".json");
+    document.body.appendChild(downloadAnchorNode); // required for firefox
+    downloadAnchorNode.click();
+    downloadAnchorNode.remove();
+  }

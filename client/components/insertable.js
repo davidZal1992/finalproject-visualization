@@ -1,7 +1,6 @@
 
 var idSet = new Set()
 export function initTable(table){
-    console.log('inside delete table'+table);
     idSet= new Set();
     table.innerHTML="";
 }
@@ -24,13 +23,11 @@ export function addMir(id, idMap){
             var newRow = table.insertRow(length)
             newRow.insertCell(0).innerText=element
             var element_getDetailes= element+"-getDetailes-"+connection_kind;
-            console.log(element_getDetailes);
             newRow.insertCell(1).innerHTML=`<button id=${element_getDetailes}  type='button' >Click here</button>`;
             newRow.insertCell(2).innerHTML=`<i id=${element} style="color:red;"class="fas fa-trash-alt"></i>`;
             document.getElementById(element).addEventListener('click', function deleteId(event){
                 var td = event.target.parentNode; 
                 var tr = td.parentNode; // the row to be removed
-                console.log('elementttt: '+tr);
                 tr.parentNode.removeChild(tr);
                 idSet.delete(element);
             });
