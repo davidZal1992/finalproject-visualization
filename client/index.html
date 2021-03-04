@@ -491,6 +491,106 @@ mir2,gen3
       </div>
     </div>
   </div>
+
+  <!-- deseq -->
+  <div class="deseq">
+    <div class="vertical_menu">
+        <a href="#upload-data" class="active">Upload data</a>
+        <a href="#deseq_analysis">Deseq analysis</a>
+        <a href="#deseq_volcano_plot">Volcano plot</a>
+    </div>
+    <div class="Deseq_analysis">
+        <h3 id="upload-data">Upload data </h3>
+        <p id="deseq_instructions">
+            To perform deseq analysis, you must first upload the relevent files for the server.<br>
+            1. count matrix - csv file contains the quantity for each sample and gene.<br>
+            2. design matrix - csv file contains the conditions for each sample.<br>
+            you can view sample files under the data format tab.<br>
+        </p>
+        <div id ="data_format">
+            <h4>Data format</h4>
+            <div id='count_matrix_example'>
+                <p>
+                   <b>Count matrix :</b> <br>
+                   You can select any name for the id column, but you will need to pass the name as a parameter 
+                   in the next phases.<br> In the example the id column is - id.
+                </p>
+                <img src="./resources/count_matrix_example.JPG">
+            </div>
+            <div id='design_matrix_example'>
+                <p>
+                   <b>Design matrix :</b> <br> 
+                   You can select any name for the id column, but you will need to pass the name as a parameter 
+                   in the next phases.<br> In the example the id column is - sample_id.
+                </p>
+                <img src="./resources/design_matrix_example.JPG">
+            </div>
+            <div id="deseq_upload_data">
+                <form id ="files_data_deseq" >
+                    <label>Load count matrix data</label><br>
+                    <input type="file" class="form-control" id="count_matrix_data" style="width:60%" /><br>
+                    <label>Load design matrix data</label><br>
+                    <input type="file" class="form-control" id="design_matrix_data" style="width:60%" /><br>
+                    <input type="submit" value="Upload data">
+                </form>
+            </div>    
+        </div>
+    </div>
+    <div id="deseq_analysis">
+        <h4>Deseq Analysis</h4>
+        <form id="deseq_form">
+            <label for="count_matrix">Count matrix file name:</label><br>
+            <input type="text" id="count_matrix" name="count_matrix" placeholder="count_matrix_example.csv" required><br>
+            <label for="count_matrix_id">Count_matrix column ID:</label><br>
+            <input type="text" id="count_matrix_id" name="count_matrix_id" placeholder="count_matrix_id" required><br>
+            <label for="design_matrix">Design matrix file name:</label><br>
+            <input type="text" id="design_matrix" name="design_matrix"  placeholder="design_matrix_example.csv" required><br>
+            <label for="design_matrix_id">Design matrix column ID:</label><br>
+            <input type="text" id="design_matrix_id" name="design_matrix_id" placeholder="design_matrix_id" required><br>
+            <input type="submit" value="Run Deseq analysis">
+            <input type="reset" value="Reset">
+        </form>
+    </div>
+
+    <div id="deseq_volcano_plot">
+        <h4>Deseq Volcano plot</h4>
+        <p id="vp_instructions">
+            To create an interactive volcano plot it is necessary to run a deseq analysis first or<br>
+            upload a suitable file first.<br>
+            If you performed deseq analysis first, the result are stored under the name deseq_result.csv,<br>
+            the file contains the following columns - id, baseMean, log2FoldChange,	lfcSE, stat, pvalue, padj.<br>
+            params:<br>
+                x/y operation - What operation to take on the data in the appropriate column.<br>
+                x/y threshold - A positive number greater than zero.<br>
+        </p>
+        <form id="volcano_form">
+            <label for="data_file">Data file:</label><br>
+            <input type="text" id="data_file" name="data_file" value="deseq_result.csv" required><br>
+            <label for="x_column">x column :</label><br>
+            <input type="text" id="x_column" name="x_column"  placeholder="x_column" required><br>
+            <label for="x_operation">x operation</label>
+            <select id="x_operation" name="x_operation" >
+                <option value="none">None</option>
+                <option value="log">Log</option>
+            </select><br>
+            <label for="x_threshold">x threshold:</label><br>
+            <input type="text" id="x_threshold" name="x_threshold" placeholder="0.05" required><br>
+            <label for="y_column">y column :</label><br>
+            <input type="text" id="y_column" name="y_column"  placeholder="y_column" required><br>
+            <label for="y_operation">y operation</label><br>
+            <select id="y_operation" name="y_operation">
+                <option value="none">None</option>
+                <option value="log">Log</option>
+            </select><br>
+            <label for="y_threshold">y threshold:</label><br>
+            <input type="text" id="y_threshold" name="y_threshold" placeholder="0.05"><br>
+            <input type="submit" value="create volcano plot">
+            <input type="reset" value="Reset">
+        </form>
+    </div>
+    <div id='plot'></div>
+</div>	
+
   
 
 </div>
@@ -503,6 +603,7 @@ mir2,gen3
     <script type="text/javascript" src="./components/forms.js"></script>
     <script type="text/javascript" src="./components/twotablesprocess.js"></script>
     <script type="text/javascript" src="./components/datamaniuplation.js"></script>
+    <script type="text/javascript" src="./components/deseq.js"></script>
  </html>    
 
 
