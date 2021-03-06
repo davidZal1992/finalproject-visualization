@@ -64,7 +64,6 @@ async def upload_two_files(response: Response,files:List = File(...)):
         
         prepare_file(rand_user_id) 
 
-        # print('propertiesssssssss,',properties)
         properties['metadata1']=properties['metadata']
         properites_first_map = get_prop(properties,'file1','1','metadata1','raw_linkage','raw_distance','both1','column_linkage','column_distance')
         two_heatmap_properties(files_tuple,rand_user_id,files,filenames,locations_of_files,properties)
@@ -75,12 +74,15 @@ async def upload_two_files(response: Response,files:List = File(...)):
         respone_first_heatmap = create_heat_map(properties,properites_first_map,locations_of_files)
 
         properites_second_map = get_prop(properties,'file2','2','metadata2','raw_linkage2','raw_distance2','both2','column_linkage2','column_distance2')
+
         respone_second_heatmap = create_heat_map(properties,properites_second_map,locations_of_files)
 
-        twomaps={ "first": respone_first_heatmap, "second": respone_second_heatmap}; #need to get also 2 connection dict 
+        twomaps= {"first": respone_first_heatmap, "second": respone_second_heatmap, "first_second_connections": first_to_second,"second_first_connections": second_to_first}
+
+        # twomaps={ "first": respone_first_heatmap, "second": respone_second_heatmap}; #need to get also 2 connection dict 
 
         response.headers["uuid"] = str(rand_user_id)
-    
+
     except:
          print('blabla')
          raise HTTPException(status_code=500, detail="Something get wrong, check your settings again")
