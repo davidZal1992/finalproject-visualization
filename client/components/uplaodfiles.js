@@ -204,6 +204,7 @@ function upload2HeatMaps(){
       localStorage.setItem("map2",response.data.second)
       drawmap2(response.data.second,"inchlib2");
 
+      // console.log('response.data:', response.data);
       var first_second_connections= response.data.first_second_connections;
       localStorage.setItem('first_second_connections',JSON.stringify(first_second_connections))
 

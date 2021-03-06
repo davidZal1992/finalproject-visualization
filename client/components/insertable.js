@@ -48,12 +48,12 @@ function targetConnection(event){
 
     let connection_list = document.getElementById("connection_list");
 
-    if(connection_kind==="connect_1to2")
+    if(connection_kind==="connect_1to2"){
         show_connections('first_second_connections', element_deatils,connection_list)
-    else
+        }
+    else{
         show_connections('second_first_connections', element_deatils,connection_list)
-    
-
+    }
     $('#connection-dialog').modal('show');
 }
 
