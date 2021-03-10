@@ -5,6 +5,15 @@ let count_matrix_file =""
 let design_matrix_file=""
 let volcano_plot_data=""
 
+
+// document.getElementById('deseq-button').addEventListener('click',(e) =>{
+//   $(function () {
+//       $('#exampleModal').modal('toggle');
+//    });
+//   dataManipulate();
+// },false)
+
+
 document.getElementById('files_data_deseq').addEventListener('submit', function(e) {
     e.preventDefault();
     files =["count_matrix_data","design_matrix_data"]
