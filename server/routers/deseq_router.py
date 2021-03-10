@@ -2,6 +2,7 @@ from fastapi import APIRouter,Header,HTTPException,FastAPI, File,Response,Reques
 from fastapi.responses import HTMLResponse
 import json
 import os
+import pandas as pd
 from typing import List
 import shutil
 from controller import deseq_controller
@@ -10,9 +11,10 @@ router = APIRouter()
 
 @router.post('/run_deseq')
 async def run_deseq(request :Request):
-    data = await request.form()
-    deseq_result =  deseq_controller.run_deseq_controller(data)
-    return {'deseq_results':deseq_result}
+    # data = await request.form()
+    # deseq_result =  deseq_controller.run_deseq_controller(data)
+    # return {'deseq_results':deseq_result}
+    return "bla"
 
 @router.post('/volcano_plot_deseq',response_class=HTMLResponse)
 async def deseq_volcano(request :Request):
@@ -22,20 +24,41 @@ async def deseq_volcano(request :Request):
 
 @router.post('/upload_data')
 async def upload_data(files:List = File(...)):
-    for file in files:
-        file_name = file.filename
-        with open(file_name, "wb+") as file_object:
-            file_object.write(file.file.read())
-            file_object.close()
-    return {"message": "The files were saved to the server successfully."}
+        #uuid = request.headers['uuid']
+        # JUST FOR TEST TO AVOID A LOT OF FILES
+        #
+        uuid='aae10d89-5fed-4fb4-b2d7-1ac709fb9534'
+
+        locations=[f"upload_data/{uuid}/count_matrix.csv",f"upload_data/{uuid}/design_matrix.csv"]
+
+        print('aaa')
+        i=0
+        for file in files:
+            if file.filename.endswith('.csv'):
+                file_name = file.filename
+                with open(locations[i], "wb+") as file_object:
+                    file_object.write(file.file.read())
+                    file_object.close()
+
+            else:
+                raise Exception("Csv files only")
+            i+=1
+        count_values = get_ids("count_matrix.csv",uuid)
+        design_values = get_ids("design_matrix.csv",uuid)
+        return {"count_values":count_values,"design_values":design_values}
+
+def get_ids(filename,uuid):
+    data = pd.read_csv(f"upload_data/{uuid}/{filename}")
+    names = data.columns.tolist()
+    return names
 
 
-@router.get('/get_files')
-async def get_files_names(request: Request):
-    files=[]
-    for file in os.walk(r"C:\Users\gal\Desktop\ISE\project\data\csv"):
-        files.append(file[2])
-    return {"files": files}
+# @router.get('/get_files')
+# async def get_files_names(request: Request):
+#     files=[]
+#     for file in os.walk(r"C:\Users\gal\Desktop\ISE\project\data\csv"):
+#         files.append(file[2])
+#     return {"files": files}
 
 # @router.get('/download/{path}')
 # async def download_file(request :Request):
