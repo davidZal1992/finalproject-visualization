@@ -3,9 +3,10 @@ from routers.Unicorn_Exception import UnicornException
 from utils import Deseq
 from utils import ploty_vp as vp
 
-def run_deseq_controller(json_data):
-    count_matrix_path = json_data['count_matrix']
-    design_matrix_path = json_data['design_matrix']
+def run_deseq_controller(json_data,uuid):
+    locations = [f"upload_data/{uuid}/count_matrix.csv", f"upload_data/{uuid}/design_matrix.csv"]
+    count_matrix_path = locations[0]
+    design_matrix_path = locations[1]
     count_matrix_id = json_data['count_matrix_id']
     design_matrix_id = json_data['design_matrix_id']
     count_matrix = pd.read_csv(count_matrix_path)
@@ -23,11 +24,11 @@ def run_deseq_controller(json_data):
     deseq = Deseq.py_DESeq2(count_matrix,design_matrix,conditions,count_matrix_id)
     deseq.run_deseq()
     deseq.get_deseq_result()
-    deseq.deseq_result.to_csv("deseq_result.csv",index=False)
+    deseq.deseq_result.to_csv(f"upload_data/{uuid}/deseq_result.csv",index=False)
     return deseq.deseq_result.to_json(orient='index')
 
-def deseq_volcano_controller(json_data):
-    data_path =json_data['data_path']
+def deseq_volcano_controller(json_data,uuid):
+    data_path = f"upload_data/{uuid}/deseq_result.csv"
     x_th = json_data['x_th']
     x_column =json_data['x_column']
     x_operation = json_data['x_operation']

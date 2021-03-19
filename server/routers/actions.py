@@ -61,7 +61,6 @@ async def upload_two_files(response: Response,files:List = File(...)):
         filenames = []
         locations_of_files = {}
 
-        
         prepare_file(rand_user_id) 
 
         # print('propertiesssssssss,',properties)
@@ -77,10 +76,12 @@ async def upload_two_files(response: Response,files:List = File(...)):
         properites_second_map = get_prop(properties,'file2','2','metadata2','raw_linkage2','raw_distance2','both2','column_linkage2','column_distance2')
         respone_second_heatmap = create_heat_map(properties,properites_second_map,locations_of_files)
 
-        twomaps={ "first": respone_first_heatmap, "second": respone_second_heatmap}; #need to get also 2 connection dict 
-
+        # twomaps={ "first": respone_first_heatmap, "second": respone_second_heatmap}; #need to get also 2 connection dict
+        answer = {"first": respone_first_heatmap, "second": respone_second_heatmap,
+                  "first_second_connections": first_to_second, "second_first_connections": second_to_first}
         response.headers["uuid"] = str(rand_user_id)
-    
+        return answer
+
     except:
          print('blabla')
          raise HTTPException(status_code=500, detail="Something get wrong, check your settings again")

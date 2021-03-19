@@ -1,4 +1,5 @@
 import rpy2.robjects as robjects
+import pandas as pd
 from rpy2.robjects import pandas2ri, Formula, FactorVector,r
 pandas2ri.activate()
 from rpy2.robjects.packages import importr as importr
@@ -39,6 +40,8 @@ class py_DESeq2:
                                                 colData=self.design_matrix,
                                                 design=self.design_formula)
         self.dds = deseq.DESeq(self.dds, **kwargs)
+
+
 
     # get deseeq analysis result
     def get_deseq_result(self, **kwargs):

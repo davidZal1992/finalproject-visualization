@@ -2,7 +2,6 @@ import plotly.express as px
 import pandas as pd
 import numpy as np
 
-
 class volcano_plot :
 
     def __init__(self,data,x_th,y_th,x_operation = None,y_operation=None,y_column="pvalue",x_column="log2FoldChange",title='volcano_plot'):
@@ -20,10 +19,10 @@ class volcano_plot :
     def create_volcano_plot(self):
         self.data.dropna(inplace=True)
         self.add_color_by_condition()
-        if  self.y_operation != 'none':
+        if  self.y_operation != 'None':
             y_label = self.column_operation(self.y,self.y_operation)
             self.y = y_label
-        if self.x_operation != 'none':
+        if self.x_operation != 'None':
             x_label = self.column_operation(self.x,self.x_operation)
             self.x = x_label
         title=self.title + " x threshold : " +str(self.x_th)+", y threshold: "+str(self.y_th)
@@ -41,7 +40,7 @@ class volcano_plot :
 
     # mathematical calculation for a column at the request of a user
     def column_operation(self,column,operation):
-        if (operation == 'log'):
+        if (operation == 'Log'):
             label = "-log10("+column+")"
             self.data[label] = self.data[column].apply(lambda x: -np.log10(x))
         return label
